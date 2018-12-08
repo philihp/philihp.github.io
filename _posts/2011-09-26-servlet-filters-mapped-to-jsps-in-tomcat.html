@@ -1,0 +1,53 @@
+---
+layout: post
+title: Servlet Filters mapped to JSPs in Tomcat
+date: 2011-09-26 04:40:00.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- jsp
+- Programming
+- Servlet
+- servlet-filter
+- Struts
+- tomcat
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390219036299264'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543449386;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:452;}i:1;a:1:{s:2:"id";i:967;}i:2;a:1:{s:2:"id";i:735;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Servlet filters were introduced in the Servlet 2.3 spec a long time ago. They're basically classes that you can add to <em>any</em> Java webapp that intercept every request and can do anything you can imagine (e.g., compress output, translate, handle authentication, <a href="http://www.zombo.com">the only limit is yourself</a>). They're added into the web.xml file where <em>every</em> webapp starts, and since every webapp framework builds off of a servlet, they can be used with every webapp regardless of the framework. And they're part of the Servlet spec, not the J2EE spec, so you don't need a bloated container to use them; you can use them in Tomcat. Basically, what I'm saying is, they're really useful wherever you are, no matter what you're doing.</p>
+<p>To install a servlet filter in your web.xml, you'd do something like this:</p>
+<pre lang="xml" escaped="true">&lt;filter&gt;
+  &lt;filter-name&gt;jpa-filter&lt;/filter-name&gt;
+  &lt;filter-class&gt;com.philihp.utils.EntityManagerFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+  &lt;filter-name&gt;jpa-filter&lt;/filter-name&gt;
+  &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+&lt;/filter-mapping&gt;</pre>
+<p>Where the filter will filter any servlet named "action" -- which in this case is the name of my Struts 1.3 controller that I had defined earlier. Rather than specify a servlet-name, you're allowed to use a url-pattern, but <a href="http://java.sun.com/developer/Books/javaserverpages/servlets_javaserver/servlets_javaserver09.pdf">according to Sun</a>, the url-pattern has to begin with a <code>"/"</code> slash, so <strong>the following does not work</strong>.</p>
+<pre lang="xml" escaped="true">&lt;filter-mapping&gt;
+  &lt;filter-name&gt;jpa-filter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*.jsp&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;</pre>
+<p>JSPs are essentially servlets, compiled from JSP code the first time they're run. But you don't have to define every JSP file in your web.xml file, because they're already defined by the container. There's a servlet (in tomcat, it's the Jasper engine) mapped to <code>/*.jsp</code>. In the Tomcat guts, you can find it at <a href="http://svn.apache.org/repos/asf/tomcat/tc7.0.x/trunk/conf/web.xml"><code>conf/web.xml</code></a>, which is the basis web.xml file; every webapp deployed in Tomcat is actually extended from this file</p>
+<pre lang="xml" escaped="true">&lt;servlet&gt;
+  &lt;servlet-name&gt;jsp&lt;/servlet-name&gt;
+  &lt;servlet-class&gt;org.apache.jasper.servlet.JspServlet&lt;/servlet-class&gt;
+&lt;/servlet&gt;</pre>
+<p>Since JSPs are essentially running as the servlet name "jsp", you can attach a servlet-filter to them with a filter-mapping similar to this:</p>
+<pre lang="xml" escaped="true">&lt;filter-mapping&gt;
+  &lt;filter-name&gt;jpa-filter&lt;/filter-name&gt;
+  &lt;servlet-name&gt;jsp&lt;/servlet-name&gt;
+&lt;/filter-mapping&gt;</pre>

@@ -1,0 +1,63 @@
+---
+layout: post
+title: Adding Tiles to a Struts 1.3 Project with a Custom Request Processor
+date: 2011-08-11 08:18:58.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Custom
+- Java
+- Override
+- Programming
+- RequestProcessor
+- Struts
+- Struts 1.3
+- Tiles
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390222039416832'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543600425;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:961;}i:1;a:1:{s:2:"id";i:1164;}i:2;a:1:{s:2:"id";i:724;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>In Struts, if you wanted to do funny shenanigans (e.g. override the Roles checking for authorization, or override the ActionForm population to parse a JSON object rather than standard parameters) with the Struts Controller, up until Struts 1.2, you had to extend the Request Processor and configure the Struts ActionServlet to use it instead. This would get rather complicated when you tried to layer multiple custom controllers together, such as with the Validator and the Tiles plugins.</p>
+<p>Struts 1.3 changed this behavior. Rather than all of the heavy lifting being offloaded onto the RequestProcessor object by the ActionServlet, instead there's a <a href="http://struts.apache.org/1.x/userGuide/building_controller.html#request_processor">chain of commands</a> executed by a class called "<a href="http://svn.apache.org/repos/asf/struts/struts1/trunk/core/src/main/java/org/apache/struts/chain/ComposableRequestProcessor.java">ComposableRequestProcessor</a>, and it's configured by <a href="http://svn.apache.org/repos/asf/struts/struts1/trunk/core/src/main/resources/org/apache/struts/chain/chain-config.xml">chain-config.xml</a>; which is in the struts-core JAR file. If you want to extend the controller to do out-of-the-ordinary stuff, you're supposed to copy this file to somewhere else (like /WEB-inF/custom-chain-config.xml) edit it, and configure the ActionServlet to look at it instead like this</p>
+<pre lang="xml" escaped="true">&lt;servlet&gt;
+ &lt;servlet-name&gt;action&lt;/servlet-name&gt;
+ &lt;servlet-class&gt;org.apache.struts.action.ActionServlet&lt;/servlet-class&gt;
+ &lt;init-param&gt;
+  &lt;param-name&gt;config&lt;/param-name&gt;
+  &lt;param-value&gt;/WEB-INF/struts-config.xml&lt;/param-value&gt;
+ &lt;/init-param&gt;
+ &lt;init-param&gt;
+  &lt;param-name&gt;chainConfig&lt;/param-name&gt;
+  &lt;param-value&gt;/WEB-INF/custom-chain-config.xml&lt;/param-value&gt;
+ &lt;/init-param&gt;
+&lt;/servlet&gt;</pre>
+<p>The trouble however, is that the Struts Tiles plugin that shipped with 1.3 didn't change from 1.2. It was written to automatically replace the default RequestProcessor and its chain of command. I'm pretty sure this was supposed to be a convenience, so that to use the Tiles plugin, all you had to do was flip a switch, and it would figure out its own hooks into Struts... because this is how the Struts Tiles plugin works; it essentially overrides and customizes the RequestProcessor so forwards goto it, rather than to some JSP file or somerthing somewhere. You can see how it's doing this overriding by looking at the method <a href="http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles/src/main/java/org/apache/struts/tiles/TilesPlugin.java">TilesPlugin.initRequestProcessorClass</a>; which is actually a little interesting, because it's not mucking with any XML. But that's all you really have to do, <i>usually</i>.</p>
+<p><i>However</i>, and this is why I'm posting this; if you have a custom chain-config.xml already in place that was based on the chain-config.xml in the struts-core JAR, then your ActionForwards going to Tiles layouts aren't going to lookup correctly. For example, when Struts tries to goto the ActionForward "page.index", we get the following exception because normally ActionForwards would goto a page like "/index.jsp".</p>
+<pre lang="plain">WARNING: Unhandled exception
+java.lang.IllegalArgumentException: Path page.index does not start with a "/" character
+	at org.apache.catalina.core.ApplicationContext.getRequestDispatcher(ApplicationContext.java:374)
+	at org.apache.catalina.core.ApplicationContextFacade.getRequestDispatcher(ApplicationContextFacade.java:196)
+	at org.apache.struts.chain.commands.servlet.PerformForward.handleAsForward(PerformForward.java:107)
+	at org.apache.struts.chain.commands.servlet.PerformForward.perform(PerformForward.java:96)
+	at org.apache.struts.chain.commands.AbstractPerformForward.execute(AbstractPerformForward.java:54)
+	at org.apache.struts.chain.commands.ActionCommandBase.execute(ActionCommandBase.java:51)
+	at org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	at org.apache.commons.chain.generic.LookupCommand.execute(LookupCommand.java:305)
+	at org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	at org.apache.struts.chain.ComposableRequestProcessor.process(ComposableRequestProcessor.java:283)
+	at org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913)
+	at org.apache.struts.action.ActionServlet.doGet(ActionServlet.java:449)
+        ...</pre>
+<p>As far as cryptic errors go, this one is pretty far up there, and unless you actually know how Tiles works, it's going to be a huge pain to debug. The remedy is actually to base your chain-config.xml file off of Tiles' own <a href="http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles/src/main/resources/org/apache/struts/tiles/chain-config.xml">chain-config.xml</a>. And in it you can see how at the end it calls <a href="http://svn.apache.org/repos/asf/struts/struts1/trunk/tiles/src/main/java/org/apache/struts/tiles/commands/TilesPreProcessor.java">TilesPreProcessor</a> right before it performs the forward.</p>
+<p>The Tiles documentation indeed says <a href="http://struts.apache.org/1.x/struts-tiles/installation.html">you need to do this</a> -- but hardly anyone ever does, because everything will work unless you customize the request processor; and hardly any books or sites out there will tell you to do it.</p>

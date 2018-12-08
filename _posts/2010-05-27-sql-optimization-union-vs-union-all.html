@@ -1,0 +1,35 @@
+---
+layout: post
+title: 'SQL Optimization: Union vs. Union All'
+date: 2010-05-27 22:08:45.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Optimization
+- Programming
+- SQL
+- Union
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390234668466176'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543338008;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1144;}i:1;a:1:{s:2:"id";i:177;}i:2;a:1:{s:2:"id";i:992;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Everyone should learn the difference between Union and Union All. Knowing it will make you a better programmer, and it's fairly trivial to understand.</p>
+<pre>SELECT * FROM apples
+UNION
+SELECT * FROM oranges</pre>
+<p>When you know for a fact that there will never be any common rows between the <code>apples</code> table and the <code>oranges</code> table, this query will be slightly faster with at low cardinality, and incredibly faster at high cardinality by using "UNION ALL"</p>
+<pre>SELECT * FROM apples
+UNION ALL
+SELECT * FROM oranges</pre>
+<p>The difference between the two queries is this: UNION ALL will simply concatenate the two queries together into the resultset. Just using UNION will concatenate, but then remove duplicates (do a distinct sort). Leaving out this second step can vastly reduce the time it takes for your query to run.</p>

@@ -1,0 +1,58 @@
+---
+layout: post
+title: 'gpg: OpenPGP card not available: Operation not supported by device'
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags:
+- Uncategorized
+meta:
+  _edit_last: '1'
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>I keep my PGP key in my Yubikey, and require it to sign things. I find it more secure than just keeping a PGP key in a file with a passphrase, since the Yubikey will lock after a a small number of incorrect entries of my PIN, which requires a third trusted party to unlock</p>
+<p>Some recent change on my system caused my Yubikey to stop responding to PGP.</p>
+<p>$ gpg --card-status<br />
+gpg: selecting openpgp failed: Operation not supported by device<br />
+gpg: OpenPGP card not available: Operation not supported by device</p>
+<p>After making a file <code>~/.gnupg/scdaemon.conf</code>, and putting in it</p>
+<p>log-file /Users/phil_busby/scdaemon.log<br />
+debug-level guru</p>
+<p>and tail -f'ing the log when I tried to do a card-status, I was able to see that GPG was unable to connect</p>
+<p>2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 &lt;- GETINFO version<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 -&gt; D 2.2.4<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 -&gt; OK<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 &lt;- SERIALNO openpgp<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: enter: apdu_open_reader: portstr=Yubico Yubikey 4 U2F+CCID<br />
+2018-01-10 17:32:57 scdaemon[1788] detected reader 'Yubico Yubikey 4 U2F+CCID'<br />
+2018-01-10 17:32:57 scdaemon[1788] reader slot 0: not connected<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: leave: apdu_open_reader =&gt; slot=0 [pc/sc]<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: enter: apdu_connect: slot=0<br />
+2018-01-10 17:32:57 scdaemon[1788] pcsc_connect failed: sharing violation (0x8010000b)<br />
+2018-01-10 17:32:57 scdaemon[1788] reader slot 0: not connected<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: leave: apdu_connect =&gt; sw=0x10006<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: enter: apdu_close_reader: slot=0<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: enter: apdu_disconnect: slot=0<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: leave: apdu_disconnect =&gt; sw=0x0<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: leave: apdu_close_reader =&gt; 0x0 (close_reader)<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 -&gt; ERR 100696144 Operation not supported by device &lt;SCD&gt;<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 &lt;- RESTART<br />
+2018-01-10 17:32:57 scdaemon[1788] DBG: chan_5 -&gt; OK</p>
+<p>For a while, this stumped me. The line "pcsc_connect failed: sharing violation" stumped me, as something was locking the card. I remember hearing from Jamie Brim that Yubikeys could either be in PIV mode or PGP mode, and that often physically restarting services or pulling the card out and putting it back in would fix this... however in this case it rarely fixed things. I must have tried it at least a a few dozen times, and eventually it worked so I left my system running again, but after a reboot it didn't work again. This hinted strongly to me of a race condition where something was locking it and keeping it locked.</p>
+<p>On macOS, the smartcard framework is in <code>/System/Library/Frameworks/PCSC.framework</code>. Doing an <code>lsof | grep pcsc</code> led me to find</p>
+<p>&nbsp;</p>
+<p>4024<br />
+0 204 1 0 5:24PM ?? 0:00.07 /System/Library/Frameworks/PCSC.framework/Versions/A/XPCServices/com.apple.ctkpcscd.xpc/Contents/MacOS/com.apple.ctkpcscd<br />
+503 21411 1 0 11:09AM ?? 0:00.02 /System/Library/Frameworks/PCSC.framework/Versions/A/XPCServices/com.apple.ctkpcscd.xpc/Contents/MacOS/com.apple.ctkpcscd<br />
+91 21773 1 0 11:14AM ?? 0:00.03 /System/Library/Frameworks/PCSC.framework/Versions/A/XPCServices/com.apple.ctkpcscd.xpc/Contents/MacOS/com.apple.ctkpcscd</p>
+<p>&nbsp;</p>
+<p>Not sure how long these were around, but I killed them and then it worked.</p>

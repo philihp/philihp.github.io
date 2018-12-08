@@ -1,0 +1,68 @@
+---
+layout: post
+title: How to use a SWITCH Statement in SAS
+date: 2012-04-09 22:04:26.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- if else
+- Programming
+- SAS
+- select
+- statement
+- switch
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543851521;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:992;}i:1;a:1:{s:2:"id";i:490;}i:2;a:1:{s:2:"id";i:173;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>In SAS, the switch statement is called a SELECT statement.</p>
+<blockquote><p>SELECT &lt;variable | expression&gt;<br />
+  &nbsp;&nbsp;WHEN(condition) ...<br />
+  &nbsp;&nbsp;&lt;WHEN(condition) ...&gt;<br />
+  &nbsp;&nbsp;&lt;WHEN(condition) ...&gt;<br />
+  &nbsp;&nbsp;...<br />
+  &nbsp;&nbsp;&lt;OTHERWISE ...&gt;<br />
+  END;</p>
+<p><a href="http://support.sas.com/documentation/cdl/en/lestmtsref/63323/HTML/default/viewer.htm"><cite>http://support.sas.com/documentation/cdl/en/lestmtsref/63323/HTML/default/viewer.htm</cite></a></p></blockquote>
+<p>When a select expression is given, it evaluates this and does a relative jump, which is similar to the optimization done by a C or Java compiler in a switch statement. It doesn't have any fall-throughs though, so it's more like Ruby. It looks like this:</p>
+<pre lang="SAS">
+select(i);
+  when(0) put 'none';
+  when(1) put 'one';
+  when(2) put 'a couple';
+  when(3,4,5) put 'a bunch';
+  otherwise put 'a lot';
+end;
+</pre>
+<p>In SAS there's a second mode for using it, where the expression after SELECT is left out. The closest similarity to another language I know of is <a href="http://phpswitch.com/">PHP's switch</a> with <code>switch(true)</code> and using cases with conditions, however PHP's version still has fall-through. Doing this in SAS looks like this:</p>
+<pre lang="SAS">
+select;
+  when(i<5) put 'lt 5';
+  when(i=5) put 'eq 5';
+  when(i>5) put 'gt 5';
+  otherwise put 'math is broken';
+end;
+</pre>
+<p>The statement is basically <a href="http://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar</a> to make your code easier to read, and is logically no different from a chain of <code>if</code>/<code>else-if</code>/<code>else-if</code>/<code>else</code> statements. The statement will break out after the first statement evaluates true, even if statements further down would also evaluate true. It isn't any different from</p>
+<pre lang="SAS">
+if(i<5) then put 'lt 5';
+else if(i=5) then put 'eq 5';
+else if(i>5) then put 'gt 5';
+else put 'math is broken';
+</pre>
+<p>Possible advantages:</p>
+<ul>
+<li>Statements can be reordered and/or dynamically inserted through SAS's macro preprocessor runs without having to worry about if it needs an "if" or an "else if".</li>
+<li>For OCD-types, the formatting can look prettier.</li>
+<li>For <a href="http://codegolf.com/">golfers</a>, it uses fewer keystrokes.</li>
+</ul>

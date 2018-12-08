@@ -1,0 +1,43 @@
+---
+layout: post
+title: Two notes about RESTful services
+date: 2008-05-13 20:25:00.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- HTML
+- HTTP
+- Programming
+- REST
+meta:
+  _edit_last: '1'
+  blogger_blog: philihp.blogspot.com
+  blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
+  blogger_permalink: "/2008/05/two-notes-about-restful-services.html"
+  tmac_last_id: '166390280281538563'
+  _jetpack_related_posts_cache: a:1:{s:32:"2db8369665957e08d413949cda6c6671";a:2:{s:7:"expires";i:1543283986;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:601;}i:1;a:1:{s:2:"id";i:252;}i:2;a:1:{s:2:"id";i:1297;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>In <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a>ful protocols, HTTP methods correspond to actions on a resource. Most commonly the four HTTP methods PUT, GET, POST, and DELETE are used to implement <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> actions.<br />
+<h3>PUT vs. POST</h3>
+<p>People often mistakenly equate POST with Update and PUT with Create. For an exact definition, check the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">HTTP 1.1 RFC</a>, but generally speaking...</p>
+<p>PUT means "Create or update". It is assumed that the client knows the URI it wants to create. If a resource already exists at that location, it would be overwritten. It is similar to copying or moving a file to a location on Unix; if a file already exists there, it is overwritten. As an example, a client might want to send the request to create a record numbered "12345":</p>
+<p>PUT /records/12345 HTTP/1.1<br />User-Agent: Client 2.0<br />Host: someserver.com<br />Content-Length: 15</p>
+<p>...some data...</p>
+<p>POST is intended as an "everything else" method. You might use POST to create, or you might use POST to update, or you might use POST to calculate some value. If a client is using it to create a new record, it wouldn't know the URI that would be created. A POST request's headers might look like this:</p>
+<p>POST /records/ HTTP/1.1<br />User-Agent: Client 2.0<br />Host: someserver.com<br />Content-Length: 15</p>
+<p>...some data...</p>
+<p>In math, there's a concept of idempotence. A function (method) is idempotent if doing it once is the same as doing it twice is the same as doing it any number of times. This is analogous to painting a canvas blue. If you've done it once, it's blue. If you've done it twice, it's still blue.</p>
+<p>PUT should be idempotent, while POST should not. If a client were to keep POSTing as in the request above, every POST would create a new record.<br />
+<h3>Fake PUT and DELETE</h3>
+<p>At some point in testing, it will probably occur to you to use an HTML form to test how your server behaves to different requests methods. Unfortunately, <a href="http://www.w3.org/TR/html401/interact/forms.html#adef-method">HTML forms only accept GET and POST as values for method</a>. Any other values are undefined. If you overload the POST method to read in a parameter called "_method", you can get around this limitation.</p>
+<p>&lt;form method="POST" action="records/?_method=PUT"&gt;</p>

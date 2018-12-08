@@ -1,0 +1,35 @@
+---
+layout: post
+title: Easy Inserting/Appending Libraries into FMTSEARCH path lists in SAS 9.2
+date: 2009-10-27 21:49:50.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- FMTSEARCH
+- Formats
+- Programming
+- SAS
+- SAS 9.2
+- SASAUTOS
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390237654818817'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542472064;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1119;}i:1;a:1:{s:2:"id";i:598;}i:2;a:1:{s:2:"id";i:490;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>In SAS 9.1.3 and prior, Options list (such as FMTSEARCH for libraries with format catalogs, and SASAUTOS for paths that contain macros shared across jobs) were annoying to work with. If you have nested code that wants to add a library or a path the list, doing so like this could potentially clobber statements executed outside of the nested block:</p>
+<pre>OPTIONS FMTSEARCH=(<i>mylib.formats</i>);</pre>
+<p>To really be safe, you want to add your library to the list. Doing this wasn't very intuitive. I had always done this like this:</p>
+<pre>%let FMTSEARCH = %substr(%sysfunc(getoption(fmtsearch) ) ,2);
+OPTIONS FMTSEARCH = (<i>mylib.formats</i> &FMTSEARCH;</pre>
+<p>But in 9.2, there are two new System Options, <a href="http://support.sas.com/documentation/cdl/en/lrdict/62618/HTML/default/a003273966.htm">INSERT=</a> and <a href="http://support.sas.com/documentation/cdl/en/lrdict/62618/HTML/default/a003273971.htm">APPEND=</a>. This is now as simple as</p>
+<pre>OPTIONS INSERT=(FMTSEARCH=<i>mylib.formats</i>);</pre>

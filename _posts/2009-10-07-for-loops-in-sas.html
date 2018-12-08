@@ -1,0 +1,56 @@
+---
+layout: post
+title: For loops in SAS
+date: 2009-10-07 16:06:22.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- For loops
+- List iteration
+- Metadata
+- Programming
+- SAS
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390240574062592'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543982469;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:566;}i:1;a:1:{s:2:"id";i:550;}i:2;a:1:{s:2:"id";i:1119;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>When coding for loops in SAS, one neat thing to remember is that all of the parts of it are optional.</p>
+<blockquote><p>DO <b>variable=</b>start<br />
+  &nbsp;&nbsp;&lt;TO stop&gt;<br />
+  &nbsp;&nbsp;&lt;BY increment&gt;<br />
+  &nbsp;&nbsp;&lt;WHILE(expression) | UNTIL(expression)&gt;<br />
+  &nbsp;&nbsp;...<br />
+  END;</p>
+<p><a href="http://support.sas.com/documentation/cdl/en/lrdict/62618/HTML/default/a000201276.htm"><cite>http://support.sas.com/documentation/cdl/en/lrdict/62618/HTML/default/a000201276.htm</cite></a></p></blockquote>
+<p>So in another language, what might be</p>
+<pre lang="C">for(int i=0;i < max;i++) {</pre>
+<p>In SAS, you can leave out the "by 1", since it's the default increment. So this would be</p>
+<pre lang="SAS">do i=0 to max;</pre>
+<p>What's fun is in SAS you can combine a <a href="http://en.wikipedia.org/wiki/Do_while_loop">Repeat-Until/Do-While</a> loop with a for loop. This might be useful if for some reason you don't set the var "max" until you've iterated through the loop once, such as in this case, where "<a href="http://support.sas.com/documentation/cdl/en/lrmeta/60739/HTML/default/getnobj.htm">metadata_getnobj</a>" returns a negative on fail, but otherwise returns the number of objects that match the query.</p>
+<pre lang="SAS">do i=1 by 1 until (i >= objs);
+  rc=metadata_getnobj("omsobj:SASLibrary?@Libref='MYLIBREF'",i,uri);
+  if rc>=0 then objs=rc;
+
+  rc=metadata_getnasn(uri,"LibraryConnection",1,uri);
+  if rc>=0 then leave;
+end;</pre>
+<p>This code loops through all the libraries in the metadata with libref='MYLIBREF', and exits with a URI for the first one it sees with at least one LibraryConnection association. This is useful when you have a remote library pointing to a local library and they both have the same name and you want a URI to the remote one.</p>
+<p>Another cool thing with FOR loops in SAS is iteration through lists. In Java, say you have a block like this:</p>
+<pre lang="Java">for(String x : new String[] { "a","b","c" }) {
+  System.out.println("x="+x);
+}</pre>
+<p>In SAS, this is simply</p>
+<pre lang="SAS">do x="a","b","c";
+  put x=;
+end;</pre>

@@ -1,0 +1,38 @@
+---
+layout: post
+title: Using WGET with HTTP GET Parameters
+date: 2008-09-10 22:44:00.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- HTTP
+- Programming
+- WGET
+meta:
+  blogger_blog: philihp.blogspot.com
+  blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
+  blogger_permalink: "/2008/09/using-wget-with-http-get-parameters.html"
+  _edit_last: '1'
+  tmac_last_id: '166390268252274688'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1544072832;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:180;}i:1;a:1:{s:2:"id";i:1232;}i:2;a:1:{s:2:"id";i:165;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>WGET is a simple tool that is usually on a lot of shell boxes. I think it might be installed by default on Linux. Sometimes you have to get it installed by your admin.</p>
+<p>At any rate, it's useful for downloading a resource from a simple web service like so:<br /><code></code><br />
+<blockquote>WGET http://www.asdf.com/jkl.html</p>
+</blockquote>
+<p>You can even attach parameters to it<br /><code></code><br />
+<blockquote>WGET http://www.google.com/search?q=asdf</p>
+</blockquote>
+<p>Just be sure that if you attach two or more parameters, you enclose the command in quotes; otherwise the shell thinks the command ends at the ampersand and your request won't go through correctly.<br /><code></code><br />
+<blockquote>WGET "http://www.imf.org/external/np/fin/data/rms_mth.aspx?SelectDate=2008-09-30&amp;reportType=SDRCV"</p>
+</blockquote>

@@ -1,0 +1,39 @@
+---
+layout: post
+title: How to retrieve the ID after a MySQL Insert in Python
+date: 2009-02-02 10:02:40.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- How To
+- MySQL
+- MySQLdb
+- Programming
+- Python
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390256160083968'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1544019467;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:507;}i:1;a:1:{s:2:"id";i:704;}i:2;a:1:{s:2:"id";i:967;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+excerpt: The MySQLdb documentation mentions conn.insert_id(), however this appears
+  to have been deprecated, maybe? This really should be on the cursor object anyway.
+  And behold! There is a lastrowid on it! It's just a little bit undocumented
+---
+<p>When you have an <a href="http://dev.mysql.com/doc/refman/5.0/en/example-auto-increment.html">auto_increment</a> field on a table, and you're doing a batch import of new data, you often want to insert a row, then insert more rows that have a foreign key referencing the first row. For example, you want to insert a COMPANY entity, then insert a few dozen PERSON entities under that company. Assuming you have no unique and not-null fields on the COMPANY entity (if company_name were unique and not-null, then you could just issue a select immediately after inserting to get its ID), and assuming you want a thread-safe solution (you could just select for the highest ID in the table immediately after inserting, but since MySQL is by default not transaction-safe, another thread could come in and insert another company right after you insert and before your select), you simply <i>need</i> to have <code>mysql_insert_id()</code>.</p>
+<p>The MySQLdb <a href="http://mysql-python.sourceforge.net/MySQLdb.html">documentation</a> mentions conn.insert_id(), however this appears to have been deprecated, maybe? This really should be on the cursor object anyway. And behold! There <i>is</i> a <code>lastrowid</code> on it! It's just a little bit undocumented:</p>
+<pre name="code" class="python:nocontrols">&gt;&gt;&gt; import MySQLdb
+&gt;&gt;&gt; connection = MySQLdb.connect(<i>...</i>)
+&gt;&gt;&gt; cursor = connection.cursor()
+&gt;&gt;&gt; cursor.execute("INSERT INTO PERSON (name) VALUES ('Philihp')")
+1L
+&gt;&gt;&gt; print cursor.lastrowid
+42</pre>

@@ -1,0 +1,47 @@
+---
+layout: post
+title: Installing SAS 9.4 on Ubuntu 14.04
+date: 2014-02-19 01:43:28.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- '13.10'
+- '14.04'
+- '9.4'
+- Error
+- install
+- Programming
+- SAS
+- Ubuntu
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1544042537;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1291;}i:1;a:1:{s:2:"id";i:1377;}i:2;a:1:{s:2:"id";i:1069;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Officially SAS does not support Ubuntu Linux as a platform, in spite of it being the most popular desktop distribution. It will run, but there are two things you need to do:</p>
+<p>First, reconfigure Ubuntu not to use dash. The SAS Deployment Wizard will freeze when you first click "Next" during the install if you don't do this.</p>
+<pre><b>sudo dpkg-reconfigure dash</b></pre>
+<p>That being done, you should be able to install SAS Foundation.</p>
+<p>Second, SAS requires libjpeg to run. When you first run <code>sas</code>, you'll get this error:</p>
+<pre>ERROR:  BRIDGE FAILURE - ERROR LOADING IMAGE 
+        MODULE: sasmotifsasvsub HyS SUBSYSTEM: 8 SLOT: 11 </pre>
+<pre>ERROR: Could not load /usr/local/SASHome/SASFoundation/9.4/sasexe/sasmotif (35 images loaded) 
+ERROR: libjpeg.so.62: cannot open shared object file: No such file or directory 
+ERROR:  BRIDGE FAILURE - ERROR LOADING IMAGE 
+        MODULE: sasmotifsasvsub HyS SUBSYSTEM: 8 SLOT: 11</pre>
+<p>Install this by running this command:</p>
+<pre><b>sudo apt-get install libjpeg62</b></pre>
+<p>SAS should now run.</p>
+<p>Additionally, while not common, but if you have SAS/Secure installed and want to pull files via https, you'll need to point it at SSL CA certificates. You can kick off SAS with</p>
+<pre>-SSLCALISTLOC="/etc/ssl/certs/ca-certificates.crt"</pre>
+<p>Or just create a file <code>~/sasv9.cfg</code> with that in it.</p>
+<p><b>Update</b>: This works on 13.10 and 14.04</p>

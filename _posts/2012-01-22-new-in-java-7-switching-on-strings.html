@@ -1,0 +1,47 @@
+---
+layout: post
+title: 'New in Java 7: switch()ing on Strings'
+date: 2012-01-22 04:49:57.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- eclipse
+- Java
+- java 7
+- PHP
+- Programming
+- string
+- switch
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390215848628224'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542301328;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:967;}i:1;a:1:{s:2:"id";i:1039;}i:2;a:1:{s:2:"id";i:417;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Finally, <a href="http://docs.oracle.com/javase/tutorial/java/nutsandbolts/switch.html">Java can switch on Strings</a>! No more inefficient strings of if/else chains or Hash lookups or translation into Enums. Finally just clean readable and intuitive code.</p>
+<pre lang="Java">
+switch(suit) {
+  case "club":
+  case "diamond":
+    trickValue = 20;
+    break;
+  case "heart":
+  case "spade":
+    trickValue = 30;
+    break;
+  case "no-trump":
+    trickValue = 40;
+    break;
+}
+</pre>
+<p>It's actually just syntactic sugar. The <a href="http://blogs.oracle.com/darcy/entry/project_coin_strings_in_switch">java compiler renders this all down to int switching</a> by pre-computing the <code>.hashcode()</code> of all of the labels since they have to be constants anyway (unlike languages like PHP where you can do <a href="http://programmersnotes.info/2009/03/06/trick-with-php-switch/">some really neat shenanigans</a>). Because this still renders down to primitives, Java still gets the <a href="http://en.wikipedia.org/wiki/Jump_table">jump table optimizations</a> that were the whole motivation of the switch construct in the first place.</p>
+<p>If you use Eclipse, switching on a String will still probably give you an error. <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=288548#c9">It wasn't until September 2011's release (3.7.1)</a> that this was implemented. There were versions of Indigo that didn't support this, so you'll need the latest one.</p>

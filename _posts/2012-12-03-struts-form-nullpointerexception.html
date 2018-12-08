@@ -1,0 +1,82 @@
+---
+layout: post
+title: Two Common Struts Null Pointer Exceptions
+date: 2012-12-03 03:38:04.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- errors
+- null pointer
+- Programming
+- Struts
+- Struts 1.3
+- validatior
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543589331;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:961;}i:1;a:1:{s:2:"id";i:1164;}i:2;a:1:{s:2:"id";i:1014;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<h1>The First Problem</h1>
+<p>I have come across this problem at 2 times this weekend. Since I came across it twice, I assume a high likelihood that others will as well. Hopefully the people of the future will be able to Google the stack trace and find this post. The problem is that after mucking around with my struts-config.xml file's hooks, I got this error when trying to visit a page:</p>
+<pre lang="plain">javax.servlet.ServletException: java.lang.NullPointerException
+	org.apache.struts.chain.ComposableRequestProcessor.process(ComposableRequestProcessor.java:286)
+	org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913)
+	org.apache.struts.action.ActionServlet.doGet(ActionServlet.java:449)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:617)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:717)
+	com.philihp.weblabora.util.EntityManagerFilter.doFilter(EntityManagerFilter.java:32)
+
+java.lang.NullPointerException
+	org.apache.struts.config.FormBeanConfig.createActionForm(FormBeanConfig.java:289)
+	org.apache.struts.config.FormBeanConfig.createActionForm(FormBeanConfig.java:357)
+	org.apache.struts.chain.commands.CreateActionForm.execute(CreateActionForm.java:92)
+	org.apache.struts.chain.commands.ActionCommandBase.execute(ActionCommandBase.java:51)
+	org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	org.apache.commons.chain.generic.LookupCommand.execute(LookupCommand.java:305)
+	org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	org.apache.struts.chain.ComposableRequestProcessor.process(ComposableRequestProcessor.java:283)
+	org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913)
+	org.apache.struts.action.ActionServlet.doGet(ActionServlet.java:449)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:617)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:717)
+	com.philihp.weblabora.util.EntityManagerFilter.doFilter(EntityManagerFilter.java:32)</pre>
+<p>The problem was that the type of my form-bean couldn't be instantiated, because it didn't exist. My config looked like:</p>
+<pre lang="xml">
+<form-bean name="loginForm" type="org.apache.struts.action.DynaValidatorForm">
+	<form-property name="username" type="java.lang.String" />
+	<form-property name="password" type="java.lang.String" />
+</form-bean>
+</pre>
+<p>The problem was <code>org.apache.struts.action.DynaValidatorForm</code> does not exist (or wasn't found on the classpath). Instead, the correct line was</p>
+<pre lang="xml">
+<form-bean name="loginForm" type="org.apache.struts.validator.DynaValidatorForm">
+	<form-property name="username" type="java.lang.String" />
+	<form-property name="password" type="java.lang.String" />
+</form-bean>
+</pre>
+<p>In another case, I typed "com.apache..." instead of "org.apache...".</p>
+<h1>The Second Problem</h1>
+<p>This problem's symptom was a stack trace like this:</p>
+<pre lang="plain">java.lang.IllegalArgumentException: The path of an ForwardConfig cannot be null
+	org.apache.struts.chain.commands.servlet.PerformForward.perform(PerformForward.java:70)
+	org.apache.struts.chain.commands.AbstractPerformForward.execute(AbstractPerformForward.java:54)
+	org.apache.struts.chain.commands.ActionCommandBase.execute(ActionCommandBase.java:51)
+	org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	org.apache.commons.chain.generic.LookupCommand.execute(LookupCommand.java:305)
+	org.apache.commons.chain.impl.ChainBase.execute(ChainBase.java:191)
+	org.apache.struts.chain.ComposableRequestProcessor.process(ComposableRequestProcessor.java:283)
+	org.apache.struts.action.ActionServlet.process(ActionServlet.java:1913)
+	org.apache.struts.action.ActionServlet.doPost(ActionServlet.java:462)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:637)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:717)</pre>
+<p>The problem is that an Action with a ValidatorForm form was validating with errors, and didn't know where to send the client back to. This can happen if both the validate and input attributes of the Action are omitted. It can be remedied by setting validate="false" (if you don't want it to validate) or input="<i>some path</i>" (if you do want it to validate).</p>
+<p>Struts needs to know where to send the user if there are errors in validation.</p>

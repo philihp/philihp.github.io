@@ -1,0 +1,65 @@
+---
+layout: post
+title: Internal PC Speaker Beep on Startup and Shutdown
+date: 2009-02-17 10:58:10.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Beep
+- How To
+- Linux
+- Programming
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390256160083968'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543551816;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:354;}i:1;a:1:{s:2:"id";i:1377;}i:2;a:1:{s:2:"id";i:557;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Pretty neat trick by Craig Perry at <a href="http://ubuntuforums.org/showthread.php?t=462960">http://ubuntuforums.org/showthread.php?t=462960</a>. The following is pretty much word-for-word reposted. Since I have an old 400mhz Pentium 2 under my desk that I use as a Tomcat development box. I also find it useful to use it as a development platform that gives immediate feedback of suboptimal code, and it's always a nice surprise to find scripts and pages that take 10-20 seconds to run on it take less than a half-second on any other machine.</p>
+<p>Install <a href="http://www.johnath.com/beep/"><code>beep</code></a></p>
+<pre>sudo apt-get install beep</pre>
+<p>Create the following at <code>/etc/init.d/beep</code></p>
+<pre>#!/bin/bash
+#
+# beep
+# Notify when the system is up, or going down
+# Craig Perry, 4th Jun 2007
+
+BEEP=/usr/bin/beep
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_begin_msg "Audible notification - System Now Up..."
+    for i in `seq 750 50 1500`; do
+      $BEEP -l 50 -f $i
+    done
+    log_end_msg 0
+    ;;
+  stop)
+    log_begin_msg "Audible notification - System Going Down..."
+    for i in `seq 1500 -50 750`; do
+      $BEEP -l 50 -f $i
+    done
+    log_end_msg 0
+    ;;
+  *)
+    log_success_msg "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0</pre>
+<p>Then make it executable:</p>
+<pre>chmod +x /etc/init.d/beep</pre>
+<p>Finally, tell the system to add hooks to run it last (99) on startup and first (01) on shutdown:</p>
+<pre>sudo update-rc.d beep defaults 99 01</pre>
+<p>This gives you an ascending tone when the system comes up, and a descending tone as it's starting to shutdown (i.e. confirms you've pressed the power button correctly).</p>

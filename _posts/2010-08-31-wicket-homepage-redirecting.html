@@ -1,0 +1,45 @@
+---
+layout: post
+title: Wicket Homepage Redirecting
+date: 2010-08-31 19:28:04.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Framework
+- Java
+- Programming
+- Web
+- Wicket
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390231539523584'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543623683;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:452;}i:1;a:1:{s:2:"id";i:695;}i:2;a:1:{s:2:"id";i:967;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>With the <a href="http://wicket.apache.org/">Wicket</a> Java Web framework where a lot of magic happens behind the scenes, and almost no XML needs to be configured. Most of it is done with Java. It has a lot of pretty cool features. I just came across this one.</p>
+<p>In the init setup of your class that extends <a href="http://wicket.apache.org/apidocs/1.4/org/apache/wicket/protocol/http/WebApplication.html">WebApplication</a>, you can "mount" your pages at paths, like this:</p>
+<pre name="code" class="java">
+@Override
+protected void init() {
+	super.init();
+	mountBookmarkablePage("/search", SearchPage.class);
+}
+</pre>
+<p>So when you goto http://somewhere.com/somecontext/search, it gives you the SearchPage class.</p>
+<p>You can also specify a HomePage index, like this:</p>
+<pre name="code" class="java">
+public Class<? extends Page> getHomePage() {
+	return IndexPage.class;
+}
+</pre>
+<p>Then when you goto http://somewhere.com/somecontext/, it gives you the IndexPage class.</p>
+<p>The cool subtle thing here is what happens when you do them both; i.e. you mount SearchPage to /search, and you override getHomePage to return SearchPage.class. Do this, and when you goto http://somewhere.com/somecontext/, it will redirect to http://somewhere.com/somecontext/search!</p>

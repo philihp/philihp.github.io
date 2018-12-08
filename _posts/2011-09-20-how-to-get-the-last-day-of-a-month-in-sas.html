@@ -1,0 +1,50 @@
+---
+layout: post
+title: How to get the Last Day of a Month in SAS
+date: 2011-09-20 23:15:39.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Dates
+- intnx
+- magic
+- Programming
+- SAS
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390222039416832'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1544055526;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:430;}i:1;a:1:{s:2:"id";i:476;}i:2;a:1:{s:2:"id";i:1119;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>SAS has a really neat function called <a href="http://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/viewer.htm#a000212700.htm" target="_blank">intnx</a>, which will increment a date to the next of an interval.</p>
+<p>For example, if you have a date (any date. maybe the current date?), you can get the date of the first day of the next month by doing this:</p>
+<pre lang="SAS">data _null_;
+  d = '11JUN2011'd;
+  format d date9.;
+  put d;
+  d = intnx('month',d,1);
+  put d;
+run;</pre>
+<p>Which outputs</p>
+<pre lang="text">11JUN2011
+01JUL2011</pre>
+<p>Here's a clever way to get the "Last Day" of the current month. The last day of the current month is the day before the first day of the next month. SAS Dates are internally stored as a number of days since some point, so just subtract one from it.</p>
+<pre lang="SAS">data _null_;
+  d = '11JUN2011'd;
+  format d date9.;
+  put d;
+  d = intnx('month',d,1)-1;
+  put d;
+run;</pre>
+<p>Which outputs</p>
+<pre lang="text">11JUN2011
+30JUN2011</pre>

@@ -1,0 +1,152 @@
+---
+layout: post
+title: Bayesian Averaging in SAS
+date: 2013-02-04 22:53:46.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- average
+- bayesian
+- Programming
+- rank
+- rating
+- SAS
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543597268;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1272;}i:1;a:1:{s:2:"id";i:680;}i:2;a:1:{s:2:"id";i:1130;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Hypothetical situation, lets say you've got a list of movies that you want to rank in a website or a report or something, and you have user-submitted ratings for them, but some are more popular than others, so your data looks like this:</p>
+<pre lang="SAS">  data ratings;
+    input name $ rating;
+    datalines;
+  Lincoln 9
+  Lincoln 8
+  Lincoln 9
+  Amour 9
+  Argo 5
+  Argo 10
+  ;
+  run;</pre>
+<table class="data">
+<colgroup>
+<col /></colgroup>
+<colgroup>
+<col />
+<col /></colgroup>
+<thead>
+<tr>
+<th scope="col">Obs</th>
+<th scope="col">name</th>
+<th scope="col">rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">1</th>
+<td>Lincoln</td>
+<td>9</td>
+</tr>
+<tr>
+<th scope="row">2</th>
+<td>Lincoln</td>
+<td>8</td>
+</tr>
+<tr>
+<th scope="row">3</th>
+<td>Lincoln</td>
+<td>9</td>
+</tr>
+<tr>
+<th scope="row">4</th>
+<td>Amour</td>
+<td>9</td>
+</tr>
+<tr>
+<th scope="row">5</th>
+<td>Argo</td>
+<td>5</td>
+</tr>
+<tr>
+<th scope="row">6</th>
+<td>Argo</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>The easiest thing to do would be to calculate an average rating for each movie like this:</p>
+<pre lang="SAS">  proc sql;
+    select distinct name, avg(rating) as average
+      from ratings
+      group by name
+      order by average desc;
+  run;</pre>
+<table class="data">
+<thead>
+<tr>
+<th scope="col">name</th>
+<th scope="col">average</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amour</td>
+<td>9.00</td>
+</tr>
+<tr>
+<td>Lincoln</td>
+<td>8.67</td>
+</tr>
+<tr>
+<td>Argo</td>
+<td>7.50</td>
+</tr>
+</tbody>
+</table>
+<p>But hey! That's not cool. It looks like Amour wins, because its average rating is 9. Maybe we want to consider Lincoln as better because 3 people think it's very high. A good way to deal with this is by instead taking a <a href="http://en.wikipedia.org/wiki/Bayesian_average" target="_blank">Bayesian Average</a>.</p>
+<p>This means we're going to add in some "dummy" votes for each movie, who give each movie the average rating a movie gets. How many (C) is a judgement call, the more we add, the harder we make it for an obscure movie to be near the top. Likewise, if a movie's first rating is low, it keeps it from suddenly dropping to the bottom of the list. If we expect thousands of ratings for each movie, a C=1000 might be appropriate. In this example, I use a small C of 10.</p>
+<pre lang="SAS">  proc sql;
+    select avg(rating) into :average
+      from ratings;
+    select distinct
+        name,
+        (sum(rating) + &average * 10) / (count(*) + 10) as b_average
+      from ratings
+      group by name
+      order by b_average;
+  quit;</pre>
+<table class="data">
+<colgroup>
+<col />
+<col /></colgroup>
+<thead>
+<tr>
+<th scope="col">name</th>
+<th scope="col">b_average</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lincoln</td>
+<td>8.41</td>
+</tr>
+<tr>
+<td>Amour</td>
+<td>8.39</td>
+</tr>
+<tr>
+<td>Argo</td>
+<td>8.19</td>
+</tr>
+</tbody>
+</table>
+<p>And look! Lincoln is back on top, since its bayesian average more closely reflects a product of the number of ratings it has and what those ratings are.</p>

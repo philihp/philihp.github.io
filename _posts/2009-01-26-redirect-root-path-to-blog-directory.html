@@ -1,0 +1,34 @@
+---
+layout: post
+title: ".htaccess mod_rewrite Redirect Root / path to /blog directory"
+date: 2009-01-26 11:27:32.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- HTTP
+- mod_rewrite
+- Programming
+meta:
+  _edit_last: '1'
+  _wp_old_slug: redirect-root-path-to-blog-director
+  tmac_last_id: '166390259221925888'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543450070;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:378;}i:1;a:1:{s:2:"id";i:1377;}i:2;a:1:{s:2:"id";i:601;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>I've just setup an HTTP Redirect from <a href="http://www.philihp.com/">www.philihp.com</a> to <a href="http://www.philihp.com/blog">www.philihp.com/blog</a>. This makes it so people don't see my ugly project listing when they come here, they go right to the blog. I still wanted people to be able to go to the root path, though, because a lot of times whenever I put some small project, gizmo, or widget up, I'll just stuff it in a new directory from the root path. I settled on allowing only listing when the HTTP header value HTTP_REFERER begins with a path from my blog.</p>
+<p>To replicate this again elsewhere, create an <code>.htaccess</code> file in your root directory and put in it (or it if it exists, append to it) the following:</p>
+<pre>RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^http://www.philihp.com/ [NC]
+RewriteRule ^$ /blog/ [R,L]</pre>
+<p>The first line turns mod_rewrite on. It's off by default to make serving static files very fast, but mod_rewrite is very fast, and we need it anyway, so turn it on. RewriteRules come in chunks, where every RewriteRule has the RewriteCond<em>itions</em> that came immediately before applied to it. So the second and third lines come as a chunk, which reads "If the path is empty (i.e. root path), and the HTTP_REFERER[<em>sic</em>] variable does not (<code>!</code>) begin (<code>^</code>) with <code>http://www.philihp.com/</code>, send the request to <code>/blog/</code>. But wait, I have 2 flags, <code>R</code> to Redirect instead of <a href="http://www.giantgeek.com/blog/?p=109">Forward</a>, and <code>L</code> because this is the Last rule we need to process for this request.</p>
+<p>The bad thing about this practice is similar to the problem we used to have where <a href="http://www.456bereastreet.com/archive/200411/who_framed_the_web_frames_and_usability/">HTML frames would break bookmarks</a>. A user might go to the directory listing and bookmark it, but if they return, their HTTP_REFERER is different, and the redirect would trigger. But in my case, that's not a terribly terrible to the user.</p>
+<p>It's not too difficult for a malicious attacker to craft their own HTTP_REFERER tag, so be careful depending on it for anything where security is a priority.</p>

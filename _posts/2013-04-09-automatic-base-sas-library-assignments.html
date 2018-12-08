@@ -1,0 +1,64 @@
+---
+layout: post
+title: Automatic Base SAS Library Assignments
+date: 2013-04-09 19:19:16.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- '8.2'
+- 9.1.3
+- '9.2'
+- '9.3'
+- autoexec
+- automatic
+- base
+- Library
+- Programming
+- SAS
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543103218;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:173;}i:1;a:1:{s:2:"id";i:490;}i:2;a:1:{s:2:"id";i:1297;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>If you stick a file named <code>autoexec.sas</code> in the directory where SAS is installed, it will run automatically when SAS starts up. By default, this place is <code>C:Program FilesSASHomeSASFoundation9.3</code>. This has worked since <i>at least</i> SAS 8.2, probably before.</p>
+<p>I like to use my Windows desktop as a temporary staging area, so I have my <code>autoexec.sas</code> automatically assign a "DESKTOP" library with this code:</p>
+<pre lang="SAS">
+%let USERPROFILE=%sysget(USERPROFILE);
+libname desktop "&USERPROFILEDesktop";
+</pre>
+<p>So when SAS starts up, the library is assigned and my log says this:</p>
+<pre lang="text">
+NOTE: Copyright (c) 2002-2010 by SAS Institute Inc., Cary, NC, USA.
+NOTE: SAS (r) Proprietary Software 9.3 (TS1M2)
+      Licensed to Microsoft Windows for x64 All Compatible Non-Plann, Site  XXXXXXX.
+NOTE: This session is executing on the X64_7PRO  platform.
+
+
+
+NOTE: Enhanced analytical products:
+
+SAS/STAT 12.1, SAS/ETS 12.1, SAS/OR 12.2, SAS/IML 12.1, SAS/QC 12.1
+
+NOTE: SAS initialization used:
+      real time           0.65 seconds
+      cpu time            0.63 seconds
+
+
+NOTE: AUTOEXEC processing beginning; file is C:Program
+      FilesSASHomeSASFoundation9.3autoexec.sas.
+
+NOTE: Libref DESKTOP was successfully assigned as follows:
+      Engine:        V9
+      Physical Name: C:UsersphilihpDesktop
+
+NOTE: AUTOEXEC processing completed.
+</pre>

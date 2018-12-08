@@ -1,0 +1,43 @@
+---
+layout: post
+title: Sending HTTP Requests without Reloading and without AJAX
+date: 2009-07-14 22:00:16.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- HTML
+- HTTP
+- HTTP Status Code
+- Programming
+- Servlet
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390243585560576'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543643438;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:724;}i:1;a:1:{s:2:"id";i:165;}i:2;a:1:{s:2:"id";i:252;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Supposing I have a simple HTML form that looks like this:</p>
+<pre name="code" class="html:nocontrols">&lt;form method="post" action="/SomeServlet"&gt;
+  &lt;input type="text" name="message" value="Hello Server" /&gt;
+  &lt;input type="submit" value="Send" /&gt;
+&lt;/form&gt;</pre>
+<p>And supposing I have a Servlet mapped at the path /SomeServlet, consisting of the code:</p>
+<pre name="code" class="java:nocontrols">public class SomeServlet extends HttpServlet {
+  protected void doPost(HttpServletRequest request,
+                        HttpServletResponse response)
+          throws ServletException, IOException {
+    System.out.println(request.getParameter("message"));
+    response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+  }
+}</pre>
+<p>If I goto the form, type in a message, and click the Send button, the message will print out on the Server's console. So What? So the cool thing is the HTML Form is not reloaded. Which could be useful if you've got heavy data on it. Seriously! Fire up <a href="http://www.fiddler2.com/fiddler2/">Fiddler</a> and watch your HTTP traffic.</p>
+<p>Of course there are many other ways of doing this, a lot of them with Javascript or IFrames. This one does not require the use of anything fancy on the client side. Just an HTML Form. And of course it works outside of Java Servlets too-- so long as you can mess around with the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">HTTP status code</a>.</p>

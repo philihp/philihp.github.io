@@ -1,0 +1,47 @@
+---
+layout: post
+title: Loop through Tables in a SAS Library
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags:
+- columns
+- How To
+- libraries
+- loop
+- Programming
+- SAS
+- tables
+meta:
+  _edit_last: '1'
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>In the <a href="http://support.sas.com/documentation/cdl/en/sqlproc/63043/HTML/default/viewer.htm#n02s19q65mw08gn140bwfdh7spx7.htm">SAS dictionary tables</a>, there's a table called "TABLES", which dynamically contains all of the tables available to SAS at that moment. You can query it like this:</p>
+<pre lang="sas">proc sql;
+  create table tables as
+  select memname, ...
+    from dictionary.tables
+    where libname='MYLIB';
+quit;</pre>
+<p>and get a table that you can then loop through, say in a data step</p>
+<pre lang="sas">data _null_;
+  set tables;
+  put memname;
+run;</pre>
+<p>There's other metadata about the table in it, such as the size of the table, number of variables, how compressed it is, the <a href="http://www.joelonsoftware.com/articles/Unicode.html">encoding</a>, and so on. Go take a look.</p>
+<p><i><b>Alternatively</b></i></p>
+<p>If you're a Base SAS coder and would rather not write any SQL, you can query this directly from a data step using the pre-built view in sashelp named vtable. There are other pre-built views to these dictionary tables, such as vcolumn (list of all columns), vformat (list of all formats), and vmacro (list of all macro variables defined). If you use these, you'll want to apply a <a href="http://support.sas.com/documentation/cdl/en/ledsoptsref/63326/HTML/default/viewer.htm#p0ny9o8t8hc5zen1qn3ft9dhtsxx.htm">WHERE= data set option</a> to filter it down first so it stays fast and SAS doesn't have to enumerate all the tables in every library you have open.</p>
+<pre lang="sas">data _null_;
+  set sashelp.vtable(where=(libname='MYLIB'));
+  put memname;
+run;</pre>
+<p>These dictionary tables have been around for at least 15 years, maybe even longer. I know they should work in SAS 8.2 and later.</p>

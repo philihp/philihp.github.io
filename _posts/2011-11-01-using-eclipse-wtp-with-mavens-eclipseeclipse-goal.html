@@ -1,0 +1,70 @@
+---
+layout: post
+title: Using Eclipse WTP with Maven's eclipse:eclipse Goal
+date: 2011-11-01 05:45:52.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- download
+- eclipse
+- jpa
+- maven
+- Programming
+- wtp
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390219044700160'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542953334;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:695;}i:1;a:1:{s:2:"id";i:724;}i:2;a:1:{s:2:"id";i:946;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>If you use Maven's "eclipse:eclipse" goal to generate a project descriptor for eclipse, by default you're just going to get a plain Java project. You'll have to add in the Dynamic Web facet in order to tell Eclipse that you can deploy this project in a web container. The easy way around this is to configure the maven-eclipse-plugin in the pom.xml file like this:</p>
+<pre lang="xml" escaped="true">&lt;plugin&gt;
+  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+  &lt;artifactId&gt;maven-eclipse-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.8&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;wtpContextName&gt;some/url/context&lt;/wtpContextName&gt;
+    &lt;wtpversion&gt;1.5&lt;/wtpversion&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</pre>
+<p>Also, I like to download sources and Javadoc, which makes navigating in Eclipse a lot easier. This can be done like this.</p>
+<pre lang="xml" escaped="true">&lt;plugin&gt;
+  ...
+  &lt;configuration&gt;
+    &lt;downloadSources&gt;true&lt;/downloadSources&gt;
+    &lt;downloadJavadocs&gt;true&lt;/downloadJavadocs&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</pre>
+<p>Supposing you also want your project to have JPA facets, or other additional project facets you could also add them in like this</p>
+<pre lang="xml" escaped="true">&lt;plugin&gt;
+  ...
+  &lt;configuration&gt;
+    &lt;additionalProjectFacets&gt;
+      &lt;jpt.jpa&gt;2.0&lt;/jpt.jpa&gt;
+    &lt;/additionalProjectFacets&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</pre>
+<p>And all of these can be combined to do this</p>
+<pre lang="xml" escaped="true">&lt;plugin&gt;
+  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+  &lt;artifactId&gt;maven-eclipse-plugin&lt;/artifactId&gt;
+  &lt;version&gt;2.8&lt;/version&gt;
+  &lt;configuration&gt;
+    &lt;wtpContextName&gt;list&lt;/wtpContextName&gt;
+    &lt;wtpversion&gt;1.5&lt;/wtpversion&gt;
+    &lt;downloadSources&gt;true&lt;/downloadSources&gt;
+    &lt;downloadJavadocs&gt;true&lt;/downloadJavadocs&gt;
+    &lt;additionalProjectFacets&gt;
+      &lt;jpt.jpa&gt;2.0&lt;/jpt.jpa&gt;
+    &lt;/additionalProjectFacets&gt;
+  &lt;/configuration&gt;
+&lt;/plugin&gt;</pre>

@@ -1,0 +1,37 @@
+---
+layout: post
+title: Content-type for XML files
+date: 2008-06-11 20:53:00.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Programming
+- Unicode
+- XML
+meta:
+  _edit_last: '1'
+  blogger_permalink: "/2008/06/content-type-for-xml-files.html"
+  blogger_blog: philihp.blogspot.com
+  blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
+  tmac_last_id: '166390277290983425'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543478000;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:180;}i:1;a:1:{s:2:"id";i:378;}i:2;a:1:{s:2:"id";i:588;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>When reporting the Content-Type of an XML document (such as in the HTTP response headers) use "application/xml", rather than "text/xml".</p>
+<p>
+<p>The reason for this is because the first line of your XML document should tell the client what the encoding of the document is anyway.</p>
+<p>
+<pre>&lt;?xml version="1.0" encoding="<strong>charset</strong>"?&gt;</pre>
+<p>
+<p>If you were to use text/xml, you'd need to report the character set there, and this could conflict. You may end up with an HTTP response that looks like:</p>
+<p>
+<pre>HTTP/1.1 200 OK<br />Date: Wed, 11 Jun 2008 20:48:36 GMT<br />Server: Apache/1.3.41 (Unix) mod_jk/1.2.4 PHP/4.4.7<br />Content-Type: text/xml; charset=<strong>iso-8859-1</strong><br /><br />&lt;?xml version="1.0" encoding="<strong>utf-8</strong>"?&gt;<br />&lt;data&gt;...&lt;/data&gt;</pre>

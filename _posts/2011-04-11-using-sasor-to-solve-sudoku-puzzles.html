@@ -1,0 +1,125 @@
+---
+layout: post
+title: Using SAS/OR to solve Sudoku puzzles
+date: 2011-04-11 19:41:47.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Uncategorized
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390228561563648'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543572499;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1119;}i:1;a:1:{s:2:"id";i:180;}i:2;a:1:{s:2:"id";i:177;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>I just got back from <a href="http://support.sas.com/events/sasglobalforum/2011/">SAS Global Forum 2011</a> and heard about this really cool package called SAS/OR (Operations Research).</p>
+<p>Within it, there's a procedure called CLP, which does nothing short of programming voodoo.</p>
+<blockquote><p>The CLP procedure is a finite-domain constraint programming solver for constraint satisfaction<br />
+problems (CSPs) with linear, logical, global, and scheduling constraints.</p></blockquote>
+<p>Basically, you tell it your <a href="http://www.facebook.com/MikeTheSituation">situation</a>, and it tells you a solution. In the following example (<a href="http://support.sas.com/documentation/cdl/en/orcpug/63349/PDF/default/orcpug.pdf">pulled straight from the documentation</a>), we tell it what the final solution of a sudoku would look like, and we give it a puzzle. Then it solves it for us.</p>
+<pre lang="SAS">proc clp out=outdata;
+	/* Define variables */
+	var (X_1_1-X_1_9) = [1,9];
+	var (X_2_1-X_2_9) = [1,9];
+	var (X_3_1-X_3_9) = [1,9];
+	var (X_4_1-X_4_9) = [1,9];
+	var (X_5_1-X_5_9) = [1,9];
+	var (X_6_1-X_6_9) = [1,9];
+	var (X_7_1-X_7_9) = [1,9];
+	var (X_8_1-X_8_9) = [1,9];
+	var (X_9_1-X_9_9) = [1,9];
+	/* Tell PROC CLP that all rows must be different */
+	alldiff(X_1_1-X_1_9);
+	alldiff(X_2_1-X_2_9);
+	alldiff(X_3_1-X_3_9);
+	alldiff(X_4_1-X_4_9);
+	alldiff(X_5_1-X_5_9);
+	alldiff(X_6_1-X_6_9);
+	alldiff(X_7_1-X_7_9);
+	alldiff(X_8_1-X_8_9);
+	alldiff(X_9_1-X_9_9);
+	/* Tell PROC CLP that all columns must be different */
+	alldiff(X_1_1 X_2_1 X_3_1 X_4_1 X_5_1 X_6_1 X_7_1 X_8_1 X_9_1);
+	alldiff(X_1_2 X_2_2 X_3_2 X_4_2 X_5_2 X_6_2 X_7_2 X_8_2 X_9_2);
+	alldiff(X_1_3 X_2_3 X_3_3 X_4_3 X_5_3 X_6_3 X_7_3 X_8_3 X_9_3);
+	alldiff(X_1_4 X_2_4 X_3_4 X_4_4 X_5_4 X_6_4 X_7_4 X_8_4 X_9_4);
+	alldiff(X_1_5 X_2_5 X_3_5 X_4_5 X_5_5 X_6_5 X_7_5 X_8_5 X_9_5);
+	alldiff(X_1_6 X_2_6 X_3_6 X_4_6 X_5_6 X_6_6 X_7_6 X_8_6 X_9_6);
+	alldiff(X_1_7 X_2_7 X_3_7 X_4_7 X_5_7 X_6_7 X_7_7 X_8_7 X_9_7);
+	alldiff(X_1_8 X_2_8 X_3_8 X_4_8 X_5_8 X_6_8 X_7_8 X_8_8 X_9_8);
+	alldiff(X_1_9 X_2_9 X_3_9 X_4_9 X_5_9 X_6_9 X_7_9 X_8_9 X_9_9);
+	/* Tell PROC CLP that all clusters must be different */
+	alldiff(X_1_1 X_1_2 X_1_3 X_2_1 X_2_2 X_2_3 X_3_1 X_3_2 X_3_3);
+	alldiff(X_1_4 X_1_5 X_1_6 X_2_4 X_2_5 X_2_6 X_3_4 X_3_5 X_3_6);
+	alldiff(X_1_7 X_1_8 X_1_9 X_2_7 X_2_8 X_2_9 X_3_7 X_3_8 X_3_9);
+	alldiff(X_4_1 X_4_2 X_4_3 X_5_1 X_5_2 X_5_3 X_6_1 X_6_2 X_6_3);
+	alldiff(X_4_4 X_4_5 X_4_6 X_5_4 X_5_5 X_5_6 X_6_4 X_6_5 X_6_6);
+	alldiff(X_4_7 X_4_8 X_4_9 X_5_7 X_5_8 X_5_9 X_6_7 X_6_8 X_6_9);
+	alldiff(X_7_1 X_7_2 X_7_3 X_8_1 X_8_2 X_8_3 X_9_1 X_9_2 X_9_3);
+	alldiff(X_7_4 X_7_5 X_7_6 X_8_4 X_8_5 X_8_6 X_9_4 X_9_5 X_9_6);
+	alldiff(X_7_7 X_7_8 X_7_9 X_8_7 X_8_8 X_8_9 X_9_7 X_9_8 X_9_9);
+
+	/* Linear conditions... (starting point) */
+	lincon X_1_3 = 5;
+	lincon X_1_6 = 7;
+	lincon X_1_9 = 1;
+	lincon X_2_2 = 7;
+	lincon X_2_5 = 9;
+	lincon X_2_8 = 3;
+	lincon X_3_4 = 6;
+	lincon X_4_3 = 3;
+	lincon X_4_6 = 1;
+	lincon X_4_9 = 5;
+	lincon X_5_2 = 9;
+	lincon X_5_5 = 8;
+	lincon X_5_8 = 2;
+	lincon X_6_1 = 1;
+	lincon X_6_4 = 2;
+	lincon X_6_7 = 4;
+	lincon X_7_3 = 2;
+	lincon X_7_6 = 6;
+	lincon X_7_9 = 9;
+	lincon X_8_5 = 4;
+	lincon X_8_8 = 8;
+	lincon X_9_1 = 8;
+	lincon X_9_4 = 1;
+	lincon X_9_7 = 5;
+run;</pre>
+<pre lang="text">NOTE: Variable selection strategy: MINR.
+NOTE: Value selection strategy: MIN.
+NOTE: Preprocessing: ON
+NOTE: Number of ALLDIFF constraints: 27.
+NOTE: Number of LINEAR constraints: 24.
+NOTE: Total number of arrays: 0.
+NOTE: Total number of variables: 81.
+NOTE: Total number of constraints: 51.
+NOTE: Required number of solutions found (1).
+NOTE: The data set WORK.OUTDATA has 1 observations and 81 variables.
+NOTE: PROCEDURE CLP used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.04 seconds
+
+
+STATUS=OK SOLUTION_STATUS=SOLN_LIMIT_REACHED SOLUTIONS_FOUND=1 SOLUTION_TIME=0.00</pre>
+<pre lang="text">X_1_1=9 X_1_2=8 X_1_3=5 X_1_4=3 X_1_5=2 X_1_6=7 X_1_7=6 X_1_8=4 X_1_9=1
+X_2_1=6 X_2_2=7 X_2_3=1 X_2_4=5 X_2_5=9 X_2_6=4 X_2_7=2 X_2_8=3 X_2_9=8
+X_3_1=3 X_3_2=2 X_3_3=4 X_3_4=6 X_3_5=1 X_3_6=8 X_3_7=9 X_3_8=5 X_3_9=7
+X_4_1=2 X_4_2=4 X_4_3=3 X_4_4=7 X_4_5=6 X_4_6=1 X_4_7=8 X_4_8=9 X_4_9=5
+X_5_1=5 X_5_2=9 X_5_3=7 X_5_4=4 X_5_5=8 X_5_6=3 X_5_7=1 X_5_8=2 X_5_9=6
+X_6_1=1 X_6_2=6 X_6_3=8 X_6_4=2 X_6_5=5 X_6_6=9 X_6_7=4 X_6_8=7 X_6_9=3
+X_7_1=4 X_7_2=5 X_7_3=2 X_7_4=8 X_7_5=3 X_7_6=6 X_7_7=7 X_7_8=1 X_7_9=9
+X_8_1=7 X_8_2=1 X_8_3=6 X_8_4=9 X_8_5=4 X_8_6=5 X_8_7=3 X_8_8=8 X_8_9=2
+X_9_1=8 X_9_2=3 X_9_3=9 X_9_4=1 X_9_5=7 X_9_6=2 X_9_7=5 X_9_8=6 X_9_9=4</pre>
+<p>But it gets even cooler! We can use the <a href="http://support.sas.com/documentation/cdl/en/orcpug/59630/HTML/default/orcpug_clp_sect010.htm#orcpug.clp.a0000000112">FINDALLSOLNS</a> option and it will tell us all the possible solutions to the puzzle...</p>
+<pre lang="text">STATUS=OK SOLUTION_STATUS=ALL_SOLUTIONS SOLUTIONS_FOUND=125 SOLUTION_TIME=0.08</pre>
+<p>And by browsing the output, we can know that there are only 3 possible solutions where row 9, column 3 is a '6', which makes for a much more difficult puzzle.</p>
+<pre lang="text">STATUS=OK SOLUTION_STATUS=ALL_SOLUTIONS SOLUTIONS_FOUND=3 SOLUTION_TIME=0.00</pre>

@@ -1,0 +1,75 @@
+---
+layout: post
+title: Finding the Relative Importance of each State in the Electoral College
+date: 2008-10-30 19:39:00.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Interesting Things
+- Math
+meta:
+  blogger_blog: philihp.blogspot.com
+  blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
+  blogger_permalink: "/2008/10/finding-relative-importance-of-each.html"
+  _edit_last: '1'
+  tmac_last_id: '166390268189356032'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542864292;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1184;}i:1;a:1:{s:2:"id";i:502;}i:2;a:1:{s:2:"id";i:639;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>The <a href="http://en.wikipedia.org/wiki/Banzhaf_Power_Index">Banzhaf Power Index</a> is an interesting thing. In a situation where participants (players) in a vote have differing weights, depending on the weights of every player, their relative importance or "power" may be surprising. What the index measures is, in all possible situations, how critical were each player? That is, a critical player is one who, after all votes were tallied, had he voted differently, the outcome of the vote would have swung the other way.</p>
+<p>For example, say we have 3 owners of a corporation, two of them with 45% of the shares of the stock, and the third with just 10% of the shares of the stock, each one of them has equal power.</p>
+<table border="1">
+<tbody>
+<tr>
+<td>Alice</td>
+<td>9 shares</td>
+</tr>
+<tr>
+<td>Betty</td>
+<td>9 shares</td>
+</tr>
+<tr>
+<td>Clair</td>
+<td>2 shares</td>
+</tr>
+</tbody>
+</table>
+<p>Suppose Alice and Betty vote "Yes" while Clair votes "No". The result is the decision passes, with 18 votes "Yes" and 2 votes "No". Had either Alice and Betty voted "No", the result wouldn't pass with only 9 votes "Yes".</p>
+<p>Suppose Alice and Clair vote "No" while Betty votes "Yes". The result is the decision passes, with 11 votes "Yes" and 9 votes "No". Had either Alice or Clair voted "No", the result wouldn't pass, having only 9 or 2 votes "Yes".</p>
+<p>It's as if all three of them each have 1 vote.</p>
+<p>Now suppose the company needs some money, so they issue 8 more shares, and sell them to their friend David.</p>
+<table border="1">
+<tbody>
+<tr>
+<td>Alice</td>
+<td>9 shares</td>
+</tr>
+<tr>
+<td>Betty</td>
+<td>9 shares</td>
+</tr>
+<tr>
+<td>Clair</td>
+<td>2 shares</td>
+</tr>
+<tr>
+<td>David</td>
+<td>9 shares</td>
+</tr>
+</tbody>
+</table>
+<p>Now, all a motion needs to pass is Alice and Betty, Betty and David, or David and Alice voting for it. Clair's vote has no impact on any decision, because in no outcome is it ever critical. She may have a say in every vote, but her vote never has any worthwhile impact.<br />
+<h4>Why is this cool?</h4>
+<p>So just because you have less votes doesn't necessarily mean you're not important; but it could mean you're less important than you think.</p>
+<p>Mark Livingston at the Computer Science Department at UNC Chapel Hill ran a simulation using 1990 census and electoral college delegate weights, and came up with this:</p>
+<p><a href="http://www.cs.unc.edu/%7Elivingst/Banzhaf/usa.out">http://www.cs.unc.edu/~livingst/Banzhaf/usa.out</a></p>
+<p>Showing what everyone knows; the big states of California, New York, Texas, and Pennsylvania are important swing-states. But it's a double-edged sword. If you look at what I'll call BPIPC (Banzhaf power index per capita), they may have a relatively low overall power index, but dividing the total power index over every voter in the state shows that each person's relative power in the overall election is an order of magnitude higher than those of citizens in big states.</p>

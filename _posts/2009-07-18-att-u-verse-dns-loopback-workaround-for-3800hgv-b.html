@@ -1,0 +1,30 @@
+---
+layout: post
+title: AT&T U-Verse DNS Loopback workaround for 3800HGV-B
+date: 2009-07-18 20:18:56.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Uncategorized
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390243510071297'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542909713;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1069;}i:1;a:1:{s:2:"id";i:378;}i:2;a:1:{s:2:"id";i:961;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>AT&T's U-Verse network just came up on my street.</p>
+<p>So... since the gateway doubles as a router & switch, I was trying to set it up so my httpd server was accessible from the outside. Setup the port forwarding through the firewall just fine, and indeed everything works for the rest of the internet. All of you should be able to get to <a href="http://shatner.philihp.com">shatner.philihp.com</a>.</p>
+<p>However I can't. From what I gather, the gateway doesn't support DNS loopback. So when I resolve shatner.philihp.com, it resolves to my WAN IP, then I try to connect to it and I timeout. It's similar to the problem <a href="http://utalk.att.com/utalk/board/message?message.uid=131452">this guy</a> had with his FTP server.</p>
+<p><a href="http://www.facebook.com/eric.devaudreuil">Eric DeVaudreuil</a> suggested that if I could get the DNS on the gateway to resolve the domain differently for LAN users, it would work. And it looks like from <a href="http://www.scribd.com/doc/3849281/3800HGVB-Uverse-Router-Userguide">the manual</a>, that there used to be a quazi-secret management console that had a "DNS Resolve" page for doing just this. However <a href="http://www.dslreports.com/forum/r19987755-2Wire-Cross-Site-Request-Forgery-Vulnerability">a recent firmware upgrade</a> totally removed this in order to fix some XSS attack. So that's out of the picture.</p>
+<p><a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?p=260542">this guy</a> got around it by setting up a router behind his gateway... I suppose I could do this, but it seems like overkill for something that should just work.</p>
+<p><a href="http://www.experts-exchange.com/Hardware/Networking_Hardware/Firewalls/Q_23447320.html">Someone at Experts-Exchange</a> says it can't be done... but over there they use a sort of "democratic truth" similar to the abomination that is <a href="http://answers.yahoo.com/question/index?qid=20061201000344AAGkURf">Yahoo Answers</a>; so I wouldn't believe much I see there.</p>
+<p>Right now, I have this working solution/workaround. Admittedly it doesn't scale well, but this isn't an issue when my network is under half a dozen devices. My solution is just to add in lines to my /etc/hosts file for all of my machines to make the domain resolve to the LAN IP of the HTTP server, rather than the WAN IP. The only drawback/annoyance to this is with my laptop which constantly goes in and out of the local network.</p>

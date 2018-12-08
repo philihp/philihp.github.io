@@ -1,0 +1,43 @@
+---
+layout: post
+title: Backward for loop iteration in Python
+date: 2009-01-02 20:00:00.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Programming
+- Python
+meta:
+  blogger_blog: philihp.blogspot.com
+  blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
+  blogger_permalink: "/2009/01/backward-for-loop-iteration-in-python.html"
+  _edit_last: '1'
+  tmac_last_id: '166390265060401152'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543210050;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:42;}i:1;a:1:{s:2:"id";i:1345;}i:2;a:1:{s:2:"id";i:303;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>So lately I've been hacking up Python on the self imposed restriction of running everything on a 450 MHz Pentium II. This way if I ever do anything less-than-optimal, it's immediately obvious, and I don't learn any bad habits.</p>
+<p>Then I came across the following optimization.</p>
+<pre><code>>>> import os<br />>>> for k, v in os.environ.items():<br />...     print "%s=%s" % (k, v)</code></pre>
+<p>Pretty direct, right? Iterate through the os.environ hash, and print every key/value pair. But <a href="http://diveintopython.org/file_handling/for_loops.html">Diveintopython.org</a> showed me I can do better using List Comprehensions.</p>
+<pre><code>>>> print "n".join(["%s=%s" % (k, v) for k, v in os.environ.items()])</code></pre>
+<p>This is better, because it builds the string first, then calls print once. Neat!</p>
+<p>It works like this:
+<ul>
+<li><code>"n".join(<i>L</i>)</code> takes the list <code><i>L</i></code> and joins the elements a string with <code>"n"</code> between each element.</li>
+<p>
+<li><code>[<i>f</i> for k, v in <i>K</i>]</code> applies the function or statement <code><i>f</i></code> to each variable <code>k, v</code> in the list of key-value pairs <code><i>K</i></code>.</li>
+<p>
+<li><code>"%s=%s" % (k, v)</code> is like saying <code>printf("%s=%s",k,v)</code> in another language.</li>
+<p>
+<li><code>os.environ.items()</code> says take the dictionary of <code>os.environ</code>, and turn it into a list, where each element is a key-value pair</li>
+<p></ul>

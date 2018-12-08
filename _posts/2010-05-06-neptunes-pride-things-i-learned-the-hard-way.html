@@ -1,0 +1,41 @@
+---
+layout: post
+title: 'Neptune''s Pride: Things I Learned The Hard Way'
+date: 2010-05-06 23:57:42.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- Mechanics
+- Neptune's Pride
+- Strategy
+- Tips
+- Tricks
+- Video Games
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390234668466176'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543502849;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:354;}i:1;a:1:{s:2:"id";i:171;}i:2;a:1:{s:2:"id";i:314;}}}}
+  _jetpack_dont_email_post_to_subs: '1'
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>I've played a few (4 and a half) games of <a href="http://np.ironhelmet.com/">Neptune's Pride</a>, now. It's a pretty slow-paced long-term diplomacy/risk-like online flash game. <a href="http://www.rockpapershotgun.com/2010/01/14/irrational-pride-neptunes-pride-beta/">Lots</a> of <a href="http://www.gamasutra.com/view/news/27158/Analysis_The_Icy_Grandeur_of_Neptunes_Pride.php">people</a> have <a href="http://www.escapistmagazine.com/articles/view/editorials/reviews/7191-Take-Neptunes-Pride-in-Your-Treachery">reviewed</a> it, some of them discussing <a href="http://gangles.ca/2010/03/15/neptunes-pride/">obvious</a> strategy.</p>
+<p>The following are nuances regarding the game's mechanics; things I wish I could have found on some nerd's blog like the <a style="text-decoration: none;" href="http://www.armchairempire.com/Reviews/gaming-keyboard-reviews"> <span style="text-decoration: none; color: #000000;">Arm Chair Empire</span></a>, but instead had to find out the hard way.</p>
+<h4>The game has timers on ticks</h4>
+<p>With a tick every 10 minutes by default. Every tick in the game, jump preps countdown and fleets move. ETAs are reported in approximate units of time because of this.</p>
+<h4>Payday times shift later over time</h4>
+<p>Probably because there are 144 ticks in a day, but additional time is used to compute locations before the next delay. This happens because the delay loop PROBABLY does this: compute stuff, wait 600 seconds, repeat... rather than this: check clock, compute stuff, check clock again and find difference in number of seconds, wait 600-minus-that-difference seconds.</p>
+<h4>Fleets arriving on the same tick fight as one fleet</h4>
+<p>So if you're OCD enough, you can have fleets from two different systems timed to arrive on the same tick at a system, and will be considered one fleet.</p>
+<h4>During a tick, fleets leave before they land</h4>
+<p>This means that a fleet leaving with an ETA of ~30 minutes will evade a fleet landing in ~30 minutes, however, a fleet leaving with an ETA of ~30 minutes will <em>not</em> evade a fleet landing in ~20 minutes.</p>
+<h4>Fleet speeds and ETAs are recalculated mid-flight when speed tech advances</h4>
+<p>This is pretty deadly if you depend on ETAs of fleets to arrive at a system in order to form a defense.</p>

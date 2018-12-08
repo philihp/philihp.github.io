@@ -1,0 +1,43 @@
+---
+layout: post
+title: Looping through SAS metadata objects
+date: 2010-05-05 20:07:47.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- for
+- loop
+- Metadata
+- Programming
+- SAS
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390237654818817'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543425895;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:490;}i:1;a:1:{s:2:"id";i:1069;}i:2;a:1:{s:2:"id";i:566;}}}}
+  _jetpack_dont_email_post_to_subs: '1'
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>The following is my attempt at SAS Golf, where in a Data Step, I try to list the associations of a metadata object to the log. This is basically just taking advantage of combining SAS for loops with SAS while loops. I thought it was cool. Usually I find myself doing this with <a href="http://support.sas.com/documentation/cdl/en/lrmeta/60739/HTML/default/getnasn.htm">metadata_getnasn</a>, <a href="http://support.sas.com/documentation/cdl/en/lrmeta/60739/HTML/default/getnprp.htm">metadata_getnprp</a>, and <a href="http://support.sas.com/documentation/cdl/en/lrmeta/60739/HTML/default/getnobj.htm">metadata_getnobj</a></p>
+<ul>
+<li>n - index for the nth association</li>
+<li>u - uri to object</li>
+<li>a - association</li>
+</ul>
+<pre lang="sas">data;
+  ...
+  do n=1 by 1 while(n&lt;r or r&lt;=0);
+    r=metadata_getnasl(u,n,a);
+    put a;
+  end;
+  ...
+run;</pre>
+<p><strong>UPDATE:</strong> The <a href="http://support.sas.com/kb/19/977.html">metadata_getnass</a> function has been renamed to <a href="http://support.sas.com/documentation/cdl/en/lrmeta/60739/HTML/default/getnasn.htm">metadata_getnasn</a></p>

@@ -1,0 +1,60 @@
+---
+layout: post
+title: Using a Backbone Model with Handlebars
+date: 2013-10-01 06:36:50.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- backbone
+- collection
+- handlebars
+- javascript
+- model
+- Programming
+meta:
+  _edit_last: '1'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543234875;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1282;}i:1;a:1:{s:2:"id";i:167;}i:2;a:1:{s:2:"id";i:1155;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>A <a href="http://backbonejs.org/">Backbone</a> model's property has to be accessed with the <code>get(property)</code> method.</p>
+<pre lang="javascript">
+var myObj = Backbone.Model.extend({ ... });
+//don't do this
+console.log(myObj.myProp);
+
+//do this instead
+console.log(myObj.get('myProp'));
+</pre>
+<p>If you're trying to pass this object to a <a href="http://handlebarsjs.com/">Handlebars.js</a>, things start to get messy. If you've got a template like this</p>
+<pre lang="javascript">
+var myTemplate = Handlebars.compile("Property: {{ myObj.myProp }}");
+console.log(myTemplate(myObj));
+</pre>
+<p>Handlebars won't find the property, and nothing will be displayed. There's a well-known workaround to this though, which is to convert the Backbone Model into JSON</p>
+<pre lang="javascript">
+console.log(myTemplate(myObj.toJSON()));
+</pre>
+<p>However this isn't as readable as I'd prefer. If your collection gets really big, it can make your application slow, and in situations where you've got a Backbone Collection of Models, it doesn't even work. <a href="http://amatiasq.com">A. Matias Quezada</a> has <a href="https://gist.github.com/amatiasq/4710958">a better solution</a>, which is to tell Handlebars, "hey, if it's a Model, use the get method":</p>
+<pre lang="javascript">
+Handlebars.JavaScriptCompiler.prototype.nameLookup = function(parent, name, type) {
+	var result = '(' + parent + ' instanceof Backbone.Model ? ' + parent + '.get("' + name + '") : ' + parent;
+	if (/^[0-9]+$/.test(name)) {
+		return result + "[" + name + "])";
+	} else if (Handlebars.JavaScriptCompiler.isValidJavaScriptVariableName(name)) {
+		return result + "." + name + ')';
+	} else {
+		return result + "['" + name + "'])";
+	}
+};
+</pre>
+<p>That's it. If you run that somewhere before your Template runs, Handlebars will be able to find the Backbone Model's property.</p>
+<p><i>In writing this post, I also came across <a href="http://thoraxjs.org/">Thorax.js</a>, which probably also fixes this problem.</i></p>

@@ -1,0 +1,81 @@
+---
+layout: post
+title: CSS even/odd row selectors! Finally!
+date: 2011-04-15 20:38:49.000000000 -07:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- cross-browser
+- css
+- even
+- HTML
+- odd
+- Programming
+- selector
+- tables
+meta:
+  _edit_last: '1'
+  openid_comments: a:1:{i:0;s:3:"770";}
+  tmac_last_id: '166390225306796032'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543604740;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:177;}i:1;a:1:{s:2:"id";i:1095;}i:2;a:1:{s:2:"id";i:746;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>IE9 has been released, and it finally includes the "nth-child" pseudo-selector in CSS! In the past, this has been done on a server side, or with javascript. Now we finally have simple CSS rules for rows in tables that highlight every even or odd row, and it works in every browser without any hacks.</p>
+<pre lang="css">tr:nth-child(odd) {
+  background-color: #def;
+}
+tr:nth-child(even) {
+  background-color: #fff;
+}</pre>
+<p><!-- i'm doing this the hard way so it works in IE8 --></p>
+<table border="1" cellspacing="0" cellpadding="4">
+<tr style="background-color: beige">
+<th>Browser</th>
+<th>Release Date</th>
+</tr>
+<tr style="background-color: #def">
+<td>IE1</td>
+<td>April 16, 1995</td>
+</tr>
+<tr style="background-color: #fff">
+<td>IE2</td>
+<td>November 22, 1995</td>
+</tr>
+<tr style="background-color: #def">
+<td>IE3</td>
+<td>August 13, 1996</td>
+</tr>
+<tr style="background-color: #fff">
+<td>IE4</td>
+<td>September 15, 1997</td>
+</tr>
+<tr style="background-color: #def">
+<td>IE5</td>
+<td>March 18, 1999</td>
+</tr>
+<tr style="background-color: #fff">
+<td>IE6</td>
+<td>August 27, 2001</td>
+</tr>
+<tr style="background-color: #def">
+<td>IE7</td>
+<td>October 18, 2006</td>
+</tr>
+<tr style="background-color: #fff">
+<td>IE8</td>
+<td>March 19, 2009</td>
+</tr>
+<tr style="background-color: #def">
+<td>IE9</td>
+<td>March 14, 2011</td>
+</tr>
+</table>

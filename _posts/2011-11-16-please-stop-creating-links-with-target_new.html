@@ -1,0 +1,48 @@
+---
+layout: post
+title: Please stop creating links with target="_new".
+date: 2011-11-16 23:33:26.000000000 -08:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- _blank
+- _new
+- HTML
+- link
+- new window
+- Programming
+- target
+meta:
+  _edit_last: '1'
+  tmac_last_id: '166390219036299264'
+  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543636141;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:1069;}i:1;a:1:{s:2:"id";i:378;}i:2;a:1:{s:2:"id";i:1354;}}}}
+author:
+  login: Philihp
+  email: philihp@gmail.com
+  display_name: Philihp
+  first_name: ''
+  last_name: ''
+---
+<p>Just stop. This is wrong; instead, use this:</p>
+<blockquote><p><code>target="_blank"</code></p></blockquote>
+<p>I don't know who started these nasty rumors that "_new" would open up in a new browser. As far back as I can tell, no browser has ever recognized "_new".</p>
+<p>The whole point of the <code>target</code> dates back to when browsers used frames to split up your browser. If you had a link in a sidebar on the left, and you wanted that link to open up in the main frame to the right, you would specify "main" as the name of that frame in your frameset page, and target="main" in your links on the sidebar. When the user would click on a link in the sidebar, the browser would say "hmm, I'm supposed to open this up in the 'main' frame, do I have one named that?". If it didn't, it would open up the link in a new window, and give that window the name of the target of the link. This is what would happen with target="_new"; a new browser would open up with a name of "_new".</p>
+<p>The problem is this if you click on this first link, then read it and go "oh that's interesting" and click on some links in it to goto further pages on it, everything seems fine. But then if you click this second link below, and then the third link, they open up in the same browser!</p>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Hoag's_Object" target="_new">Link 1</a> target="_new"</li>
+<li><a href="http://en.wikipedia.org/wiki/Vlad_III_Dracula" target="_new">Link 2</a> target="_new"</li>
+<li><a href="http://en.wikipedia.org/wiki/Jack_(playing_card)#History" target="_new">Link 3</a> target="_new"</li>
+</ul>
+<p>If only they had a target of "_blank", they would all open up in a new browser every time.</p>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Hoag's_Object" target="_blank">Link 1</a> target="_blank"</li>
+<li><a href="http://en.wikipedia.org/wiki/Vlad_III_Dracula" target="_blank">Link 2</a> target="_blank"</li>
+<li><a href="http://en.wikipedia.org/wiki/Jack_(playing_card)#History" target="_blank">Link 3</a> target="_blank"</li>
+</ul>
+<p>It's a simple fix. Just stop using target="_new".</p>
+<blockquote><p>You keep using that word. I do not think it means what you think it means. - <a href="http://www.imdb.com/title/tt0093779/quotes?qt=qt0482717" target="_blank">Inigo Montoya</a></p></blockquote>
+<p>Or just stop opening links in new browsers all together; it has been <a href="http://www.useit.com/alertbox/990530.html">considered bad usability</a> for over a decade now. The user will open your links up in a new window if they want to.</p>
