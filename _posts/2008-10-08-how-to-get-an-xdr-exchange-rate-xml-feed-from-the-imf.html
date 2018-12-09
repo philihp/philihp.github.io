@@ -3,34 +3,61 @@ layout: post
 title: How to get an XDR Exchange Rate XML feed from the IMF
 date: 2008-10-08 21:48:00.000000000 -07:00
 type: post
-parent_id: '0'
+parent_id: "0"
 published: true
-password: ''
+password: ""
 status: publish
 categories: []
 tags:
-- IMF
-- Programming
-- XDR
+  - IMF
+  - Programming
+  - XDR
 meta:
   blogger_blog: philihp.blogspot.com
   blogger_author: Philihp Busbyhttp://www.blogger.com/profile/16640093851362468089noreply@blogger.com
   blogger_permalink: "/2008/10/how-to-get-xdr-exchange-rate-xml-feed.html"
-  _edit_last: '1'
+  _edit_last: "1"
   openid_comments: a:1:{i:0;s:3:"758";}
-  tmac_last_id: '166390268189356032'
+  tmac_last_id: "166390268189356032"
   _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543655528;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:177;}i:1;a:1:{s:2:"id";i:1232;}i:2;a:1:{s:2:"id";i:428;}}}}
 author:
   login: Philihp
   email: philihp@gmail.com
   display_name: Philihp
-  first_name: ''
-  last_name: ''
+  first_name: ""
+  last_name: ""
 ---
-<p>There's a currency used by the IMF called the <a href="http://en.wikipedia.org/wiki/Special_Drawing_Rights">Special Drawing Right</a> (XDR), which is a unit of currency that floats at a value relative to all other currencies weighted by the strengths of their country's economy. In a world where the <a href="http://www.foreignaffairs.org/20070501faessay86308-p10/benn-steil/the-end-of-national-currency.html">USD wanes in strength</a>, it's as close to a global currency as we've got right now.</p>
+
 <p>
-<p>By running the following two commands, you should end up with a file rates.xml filled with exchange rates into XDR for the last 30 days.</p>
-<p>
-<blockquote><code>wget -O/tmp/rates.html --no-cache --save-cookies=cookies.txt --keep-session-cookies "http://www.imf.org/external/np/fin/ert/GUI/Pages/Report.aspx?CU='EUR','JPY','GBP','USD','ARS','AUD','ATS','BHD','BEF','VEF','BWP','BRL','BND','CAD','CLP','CNY','COP','CYP','CZK','DKK','DEM','FIM','FRF','GRD','HUF','ISK','INR','IDR','IRR','IEP','ILS','ITL','KZT','KRW','KWD','LYD','LUF','MYR','MTL','MUR','MXN','NPR','NLG','NZD','NOK','PKR','PLN','PTE','QAR','OMR','RUB','SAR','SGD','SKK','SIT','ZAR','ESP','LKR','SEK','CHF','THB','TTD','AED','VEB'&EX=SDRC&P=Last30Days&CF=UnCompressed&CUF=Period&DS=Ascending&DT=Blank"</p>
-<p>wget -O/tmp/rates.xml --no-cache --load-cookies=cookies.txt --keep-session-cookies "http://www.imf.org/external/np/fin/ert/GUI/Pages/ReportData.aspx?Type=XML"</code></p></blockquote>
+  There's a currency used by the IMF called the
+  <a href="http://en.wikipedia.org/wiki/Special_Drawing_Rights"
+    >Special Drawing Right</a
+  >
+  (XDR), which is a unit of currency that floats at a value relative to all
+  other currencies weighted by the strengths of their country's economy. In a
+  world where the
+  <a
+    href="http://www.foreignaffairs.org/20070501faessay86308-p10/benn-steil/the-end-of-national-currency.html"
+    >USD wanes in strength</a
+  >, it's as close to a global currency as we've got right now.
+</p>
 <p></p>
+<p>
+  By running the following two commands, you should end up with a file rates.xml
+  filled with exchange rates into XDR for the last 30 days.
+</p>
+<p></p>
+<pre>
+wget \
+  -O/tmp/rates.html \
+  --no-cache \
+  --save-cookies=cookies.txt \
+  --keep-session-cookies \
+  "http://www.imf.org/external/np/fin/ert/GUI/Pages/Report.aspx?CU='EUR','JPY','GBP','USD','ARS','AUD','ATS','BHD','BEF','VEF','BWP','BRL','BND','CAD','CLP','CNY','COP','CYP','CZK','DKK','DEM','FIM','FRF','GRD','HUF','ISK','INR','IDR','IRR','IEP','ILS','ITL','KZT','KRW','KWD','LYD','LUF','MYR','MTL','MUR','MXN','NPR','NLG','NZD','NOK','PKR','PLN','PTE','QAR','OMR','RUB','SAR','SGD','SKK','SIT','ZAR','ESP','LKR','SEK','CHF','THB','TTD','AED','VEB'&EX=SDRC&P=Last30Days&CF=UnCompressed&CUF=Period&DS=Ascending&DT=Blank"
+wget \
+  -O/tmp/rates.xml \
+  --no-cache \
+  --load-cookies=cookies.txt \
+  --keep-session-cookies \
+  "http://www.imf.org/external/np/fin/ert/GUI/Pages/ReportData.aspx?Type=XML"
+</pre>

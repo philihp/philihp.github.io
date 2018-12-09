@@ -1,12 +1,18 @@
 # Site settings
-title: philihp.com
+title: Philihp Busby Blog Posts
 email: philihp@gmail.com
 description: >-
   From the mind and mechanism of Philihp Busby.
-baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
+permalink: /:year/:title:output_ext
+
 twitter_username: philihp
 github_username: philihp
+facebook_username: philihp
+instagram_username: philihp
+linkedin_username: philihp
+google_analytics: UA-27506789-1
+
 minima:
   date_format: "%Y-%m-%d"
 disqus:
