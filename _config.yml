@@ -1,8 +1,4 @@
 # Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
 title: philihp.com
 email: philihp@gmail.com
 description: >-
@@ -11,21 +7,17 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: philihp
 github_username: philihp
+minima:
+  date_format: "%Y-%m-%d"
+disqus:
+  shortname: philihp
 
-# Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+
+header_pages:
+  - about.md
+  - pgp.md
