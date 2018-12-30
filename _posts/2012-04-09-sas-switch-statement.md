@@ -10,7 +10,7 @@ tags:
   - statement
   - switch
 redirect_from:
-  - /blog/2012/sas-switch-statement
+  - /blog/2012/sas-switch-statement/
 ---
 
 In SAS, the switch statement is called a SELECT statement.
@@ -32,8 +32,8 @@ end;
 
 In SAS there's a second mode for using it, where the expression after SELECT
 is left out. The closest similarity to another language I know of is
-<a href="http://phpswitch.com/">PHP's switch</a> with
-<code>switch(true)</code> and using cases with conditions, however PHP's
+[PHP's switch](http://phpswitch.com/) with
+`switch(true)` and using cases with conditions, however PHP's
 version still has fall-through. Doing this in SAS looks like this:
 
 ```sas
@@ -46,7 +46,7 @@ end;
 ```
 
 The statement is basically
-<a href="http://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar</a> to
+[syntactic sugar](http://en.wikipedia.org/wiki/Syntactic_sugar) to
 make your code easier to read, and is logically no different from a chain of
 <code>if</code>/<code>else-if</code>/<code>else-if</code>/<code>else</code>
 statements. The statement will break out after the first statement evaluates
@@ -64,4 +64,4 @@ Possible advantages:
 
 - Statements can be reordered and/or dynamically inserted through SAS's macro preprocessor runs without having to worry about if it needs an "if" or an "else if".
 - For OCD-types, the formatting can look prettier.
-- For <a href="http://codegolf.com/">golfers</a>, it uses fewer keystrokes.
+- For [golfers](http://codegolf.com/), it uses fewer keystrokes.

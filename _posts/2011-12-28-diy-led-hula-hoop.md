@@ -8,12 +8,10 @@ tags:
   - hula hoop
   - led
   - lithium battery
-
 redirect_from:
   - /blog/2011/diy-led-hula-hoop/
 ---
 
-<p>[gallery columns="2" ids="777,776,775,756"]</p>
 <h3>Bill of materials</h3>
 <ul>
   <li>

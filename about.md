@@ -2,6 +2,8 @@
 layout: page
 title: About
 permalink: /about/
+redirect_from:
+  - /blog/about/
 ---
 
 This is the personal website of Philihp Busby.

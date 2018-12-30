@@ -2,35 +2,26 @@
 layout: post
 title: How to parameterize an RSpec shared context
 date: 2015-06-01 09:51:00.000000000 -07:00
-type: post
-parent_id: '0'
-published: true
-password: ''
-status: publish
-categories: []
 tags:
-- factorygirl
-- mock
-- options
-- parameterized
-- Programming
-- rspec
-- ruby
-- shared_context
-- variable
-meta:
-  _edit_last: '1'
-  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543634830;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:378;}i:1;a:1:{s:2:"id";i:1119;}i:2;a:1:{s:2:"id";i:695;}}}}
-author:
-  login: Philihp
-  email: philihp@gmail.com
-  display_name: Philihp
-  first_name: ''
-  last_name: ''
+  - factorygirl
+  - factorybot
+  - mock
+  - options
+  - parameterized
+  - Programming
+  - rspec
+  - ruby
+  - shared_context
+  - variable
+redirect_from:
+  - /blog/2015/using-java-8-lambdas-with-google-guava-caches/
 ---
+
 <p>I had a RSpec shared_context which was creating a FactoryGirl user mock and then logging in with it, and then running some shared examples for testing permissions on a generic user. I needed to modify it to accept a parameter of using a different user.</p>
 <p>It originally looked like this:</p>
-<pre lang="ruby">RSpec.shared_context "auth" do
+
+```ruby
+RSpec.shared_context "auth" do
   let(:current_user) { FactoryGirl.create(:user) }
 
   before(:each) do
@@ -44,9 +35,12 @@ author:
     end
   end
 end
-</pre>
+```
+
 <p>In my spec files, it was included by doing this:</p>
-<pre lang="ruby">describe MyController do
+
+```ruby
+describe MyController do
   include_context 'auth'
 
   context "when logged in as a normal user" do
@@ -55,9 +49,12 @@ end
     ...
   end
 end
-</pre>
+```
+
 <p>However I needed MyController to override current_user and use an admin user instead. Rather conveniently, you can override a context by sending it a block.</p>
-<pre lang="ruby">describe MyController do
+
+```ruby
+describe MyController do
   include_context 'auth'
 
   context "when logged in as an admin" do
@@ -68,6 +65,8 @@ end
     ...
   end
 end
-</pre>
+```
+
 <p>This works because the let inside of the block given is called again, and the new block calls <code>let(:current_user)</code> again and overrides the original block and <code>FactoryGirl.create(:user)</code> is never called.</p>
+
 <p><a href="https://www.relishapp.com/rspec/rspec-core/docs/example-groups/shared-context#declare-a-shared-context,-include-it-with-`include-context`-and-extend-it-with-an-additional-block">This is documented here</a>, however they don't really show that it can be used for making your shared_context parameterized. So I'm going to say the word parameterized a lot here, and hope that when I (or you!) google "How do I parameterize an RSpec shared_context?", you find this post.</p>

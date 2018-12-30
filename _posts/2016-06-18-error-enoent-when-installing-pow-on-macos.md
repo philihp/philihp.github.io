@@ -1,39 +1,18 @@
 ---
 layout: post
-title: 'Error: ENOENT when installing Pow on macOS'
+title: "Error: ENOENT when installing Pow on macOS"
 date: 2016-06-18 21:55:48.000000000 -07:00
-type: post
-parent_id: '0'
-published: true
-password: ''
-status: publish
 categories: []
 tags:
-- chsh
-- fish
-- macos
-- osx
-- pow
-- Uncategorized
-meta:
-  _edit_last: '1'
-  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543450656;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:173;}i:1;a:1:{s:2:"id";i:1297;}i:2;a:1:{s:2:"id";i:1354;}}}}
-  _oembed_937b1017c48dcc1ae4c822b10e38a155: "{{unknown}}"
-  _wpas_done_all: '1'
-  _oembed_c5d189fc519dc33576dd27ef703ae543: "{{unknown}}"
-  _oembed_d9c1ac4e029272af7f8eac35c21f5ff1: "{{unknown}}"
-  _oembed_e5a868e3ac02c8c1cc075c83ef936c39: "{{unknown}}"
-  _oembed_5fc671dcbcdae25b6a44cb1cdf7c8551: "{{unknown}}"
-  _oembed_aabc95be97152f6a9744c53374497372: "{{unknown}}"
-  _oembed_661506d0581b3e6e635ee1fa11aa99bd: "{{unknown}}"
-  _oembed_5b9c6295ba7eb8595b504c6f94e0fdee: "{{unknown}}"
-author:
-  login: Philihp
-  email: philihp@gmail.com
-  display_name: Philihp
-  first_name: ''
-  last_name: ''
+  - chsh
+  - fish
+  - macos
+  - osx
+  - pow
+redirect_from:
+  - /blog/2016/error-enoent-when-installing-pow-on-macos
 ---
+
 <p>I kept getting this error when installing <a href="http://pow.cx/">pow</a> on macOS. There are some old <a href="https://github.com/basecamp/pow/issues/297">threads</a> about it, with fixes for previous verisons of OSX prior to El Capitan, but for the most part it seems to be a solved bug.</p>
 <pre>philihp@sterling ~$ <b>curl get.pow.cx | sh</b>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -45,9 +24,10 @@ author:
 Password: <b>hunter2</b>
 
 /Users/philihp/Library/Application Support/Pow/Versions/0.5.0/lib/command.js:20
-      throw err;
-            ^
+throw err;
+^
 Error: ENOENT, open '/tmp/pow.98645.1466285627293.3185'</pre>
+
 <p>If you're getting this error too, perhaps the solution will be similar to mine?</p>
 <p>It turned out that I had at some point changed the default shell of my root user to <code>/usr/local/bin/<a href="https://fishshell.com/">fish</a></code>, then uninstalled fish, and never bothered to set it back. I guess this isn't really a problem most of the time because not much should (hopefully) ever run as root, but it finally surfaced here when trying to install Pow.</p>
 <p>My solution was the following:</p>
