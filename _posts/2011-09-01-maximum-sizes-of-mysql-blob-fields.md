@@ -7,7 +7,7 @@ tags:
   - blob
   - size
 redirect_from:
-  - /blog/2011/maximum-sizes-of-mysql-blob-fields
+  - /blog/2011/maximum-sizes-of-mysql-blob-fields/
 ---
 
 This is not immediately obvious from the [documentation](http://dev.mysql.com/doc/refman/5.0/en/storage-requirements.html)(, which as it seems is often the case, was written for people who just like to read documentation, and not for people who are looking for answers).

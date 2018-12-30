@@ -14,7 +14,7 @@ tags:
   - size
 
 redirect_from:
-  - /blog/2012/getting-the-last-element-in-an-array-in-jsp-with-jstl
+  - /blog/2012/getting-the-last-element-in-an-array-in-jsp-with-jstl/
 ---
 
 I'd love it if JSTL had some sort of way to get the last element in an array. Ruby conveniently makes negative indexes start from the end of the array:

@@ -12,7 +12,7 @@ tags:
   - SAS
   - user-written
 redirect_from:
-  - /blog/2012/how-to-write-your-own-custom-sas-functions
+  - /blog/2012/how-to-write-your-own-custom-sas-functions/
 ---
 
 Since SAS 9.1.3 we've had the ability to write our own SAS call procedures and

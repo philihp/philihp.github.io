@@ -10,7 +10,7 @@ tags:
   - osx
   - pow
 redirect_from:
-  - /blog/2016/error-enoent-when-installing-pow-on-macos
+  - /blog/2016/error-enoent-when-installing-pow-on-macos/
 ---
 
 <p>I kept getting this error when installing <a href="http://pow.cx/">pow</a> on macOS. There are some old <a href="https://github.com/basecamp/pow/issues/297">threads</a> about it, with fixes for previous verisons of OSX prior to El Capitan, but for the most part it seems to be a solved bug.</p>

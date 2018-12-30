@@ -6,7 +6,7 @@ tags:
   - initializers
   - swift
 redirect_from:
-  - /blog/2016/error-enoent-when-installing-pow-on-macos
+  - /blog/2016/class-foo-has-no-initializers/
 ---
 
 Quick post. It's been a while. I'm just starting out with Swift, and this error kept coming up for me, but the error message could be a little more descriptive. It means that you have a non-optional member variable that needs to be initialized somehow.
