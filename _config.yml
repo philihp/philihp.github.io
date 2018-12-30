@@ -27,3 +27,4 @@ plugins:
 header_pages:
   - about.md
   - pgp.md
+include: [".well-known"]
