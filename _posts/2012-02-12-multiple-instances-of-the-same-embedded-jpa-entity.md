@@ -2,34 +2,23 @@
 layout: post
 title: Multiple Instances of the Same Embedded JPA Entity
 date: 2012-02-12 04:37:22.000000000 -08:00
-type: post
-parent_id: '0'
-published: true
-password: ''
-status: publish
-categories: []
 tags:
-- Denormalized
-- EclipseLink
-- Embeddable
-- Embedded
-- Java
-- jpa
-- Multiple
-- Programming
-meta:
-  _edit_last: '1'
-  _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1543860249;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:490;}i:1;a:1:{s:2:"id";i:303;}i:2;a:1:{s:2:"id";i:1087;}}}}
-author:
-  login: Philihp
-  email: philihp@gmail.com
-  display_name: Philihp
-  first_name: ''
-  last_name: ''
+  - Denormalized
+  - EclipseLink
+  - Embeddable
+  - Embedded
+  - Java
+  - jpa
+  - Multiple
+  - Programming
+redirect_from:
+  - /blog/2012/multiple-instances-of-the-same-embedded-jpa-entity/
 ---
+
 <p>EclipseLink JPA has this neat feature of <a href="http://en.wikibooks.org/wiki/Java_Persistence/Embeddables">@Embedded</a> objects, which allow you to pull out attributes of an entity into another entity, and embed that second entity back into the first object. The result is a Java object that might look a little more logical, but doesn't actually change the database structure since the embedded object's fields are still on the first object.</p>
 <p>To illustrate this, imagine we have a Person object who has an Address.</p>
-<pre lang="Java">
+
+```java
 @Entity public class Person {
   @Id @GeneratedValue public int personId;
   @Basic private String name;
@@ -37,26 +26,31 @@ author:
   @Basic private String locationState;
   ...
 }
-</pre>
+```
+
 <p>It might make sense to pull out the address into another entity, but maybe for speed or legacy reasons we have to keep a denormalized table structure. Using an Entity with the @Embeddable annotation, we can still do this on the JPA end of things. It would look like this:</p>
-<pre lang="Java">
+
+```java
 @Entity public class Person {
   @Id @GeneratedValue private int personId;
   @Basic private String name;
   @Embedded private Location location;
   ...
 }
-</pre>
-<pre lang="Java">
+```
+
+```java
 @Embeddable public class Location {
   @Basic private String city;
   @Basic private String state;
   ...
 }
-</pre>
+```
+
 <p>EclipseLink will just treat all of the attributes of Location as attributes of Person, and it all works out. JPQL queries should change, but for the most part all of your Java code looks a lot more logical. None of your queries will have any joins.</p>
 <p>But say you're starting with a structure like this</p>
-<pre lang="Java">
+
+```java
 @Entity public class Person {
   @Id @GeneratedValue public int personId;
   @Basic private String name;
@@ -66,9 +60,11 @@ author:
   @Basic private String workLocationState;
   ...
 }
-</pre>
+```
+
 <p>You could create two embeddable objects called HomeLocation and WorkLocation, each with a City and State, but that that violates <a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">DRY</a>. Usually I'd throw caution to the wind and say to hell with that, but we can save ourselves some effort here by just creating a Location object as we did before and having Person include it twice.</p>
-<pre lang="Java">
+
+```java
 @Entity public class Person {
   @Id @GeneratedValue private int personId;
   @Basic private String name;
@@ -76,9 +72,11 @@ author:
   @Embedded private Location workLocation;
   ...
 }
-</pre>
+```
+
 <p><strong>This that won't work!</strong> EclipseLink is going to think the person table has two attributes (workLocation.city and homeLocation.city) that both have the same column name ("city"). We need EclipseLink to have different column names for homeLocation and workLocation. To do that, use <a href="http://docs.oracle.com/javaee/5/api/javax/persistence/AttributeOverride.html">@AttributeOverride</a> (and if our embedded object has a relationship to another entity, use <a href="http://docs.oracle.com/javaee/5/api/javax/persistence/AssociationOverride.html">@AssociationOverride</a>) like this.</p>
-<pre lang="Java">
+
+```java
 @Entity public class Person {
   @Id @GeneratedValue private int personId;
   @Basic private String name;
@@ -96,5 +94,6 @@ author:
   @Embedded private Location workLocation;
   ...
 }
-</pre>
+```
+
 <p>You need the <a href="http://docs.oracle.com/javaee/5/api/javax/persistence/AssociationOverrides.html">@AttributeOverrides</a> because Java doesn't like it when you have more than one of the same annotation on the same thing.</p>
