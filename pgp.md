@@ -17,3 +17,10 @@ or
 ```
 $ curl https://philihp.com/pgp.asc | gpg --import
 ```
+
+I am also `philihp` on [Keybase](https://keybase.io/philihp), and if you have their CLI client, you can follow and pull my key with
+
+```
+keybase follow philihp
+keybase pgp pull
+```
