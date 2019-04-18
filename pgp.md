@@ -38,10 +38,11 @@ Signing your key will attest that:
 - If your key has a photo (recommended no more than 6kb, 240×288) as you.
 
 ```
-gpg \
-    --ask-sig-expire \
+gpg --ask-cert-level \
+    --ask-cert-expire \
+    --expert \
     --sig-keyserver-url hkps://pgp.philihp.com \
-    --sig-policy-url https://philihp.com/pgp#policy \
+    --sig-policy-url 'https://philihp.com/pgp#policy' \
     --sign-key FINGERPRINT
 
 gpg --armor --export FINGERPRINT | \
