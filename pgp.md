@@ -35,10 +35,13 @@ Signing your key will attest that:
 
 - You are known to me by the identity on your UID
 - I have verified you are the ower of the email on your UID
-- If your key has a photo (no more than 6kb, 240×288) as you.
+- If your key has a photo (recommended no more than 6kb, 240×288) as you.
 
 ```
-gpg --cert-policy-url https://philihp.com/pgp#keysigning \
+gpg \
+    --ask-sig-expire \
+    --sig-keyserver-url hkps://pgp.philihp.com \
+    --sig-policy-url https://philihp.com/pgp#policy \
     --sign-key FINGERPRINT
 
 gpg --armor --export FINGERPRINT | \
@@ -51,3 +54,7 @@ import this file with
 ```
 gpg --import FINGERPRINT-signedBy-9600F122.asc
 ```
+
+## Policy
+
+I will only issue cert levels of level 0x10 (Generic certification), for the points listed here: [gpg --ask-cert-level considered harmful](https://debian-administration.org/users/dkg/weblog/98).
