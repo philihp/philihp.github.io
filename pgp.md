@@ -57,6 +57,8 @@ import this file with
 gpg --import FINGERPRINT-signedBy-9600F122.asc
 ```
 
+You can then send your key signature up to the cloud, if you choose.
+
 ## Policy
 
 I will only issue cert levels of level 0x10 (Generic certification), for the points listed here: [gpg --ask-cert-level considered harmful](https://debian-administration.org/users/dkg/weblog/98).
