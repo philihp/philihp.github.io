@@ -45,8 +45,9 @@ gpg --ask-cert-level \
     --sig-policy-url 'https://philihp.com/pgp#policy' \
     --sign-key FINGERPRINT
 
-gpg --armor --export FINGERPRINT | \
-  gpg --armor --encrypt -recipient FINGERPRINT --output FINGERPRINT-signedBy-9600F122.asc
+gpg --export FINGERPRINT | \
+  gpg --armor --encrypt -recipient FINGERPRINT \
+  > FINGERPRINT-signedBy-9600F122.asc
 ```
 
 I will then send this file to your email to verify that you have access to it. You can then
