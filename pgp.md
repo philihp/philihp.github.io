@@ -46,7 +46,7 @@ gpg --ask-cert-level \
     --sign-key FINGERPRINT
 
 gpg --export FINGERPRINT | \
-  gpg --armor --encrypt -recipient FINGERPRINT \
+  gpg --armor --encrypt --recipient FINGERPRINT \
   > FINGERPRINT-signedBy-9600F122.asc
 ```
 
@@ -61,6 +61,6 @@ You can then send your key signature up to the cloud, if you choose.
 
 ## Policy
 
-I will only issue cert levels of level 0x10 (Generic certification), for the points listed here: [gpg --ask-cert-level considered harmful](https://debian-administration.org/users/dkg/weblog/98).
+I will only issue cert levels of level 0x10 (Generic certification), for the points listed here: [`gpg --ask-cert-level` considered harmful](https://debian-administration.org/users/dkg/weblog/98).
 
 My signature will be indefinite if your key expires in less than 2 years.
