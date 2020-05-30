@@ -1,0 +1,71 @@
+==================================================================
+https://keybase.io/philihp
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://philihp.com
+  * I am philihp (https://keybase.io/philihp) on keybase.
+  * I have a public key with fingerprint 093B A359 D87C E901 9AAE  ACDF BF99 B090 1209 F481
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0111aa56c5c8b948e11e2a428b9a149e6471292c2757e9088784548c03a733a6d0ef0a",
+            "fingerprint": "093ba359d87ce9019aaeacdfbf99b0901209f481",
+            "host": "keybase.io",
+            "key_id": "bf99b0901209f481",
+            "kid": "0111aa56c5c8b948e11e2a428b9a149e6471292c2757e9088784548c03a733a6d0ef0a",
+            "uid": "6ba3985d4330ce03947dc92d0215be00",
+            "username": "philihp"
+        },
+        "revoke": {
+            "sig_ids": [
+                "923a2ef9883b74a135ecd88703d3a8d07a62ba6de64838a7469e5dc3e7534ea10f"
+            ]
+        },
+        "service": {
+            "hostname": "philihp.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1451193487,
+    "expire_in": 157680000,
+    "prev": "9bd110b852f48710d559d3420d345e2241104f3bf8e06ef533a0b7baf47ad3e3",
+    "seqno": 32,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.49
+Comment: https://keybase.io/crypto
+
+yMFbAnicrZI9axVBFIbXRMUEBJP8g6kvl/ncmbmtYi+ojcg6H2dzhyS76+7eq+ES
+xV+grSCKdnaCjY2KQUSwEAstxN9gEaysPHvRQrB0ihlm5j3veeaceXt6NVvfeH3/
+2b3NtR93jn14czTLLt/u7y6Ir+M+mSzIDiwX2I3Q9cVOimRCKGPMOZUHFYy30gBj
+wJ3kuHFMWsilZtzywLXSYKkx2kglTaDCaSFcHimU1JERKVO1DW3TpqofbK3wTigb
+jQ4Yxqxz4EIsfWmtp3jAqS2lYRg4rbshAuG862CcajzDTbHE+4f+P3PPlnY50lqj
+ohSCBqDCSh2D5ZFypjxQOgg7aCu3B6hupmk3TRtyMCItzOsdGMrapW1k7sjkCrFc
+OA6lNUZ4LR0TCkJEBCqicCZS7XLukQEpjTBOy9yCikGAVkKCY7QkV9EbE85TWJoP
+Rfo7+TjUe0jVtHVfh3oXL6Z933STAarfbwblDfDFb4/CpypihzBiDm2X6opMGCpD
+nwZTJhVjVkijRwRuNqmFIg0KpXNDcQx5YI6W1kfGqDeKYzc0o1Fhj4XkFCcFnEu8
+laXwpQGaQ6mw1NRr70qpXRQgyPCq61VNJoIjp9tGTyxc5fpZC+Tg8PzxbGM9O3li
+Zfi52framT//+eP77MGpIn55XPTfu59f55svq1sPLy5eZY/OXVvZ+nzh7OqLoydb
+T799en5pfPjuF96p7zU=
+=SYC8
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/philihp
+
+==================================================================
+
+

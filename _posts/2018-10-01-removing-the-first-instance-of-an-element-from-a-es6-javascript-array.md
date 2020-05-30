@@ -8,6 +8,9 @@ tags:
   - Programming
   - remove
   - slice
+
+redirect_from:
+  - /blog/2018/removing-the-first-instance-of-an-element-from-a-es6-javascript-array/
 ---
 
 To build upon

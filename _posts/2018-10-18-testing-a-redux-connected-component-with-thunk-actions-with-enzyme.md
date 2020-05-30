@@ -11,6 +11,8 @@ tags:
   - redux
   - test
   - thunk
+redirect_from:
+  - /blog/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme/
 ---
 
 Let's say you've got a React component connected to a Redux store
