@@ -8,27 +8,28 @@ My PGP key fingerprint is `427E 0329 39DB 40F2 9D03 D80F 5B64 0B9F 9600 F122`
 
 To receive my PGP key, either run
 
-```
-$ gpg --keyserver pgp.mit.edu --recv-key 9600F122
+```bash
+gpg --keyserver hkps://keys.openpgp.org --recv-key 427E032939DB40F29D03D80F5B640B9F9600F122
 ```
 
 or
 
-```
-$ curl https://philihp.com/pgp.asc | gpg --import
+```bash
+curl https://philihp.com/pgp.asc | gpg --import
 ```
 
 I am also `philihp` on [Keybase](https://keybase.io/philihp), and if you have their CLI client, you can follow and pull my key with
 
-```
+```bash
 keybase follow philihp
 keybase pgp pull
 ```
 
 ## Keysigning
 
-I live in San Francisco and will totally sign your key. Then anyone who trusts my key
-will also trust your key, and anyone who you trust will also be trusted by them like a pyramid
+I live in San Francisco sometimes, and if you find yourself here I will totally
+sign your key. Then anyone who trusts my key will also trust your key, and
+anyone who you trust will also be trusted by them like a pyramid
 scheme of trust.
 
 Signing your key will attest that:
@@ -37,11 +38,11 @@ Signing your key will attest that:
 - I have verified you are the ower of the email on your UID
 - If your key has a photo (recommended no more than 6kb, 240×288) as you.
 
-```
+```bash
 gpg --ask-cert-level \
     --ask-cert-expire \
     --expert \
-    --sig-keyserver-url hkps://pgp.philihp.com \
+    --sig-keyserver-url hkps://keys.openpgp.org \
     --sig-policy-url 'https://philihp.com/pgp#policy' \
     --sign-key FINGERPRINT
 
