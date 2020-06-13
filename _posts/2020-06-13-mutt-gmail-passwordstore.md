@@ -76,7 +76,36 @@ Useful commands here: `help`, for common commands; `list` to show your key, `key
 !> If you don't have a key selected, `keytocard` will move the master key.
 
 1. `keytocard` without a key selected to move your master key into the Signing slot of your Yubikey.
+
+```
+gpg> keytocard
+Really move the primary key? (y/N) y
+Please select where to store the key:
+   (1) Signature key
+   (3) Authentication key
+Your selection? 1
+
+Replace existing key? (y/N) y
+```
+
 2. `key 1` and `keytocard` to move your encryption subkey into the Encryption slot of your Yubikey
+
+```
+gpg> key 1
+...
+sec  rsa4096/0x5B640B9F9600F122
+...
+ssb* rsa4096/0x0D86EF2BF0DA842E
+...
+ssb  rsa4096/0xFD8194C54A63DBD5
+...
+
+gpg> keytocard
+Please select where to store the key:
+   (2) Encryption key
+Your selection? 2
+```
+
 3. If you have another subkey with Authentication, or you added that usage to your first key using `change-usage`, move this into the Authentication slot of your Yubikey.
 4. `save` to save your key.
 
