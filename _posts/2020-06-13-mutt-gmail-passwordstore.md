@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Email with Mutt on macOS with secure Gmail password storage using Pass(wordstore) and GPG
+title: Gmail with Mutt, GPG, Pass, and your Yubikey
 date: 2020-06-13T00:45:30Z
 categories: []
 tags:
@@ -12,7 +12,7 @@ tags:
   - yubikey
 ---
 
-I try to use Mutt for most of my gmail needs for a number of reasons, including spam is usually HTML-only, while (actually important) emails written by humans always have a readable text-only format. My hubris also assures me that I'm reasonably insulated from [email worms](https://en.wikipedia.org/wiki/Category:Email_worms).
+I use Mutt for most of my gmail needs for a number of reasons, including spam is usually HTML-only, while (actually important) emails written by humans always have a readable text-only format. My hubris also assures me that I'm reasonably insulated from [email worms](https://en.wikipedia.org/wiki/Category:Email_worms).
 
 Configuring Mutt out of the box requires you to put your plaintext password in a `~/.muttrc` file, which is asking for all sorts of problems. The following is how I use a hardware Yubikey to protect my Gmail password, and then sync that password across machines.
 
@@ -20,10 +20,10 @@ Configuring Mutt out of the box requires you to put your plaintext password in a
 
 If you don't already have one, get a Yubikey. Here are some options:
 
-- [Yubikey 5C Nano](https://www.amazon.com/Yubico-Authentication-Security-Accounts-Certified/dp/B07HBTBJ5S/ref=as_li_ss_tl?ie=UTF8&aaxitk=rn5uBeC2HazGXW6zIgsNSQ&hsa_cr_id=8013429480201&ref_=sbx_be_s_sparkle_mcd_asin_2&linkCode=ll1&tag=philihp-20&linkId=b1732ca32876ccffbe88d97d811d2ae5&language=en_US) - USB-C recommended
-- [Yubikey 5C](https://www.amazon.com/Yubico-Authentication-Security-Accounts-Certified/dp/B07HBCTYP1/ref=as_li_ss_tl?ie=UTF8&aaxitk=rn5uBeC2HazGXW6zIgsNSQ&hsa_cr_id=8013429480201&ref_=sbx_be_s_sparkle_mcd_asin_2&th=1&linkCode=ll1&tag=philihp-20&linkId=2c4c0a5f4a42cf63160dcc91007c9a3e&language=en_US) - USB-C
-- [Yubikey 5 Nano](https://www.amazon.com/dp/B07HBDX2CM/ref=as_li_ss_tl?psc=1&pd_rd_i=B07HBDX2CM&pd_rd_w=RV74U&pf_rd_p=48d372c1-f7e1-4b8b-9d02-4bd86f5158c5&pd_rd_wg=Fq9LN&pf_rd_r=NDEJ5ZJ84XFDHB83ANRQ&pd_rd_r=d75fbcc6-a05a-417c-aeee-57a129430a5c&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExRUNZMk1KNEFXVThCJmVuY3J5cHRlZElkPUEwMzE5ODAxMkZPQVRGQkU3VDJFNyZlbmNyeXB0ZWRBZElkPUEwMDM5MDAxMUxLQzA2QTE4U05TNCZ3aWRnZXROYW1lPXNwX2RldGFpbCZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=&linkCode=ll1&tag=philihp-20&linkId=48ad34d4922bc57712a3b693f50faef2&language=en_US) - USB-A, for older macbooks.
-- [Yubikey 5 NFC](https://www.amazon.com/dp/B07HBD71HL/ref=as_li_ss_tl?pd_rd_i=B07HBDX2CM&pd_rd_w=RV74U&pf_rd_p=48d372c1-f7e1-4b8b-9d02-4bd86f5158c5&pd_rd_wg=Fq9LN&pf_rd_r=NDEJ5ZJ84XFDHB83ANRQ&pd_rd_r=d75fbcc6-a05a-417c-aeee-57a129430a5c&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExRUNZMk1KNEFXVThCJmVuY3J5cHRlZElkPUEwMzE5ODAxMkZPQVRGQkU3VDJFNyZlbmNyeXB0ZWRBZElkPUEwMDM5MDAxMUxLQzA2QTE4U05TNCZ3aWRnZXROYW1lPXNwX2RldGFpbCZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU&sa-no-redirect=1&th=1&linkCode=ll1&tag=philihp-20&linkId=cbaa8072d411923b22dbcae810287c43&language=en_US) - USB-A + NFC that I don't know how to use.
+- [Yubikey 5C Nano](https://amzn.to/3hqP4Iw) - USB-C recommended
+- [Yubikey 5C](https://amzn.to/2UCc0Lq) - USB-C
+- [Yubikey 5 Nano](https://amzn.to/2MQFf8Z) - USB-A, for older macbooks.
+- [Yubikey 5 NFC](https://amzn.to/30EwOW7) - USB-A + NFC
 
 While waiting for this to arrive, you can continue with a GPG key on your hard drive; just make sure you protect it with a passphrase, which GPG will strongly encourage, because otherwise there's no point.
 
@@ -40,12 +40,15 @@ uid                   [ultimate] Philihp Busby <philihp@gmail.com>
 ssb   rsa4096/0x0D86EF2BF0DA842E 2016-02-29 [E] [expires: 2021-02-07]
 ```
 
-To point out a few things, on the left the `sec` means "i have the secret key" and `ssb` means "i have the secret subkey". If either of these says `pub` or `sub`, it means "i just have the public key", and that's a problem. The third column is the date the key was created.
+- On the left the `sec` means "i have the secret key"
+- `ssb` means "i have the secret subkey".
+- If either of these says `pub` or `sub`, it means "i just have the public key", and that's a problem.
+- The third column is the date the key was created, which is relevant for `[E]` subkeys.
 
 In the brackets in the 4th column, you can see `[SC]` for the master key meaning it is meant for the "Signing" usage and the "Certification" usage, and `[E]` for the subkey meaning it is meant for "Encryption". I think it's not a bad idea to create another subkey for "Authentication" or [add that usage to an existing key](https://dev.gnupg.org/T3970), but important: , but there are two important points:
 
 - You can have any number of `S` signing keys or `A` authentication keys.
-- You should **only have one key with the `E` usage**. When a message is encrypted, it is encrypted for and can only be decrypted with the subkey that was created last.
+- You should **only have one key with the `E` usage**. When a message is encrypted, GPG uses the newest `E` subkey, i.e. the one with the last creation.
 
 To move these to your Yubikey, run the command
 
@@ -53,7 +56,7 @@ To move these to your Yubikey, run the command
 gpg --edit-key 5B640B9F9600F122
 ```
 
-where `5B640B9F9600F122` is your key. You should see
+where `5B640B9F9600F122` is your key... it's actually [my key](/pgp); I don't know your key. You could tell me it, though, I'd love to know if this helped you. So if you run that, you'll be dropped into another console
 
 ```
 gpg (GnuPG) 2.2.20; Copyright (C) 2020 Free Software Foundation, Inc.
@@ -64,6 +67,7 @@ Secret key is available.
 
 ...
 ...
+
 gpg>
 ```
 
@@ -309,3 +313,7 @@ There are some more things you can configure, which are not simple with other se
 - Automatically sign and verify signatures, or encrypt and decrypt emails (but perhaps [don't always sign](https://gist.github.com/bnagy/8914f712f689cc01c267#footnote---no-signatures))
 
 - Replace `ssh-agent` with `gpg-agent` and require your Yubikey to SSH or SCP.
+
+- Configure your Gmail to use your Yubikey to login to the web
+
+- [Tell Github about your PGP key](https://help.github.com/en/github/authenticating-to-github/telling-git-about-your-signing-key), so you'll get a fancypants "Verified" badge next to your commits.
