@@ -103,6 +103,7 @@ Some things that changed here:
 - The `ssb` turned into `ssb>`, similarly.
 - There's a line with `Card serial no. = 0006 09123456` meaning "It's on a smart card
   with this serial number.
+- These are called [Stub Keys](https://wiki.debian.org/GnuPG/StubKeys).
 - There's a second subkey (which I added but did not document above, this is optional but useful if you want to use `gpg-agent` as a replacement for `ssh-agent`)
 
 Similarly, if you run
