@@ -15,8 +15,6 @@ google_analytics: UA-27506789-1
 
 minima:
   date_format: "%Y-%m-%d"
-disqus:
-  shortname: philihp
 
 markdown: kramdown
 theme: minima
