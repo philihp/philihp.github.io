@@ -418,12 +418,12 @@ If you consider yourself advanced and draw Letnev, don't try to be fancy. Just g
 
 ### Conclusion
 
-The difference in ratings between Beginner vs. Intermediate vs. Advanced being so pronounced should indicate that most of the races are fairly balanced, and a player's experience matters a great deal more than their race's innate abilities. That said, when coming to the table to play a game as lengthy as this in a tournament, if your race is not randomly selected for you, you can use these tables to perhaps select an ideal race for winning.
+While there is a pronounced gradient in skill across different races, player experience is an order of magnitude more important for predicting a winner. That said, experience isn't something you can easily control and race selection is effectively an opening move. An unpopular opening like selecting Winnu isn't necessarily _bad_ if your opponents are unfamiliar with it. Selecting them in a 3 player game might throw your opponents on tilt and score a win.
 
-None of this should invalidate the golden rule, though: Pick a race you think you'll have fun playing. If you really want a ~~Death Star~~War Sun, go with Muaat and if you win, know that you did it against the odds.
+This shouldn't invalidate the golden rule: Play to have fun. In a friendly game, pick a race you think you'll have fun playing. If you really want a ~~Death Star~~War Sun, go with Muaat and if you win, know that you did it against the odds. Imperically this data should show the races are more balanced than it may appear, which is a good thing for a game that most players may only get to play a handful of times a year.
 
 ### References
 
-- https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data
-- https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing
-- https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js
+- [https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data]
+- [https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing]
+- [https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js]
