@@ -424,6 +424,6 @@ This shouldn't invalidate the golden rule: Play to have fun. In a friendly game,
 
 ### References
 
-- [https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data]
-- [https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing]
-- [https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js]
+- [https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data](https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data)
+- [https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing)
+- [https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js](https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js)
