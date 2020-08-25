@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A Bayesian Analysis of Win Rates of Twilight Imperium Races
+title: A Bayesian Analysis of Win Rates of Twilight Imperium (4th Edition) Races
 date: 2020-08-25T01:00:00Z
 categories: []
 tags:
@@ -9,42 +9,45 @@ tags:
   - openskill
   - ranking
   - skill
+  - statistics
+  - bayesian
+  - analysis
 ---
 
-A few months ago I wrote a library for running multiplayer match results through a bayesian analysis to generate ordinal skill rankings for players. I started playing Twilight Imperium with some friends, and came across [this](https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data) wonderful BoardGameGeek thread with almost five thousand self-reported matches of each race and the game result. It's all self-reported, however intuitively with this many results, any dirty data should come out in the wash. Below are ordinally ranked races.
+A few months ago I wrote a library for running multiplayer match results through a bayesian analysis to generate ordinal skill rankings for players. Internally, rather than represent a rating as a single number, e.g. Elo ratings, there is some assumed unknowable Heisenberg uncertainty around a rating, so instead it's represented as a gaussian/normal distribution centered on &mu; with a spread of &sigma;, of where the rating probably lies. With more observations and consistent performance, this curve can be narrowed.
 
-Internally, rather than represent a rating as a single number, e.g. Elo ratings, there is some unknowable Heisenberg uncertainty around a rating, and instead it's represented as a gaussian/normal distribution centered on &mu; with a spread of &sigma;.
+I made [a post](/2020/openskill.html) validating the performance of Openskill to be equivalent to Microsoft TrueSkill. Recently, I've played a few games of Twilight Imperium with friends, and came across [this](https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data) wonderful BoardGameGeek thread with almost five thousand self-reported matches of each race and the game result. It's all self-reported, however intuitively with this many results, any dirty data from bias should come out in the wash. Below are ordinally ranked races.
 
 ### Aggregate Rankings
 
-Rating here is calculated by &mu;-3&sigma;, so the algorithm is saying there's a [99.7% probability](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule) that race's rating is at least what it reports.
+| Race                    |      Rating | &mu; (Mean) | &sigma; (Stddev) |
+| ----------------------- | ----------: | ----------: | ---------------: |
+| Universities of Jol-Nar | 25.17783798 | 27.75971891 |     0.8606269782 |
+| Federation of Sol       | 24.68035069 | 27.20558052 |     0.8417432765 |
+| Emirates of Hacan       | 24.15905166 | 26.70351120 |     0.8481531815 |
+| Clan of Saar            | 23.32228024 | 26.36106674 |     1.0129288330 |
+| Naalu Collective        | 23.15130408 | 26.09800162 |     0.9822325127 |
+| Yssaril Tribes          | 22.59962450 | 25.51847678 |     0.9729507572 |
+| L1Z1X Mindnet           | 22.39603483 | 25.17927526 |     0.9277468094 |
+| Barony of Letnev        | 22.31060757 | 25.07096185 |     0.9201180951 |
+| Winnu                   | 21.67067419 | 25.70762296 |     1.3456495890 |
+| Mentak Coalition        | 21.46529532 | 24.31886462 |     0.9511897685 |
+| Yin Brotherhood         | 21.32122119 | 24.60400779 |     1.0942622000 |
+| Xxcha Kingdom           | 20.88291125 | 23.58119643 |     0.8994283962 |
+| Nekro Virus             | 20.11306737 | 23.12521055 |     1.0040477260 |
+| Embers of Muaat         | 19.66918023 | 22.75911323 |     1.0299776660 |
+| Ghosts of Creuss        | 19.64592785 | 22.51871286 |     0.9575950046 |
+| Arborec                 | 19.61730334 | 22.61314918 |     0.9986152823 |
+| Sardakk N'orr           | 18.74714691 | 21.89530442 |     1.0493858370 |
 
-| Race                    | Rating      | &mu; (Mean) | &sigma; (Stddev) |
-| ----------------------- | ----------- | ----------- | ---------------- |
-| Universities of Jol-Nar | 25.17783798 | 27.75971891 | 0.8606269782     |
-| Federation of Sol       | 24.68035069 | 27.20558052 | 0.8417432765     |
-| Emirates of Hacan       | 24.15905166 | 26.70351120 | 0.8481531815     |
-| Clan of Saar            | 23.32228024 | 26.36106674 | 1.0129288330     |
-| Naalu Collective        | 23.15130408 | 26.09800162 | 0.9822325127     |
-| Yssaril Tribes          | 22.59962450 | 25.51847678 | 0.9729507572     |
-| L1Z1X Mindnet           | 22.39603483 | 25.17927526 | 0.9277468094     |
-| Barony of Letnev        | 22.31060757 | 25.07096185 | 0.9201180951     |
-| Winnu                   | 21.67067419 | 25.70762296 | 1.3456495890     |
-| Mentak Coalition        | 21.46529532 | 24.31886462 | 0.9511897685     |
-| Yin Brotherhood         | 21.32122119 | 24.60400779 | 1.0942622000     |
-| Xxcha Kingdom           | 20.88291125 | 23.58119643 | 0.8994283962     |
-| Nekro Virus             | 20.11306737 | 23.12521055 | 1.0040477260     |
-| Embers of Muaat         | 19.66918023 | 22.75911323 | 1.0299776660     |
-| Ghosts of Creuss        | 19.64592785 | 22.51871286 | 0.9575950046     |
-| Arborec                 | 19.61730334 | 22.61314918 | 0.9986152823     |
-| Sardakk N'orr           | 18.74714691 | 21.89530442 | 1.0493858370     |
+Rating here is calculated by &mu;-3&sigma;, so the algorithm is saying there's a [99.7% probability](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule) that race's rating is at least what it reports.
 
 Since race abilities are asymmetric, and tend to perform with varying degrees of success dependent on the number of opponents, I broke these down further among 3, 4, 5, and 6 player games. This is interesting to see how each is different vs their respective mean performance. Sample size of each of these is approximately the same.
 
 #### 3 player
 
-| Race                    | Rating      |
-| ----------------------- | ----------- |
+| Race                    |      Rating |
+| ----------------------- | ----------: |
 | Universities of Jol-Nar | 22.72400553 |
 | Clan of Saar            | 22.01709142 |
 | Naalu Collective        | 21.74858024 |
@@ -65,8 +68,8 @@ Since race abilities are asymmetric, and tend to perform with varying degrees of
 
 #### 4 player
 
-| Race (4 player)         | Rating      |
-| ----------------------- | ----------- |
+| Race (4 player)         |      Rating |
+| ----------------------- | ----------: |
 | Universities of Jol-Nar | 23.56908654 |
 | Emirates of Hacan       | 22.81017836 |
 | Federation of Sol       | 22.30073140 |
@@ -87,8 +90,8 @@ Since race abilities are asymmetric, and tend to perform with varying degrees of
 
 #### 5 player
 
-| Race (5 player)         | Rating      |
-| ----------------------- | ----------- |
+| Race (5 player)         |      Rating |
+| ----------------------- | ----------: |
 | Federation of Sol       | 22.60698818 |
 | L1Z1X Mindnet           | 21.73337138 |
 | Emirates of Hacan       | 21.67345473 |
@@ -109,8 +112,8 @@ Since race abilities are asymmetric, and tend to perform with varying degrees of
 
 #### 6 player
 
-| Race (6 player)         | Rating      |
-| ----------------------- | ----------- |
+| Race (6 player)         |      Rating |
+| ----------------------- | ----------: |
 | Federation of Sol       | 24.26156239 |
 | Universities of Jol-Nar | 24.15462774 |
 | Emirates of Hacan       | 23.78689351 |
@@ -133,8 +136,8 @@ Since race abilities are asymmetric, and tend to perform with varying degrees of
 
 One takeaway here is Winnu performs better than expected, with a high degree of variance. The race is also vastly unpopular, and played about half as often as other races so Openskill has a harder time narrowing down on a rating. We probably can't say that experienced players will overestimate them, though. Since the source data contains a self-described "experience" classifier, we can see how this performs with beginners versus intermediate and advanced players.
 
-| Race                    | Skill        | Rating      |
-| ----------------------- | ------------ | ----------- |
+| Race                    | Skill        |      Rating |
+| ----------------------- | ------------ | ----------: |
 | Federation of Sol       | Advanced     | 30.60907345 |
 | Universities of Jol-Nar | Advanced     | 30.00323694 |
 | Emirates of Hacan       | Advanced     | 29.32877358 |
@@ -185,12 +188,12 @@ One takeaway here is Winnu performs better than expected, with a high degree of 
 | Embers of Muaat         | Beginner     | 10.93323739 |
 | Ghosts of Creuss        | Beginner     | 10.32771177 |
 | Arborec                 | Beginner     | 10.21294854 |
-| Sardakk N'orr           | Beginner     | 9.38140506  |
+| Sardakk N'orr           | Beginner     |  9.38140506 |
 
 #### 3 player
 
-| Race                    | Skill        | Rating      |
-| ----------------------- | ------------ | ----------- |
+| Race                    | Skill        |      Rating |
+| ----------------------- | ------------ | ----------: |
 | Federation of Sol       | Advanced     | 28.35842920 |
 | Clan of Saar            | Advanced     | 22.19586105 |
 | Naalu Collective        | Advanced     | 22.07393017 |
@@ -231,22 +234,22 @@ One takeaway here is Winnu performs better than expected, with a high degree of 
 | Yssaril Tribes          | Advanced     | 10.46650665 |
 | Winnu                   | Beginner     | 10.24769693 |
 | Arborec                 | Beginner     | 10.13040202 |
-| Nekro Virus             | Beginner     | 8.99587795  |
-| L1Z1X Mindnet           | Beginner     | 8.88800772  |
-| Ghosts of Creuss        | Beginner     | 8.85522639  |
-| Nekro Virus             | Intermediate | 8.54002581  |
-| Mentak Coalition        | Beginner     | 8.53487268  |
-| Xxcha Kingdom           | Beginner     | 7.79029366  |
-| Ghosts of Creuss        | Advanced     | 6.52756990  |
-| Nekro Virus             | Advanced     | 5.99907088  |
-| Sardakk N'orr           | Beginner     | 5.10565191  |
-| Embers of Muaat         | Beginner     | 4.72155823  |
-| Yin Brotherhood         | Beginner     | 1.62033691  |
+| Nekro Virus             | Beginner     |  8.99587795 |
+| L1Z1X Mindnet           | Beginner     |  8.88800772 |
+| Ghosts of Creuss        | Beginner     |  8.85522639 |
+| Nekro Virus             | Intermediate |  8.54002581 |
+| Mentak Coalition        | Beginner     |  8.53487268 |
+| Xxcha Kingdom           | Beginner     |  7.79029366 |
+| Ghosts of Creuss        | Advanced     |  6.52756990 |
+| Nekro Virus             | Advanced     |  5.99907088 |
+| Sardakk N'orr           | Beginner     |  5.10565191 |
+| Embers of Muaat         | Beginner     |  4.72155823 |
+| Yin Brotherhood         | Beginner     |  1.62033691 |
 
 #### 4 player
 
-| Race                    | Skill        | Rating      |
-| ----------------------- | ------------ | ----------- |
+| Race                    | Skill        |      Rating |
+| ----------------------- | ------------ | ----------: |
 | Emirates of Hacan       | Advanced     | 27.41685857 |
 | Federation of Sol       | Advanced     | 27.12632515 |
 | Universities of Jol-Nar | Advanced     | 25.98764682 |
@@ -289,76 +292,76 @@ One takeaway here is Winnu performs better than expected, with a high degree of 
 | Yssaril Tribes          | Beginner     | 11.16116908 |
 | Xxcha Kingdom           | Beginner     | 11.10725323 |
 | Naalu Collective        | Beginner     | 10.18696673 |
-| Mentak Coalition        | Beginner     | 9.99142409  |
-| Ghosts of Creuss        | Beginner     | 9.13803070  |
-| Winnu                   | Beginner     | 9.09935158  |
-| Clan of Saar            | Beginner     | 8.93580276  |
-| Arborec                 | Beginner     | 7.08075890  |
-| Yin Brotherhood         | Beginner     | 6.71407429  |
-| Sardakk N'orr           | Beginner     | 6.66415085  |
-| Embers of Muaat         | Beginner     | 6.58220814  |
-| Nekro Virus             | Beginner     | 5.94971620  |
+| Mentak Coalition        | Beginner     |  9.99142409 |
+| Ghosts of Creuss        | Beginner     |  9.13803070 |
+| Winnu                   | Beginner     |  9.09935158 |
+| Clan of Saar            | Beginner     |  8.93580276 |
+| Arborec                 | Beginner     |  7.08075890 |
+| Yin Brotherhood         | Beginner     |  6.71407429 |
+| Sardakk N'orr           | Beginner     |  6.66415085 |
+| Embers of Muaat         | Beginner     |  6.58220814 |
+| Nekro Virus             | Beginner     |  5.94971620 |
 
 #### 5 player
 
-| Race                    | Skill        | Rating       |
-| ----------------------- | ------------ | ------------ |
-| Universities of Jol-Nar | Advanced     | 26.40951856  |
-| Naalu Collective        | Advanced     | 26.09599426  |
-| Federation of Sol       | Advanced     | 24.28649281  |
-| Yssaril Tribes          | Advanced     | 23.31078670  |
-| Universities of Jol-Nar | Intermediate | 23.03156183  |
-| Mentak Coalition        | Advanced     | 22.88911195  |
-| Xxcha Kingdom           | Advanced     | 22.70454211  |
-| L1Z1X Mindnet           | Advanced     | 22.47887765  |
-| Emirates of Hacan       | Advanced     | 22.46079117  |
-| Ghosts of Creuss        | Advanced     | 22.36559566  |
-| Federation of Sol       | Intermediate | 20.84047316  |
-| Clan of Saar            | Advanced     | 20.09023957  |
-| L1Z1X Mindnet           | Intermediate | 20.02042594  |
-| Embers of Muaat         | Advanced     | 19.73944017  |
-| Emirates of Hacan       | Intermediate | 19.55730314  |
-| Yssaril Tribes          | Intermediate | 18.92498108  |
-| Yin Brotherhood         | Intermediate | 18.76434052  |
-| Xxcha Kingdom           | Intermediate | 18.69266094  |
-| Yin Brotherhood         | Advanced     | 17.82495338  |
-| Arborec                 | Advanced     | 17.74965882  |
-| Naalu Collective        | Intermediate | 17.15486551  |
-| Sardakk N'orr           | Advanced     | 17.11566967  |
-| Clan of Saar            | Intermediate | 16.64206843  |
-| Barony of Letnev        | Intermediate | 16.33207741  |
-| Nekro Virus             | Advanced     | 16.19982226  |
-| Arborec                 | Intermediate | 15.55468130  |
-| Mentak Coalition        | Intermediate | 15.42719412  |
-| Federation of Sol       | Beginner     | 15.34569621  |
-| Barony of Letnev        | Advanced     | 15.33413489  |
-| Embers of Muaat         | Intermediate | 15.32630181  |
-| Ghosts of Creuss        | Intermediate | 15.11307261  |
-| Nekro Virus             | Intermediate | 14.87724946  |
-| Winnu                   | Advanced     | 12.82994599  |
-| Emirates of Hacan       | Beginner     | 12.76963523  |
-| Universities of Jol-Nar | Beginner     | 12.63083834  |
-| Winnu                   | Intermediate | 11.70944388  |
-| Naalu Collective        | Beginner     | 11.50965206  |
-| L1Z1X Mindnet           | Beginner     | 10.19190402  |
-| Mentak Coalition        | Beginner     | 10.15234779  |
-| Sardakk N'orr           | Intermediate | 10.09528497  |
-| Yssaril Tribes          | Beginner     | 9.011886311  |
-| Clan of Saar            | Beginner     | 8.642295667  |
-| Yin Brotherhood         | Beginner     | 8.174616094  |
-| Xxcha Kingdom           | Beginner     | 7.595298702  |
-| Nekro Virus             | Beginner     | 7.269565769  |
-| Embers of Muaat         | Beginner     | 6.636267959  |
-| Barony of Letnev        | Beginner     | 5.982703736  |
-| Ghosts of Creuss        | Beginner     | 4.545880900  |
-| Sardakk N'orr           | Beginner     | 2.233827176  |
-| Winnu                   | Beginner     | 1.861867246  |
+| Race                    | Skill        |       Rating |
+| ----------------------- | ------------ | -----------: |
+| Universities of Jol-Nar | Advanced     |  26.40951856 |
+| Naalu Collective        | Advanced     |  26.09599426 |
+| Federation of Sol       | Advanced     |  24.28649281 |
+| Yssaril Tribes          | Advanced     |  23.31078670 |
+| Universities of Jol-Nar | Intermediate |  23.03156183 |
+| Mentak Coalition        | Advanced     |  22.88911195 |
+| Xxcha Kingdom           | Advanced     |  22.70454211 |
+| L1Z1X Mindnet           | Advanced     |  22.47887765 |
+| Emirates of Hacan       | Advanced     |  22.46079117 |
+| Ghosts of Creuss        | Advanced     |  22.36559566 |
+| Federation of Sol       | Intermediate |  20.84047316 |
+| Clan of Saar            | Advanced     |  20.09023957 |
+| L1Z1X Mindnet           | Intermediate |  20.02042594 |
+| Embers of Muaat         | Advanced     |  19.73944017 |
+| Emirates of Hacan       | Intermediate |  19.55730314 |
+| Yssaril Tribes          | Intermediate |  18.92498108 |
+| Yin Brotherhood         | Intermediate |  18.76434052 |
+| Xxcha Kingdom           | Intermediate |  18.69266094 |
+| Yin Brotherhood         | Advanced     |  17.82495338 |
+| Arborec                 | Advanced     |  17.74965882 |
+| Naalu Collective        | Intermediate |  17.15486551 |
+| Sardakk N'orr           | Advanced     |  17.11566967 |
+| Clan of Saar            | Intermediate |  16.64206843 |
+| Barony of Letnev        | Intermediate |  16.33207741 |
+| Nekro Virus             | Advanced     |  16.19982226 |
+| Arborec                 | Intermediate |  15.55468130 |
+| Mentak Coalition        | Intermediate |  15.42719412 |
+| Federation of Sol       | Beginner     |  15.34569621 |
+| Barony of Letnev        | Advanced     |  15.33413489 |
+| Embers of Muaat         | Intermediate |  15.32630181 |
+| Ghosts of Creuss        | Intermediate |  15.11307261 |
+| Nekro Virus             | Intermediate |  14.87724946 |
+| Winnu                   | Advanced     |  12.82994599 |
+| Emirates of Hacan       | Beginner     |  12.76963523 |
+| Universities of Jol-Nar | Beginner     |  12.63083834 |
+| Winnu                   | Intermediate |  11.70944388 |
+| Naalu Collective        | Beginner     |  11.50965206 |
+| L1Z1X Mindnet           | Beginner     |  10.19190402 |
+| Mentak Coalition        | Beginner     |  10.15234779 |
+| Sardakk N'orr           | Intermediate |  10.09528497 |
+| Yssaril Tribes          | Beginner     |  9.011886311 |
+| Clan of Saar            | Beginner     |  8.642295667 |
+| Yin Brotherhood         | Beginner     |  8.174616094 |
+| Xxcha Kingdom           | Beginner     |  7.595298702 |
+| Nekro Virus             | Beginner     |  7.269565769 |
+| Embers of Muaat         | Beginner     |  6.636267959 |
+| Barony of Letnev        | Beginner     |  5.982703736 |
+| Ghosts of Creuss        | Beginner     |  4.545880900 |
+| Sardakk N'orr           | Beginner     |  2.233827176 |
+| Winnu                   | Beginner     |  1.861867246 |
 | Arborec                 | Beginner     | -0.313055713 |
 
 #### 6 player
 
-| Race                    | Skill        | Rating      |
-| ----------------------- | ------------ | ----------- |
+| Race                    | Skill        |      Rating |
+| ----------------------- | ------------ | ----------: |
 | Universities of Jol-Nar | Advanced     | 29.30604802 |
 | Federation of Sol       | Advanced     | 28.79152602 |
 | Yssaril Tribes          | Advanced     | 28.26945873 |
@@ -397,19 +400,19 @@ One takeaway here is Winnu performs better than expected, with a high degree of 
 | Universities of Jol-Nar | Beginner     | 14.22018825 |
 | Sardakk N'orr           | Intermediate | 13.84072241 |
 | Naalu Collective        | Beginner     | 13.69977576 |
-| Clan of Saar            | Beginner     | 9.07924681  |
-| L1Z1X Mindnet           | Beginner     | 7.88780919  |
-| Barony of Letnev        | Beginner     | 7.58641659  |
-| Mentak Coalition        | Beginner     | 6.71237862  |
-| Xxcha Kingdom           | Beginner     | 5.06243542  |
-| Arborec                 | Beginner     | 4.77849320  |
-| Embers of Muaat         | Beginner     | 3.59396214  |
-| Yin Brotherhood         | Beginner     | 3.58529868  |
-| Nekro Virus             | Beginner     | 3.17071658  |
-| Yssaril Tribes          | Beginner     | 3.06349557  |
-| Winnu                   | Beginner     | 2.87900750  |
-| Sardakk N'orr           | Beginner     | 2.21474336  |
-| Ghosts of Creuss        | Beginner     | 0.85199654  |
+| Clan of Saar            | Beginner     |  9.07924681 |
+| L1Z1X Mindnet           | Beginner     |  7.88780919 |
+| Barony of Letnev        | Beginner     |  7.58641659 |
+| Mentak Coalition        | Beginner     |  6.71237862 |
+| Xxcha Kingdom           | Beginner     |  5.06243542 |
+| Arborec                 | Beginner     |  4.77849320 |
+| Embers of Muaat         | Beginner     |  3.59396214 |
+| Yin Brotherhood         | Beginner     |  3.58529868 |
+| Nekro Virus             | Beginner     |  3.17071658 |
+| Yssaril Tribes          | Beginner     |  3.06349557 |
+| Winnu                   | Beginner     |  2.87900750 |
+| Sardakk N'orr           | Beginner     |  2.21474336 |
+| Ghosts of Creuss        | Beginner     |  0.85199654 |
 
 If you consider yourself advanced and draw Letnev, don't try to be fancy. Just get capital ships.
 
