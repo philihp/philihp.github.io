@@ -423,3 +423,4 @@ None of this should invalidate the golden rule, though: Pick a race you think yo
 
 - https://boardgamegeek.com/thread/1908461/races-tier-list-ranking-help-collect-data
 - https://docs.google.com/spreadsheets/d/1SE1u4d-u2OoB4gpCwDTuhNKz3wAr7pJivCLF5VoAotU/edit?usp=sharing
+- https://github.com/philihp/openskill.js/blob/399a6409a5f6282774ef14659c78333ad4cfce47/benchmark/ti4.js
