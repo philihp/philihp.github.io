@@ -15,7 +15,7 @@ The PGP keyservers in the SKS-Keyservers pool has been dwindling. What used to b
 
 ## Introducing [pgp.philihp.com](https://pgp.philihp.com)
 
-The HKP protocol is really just a standardized interface of GET parameters for the path `/pks/lookup`. This is well documented at [keys.openpgp.org](https://keys.openpgp.org/about/api). At a minimum, if you know the ID of the key you're searching for, you can ask your keyserver for it with
+The HKP protocol is really just a standardized interface of GET parameters for the path `/pks/lookup`. This is well documented at [keys.openpgp.org](https://keys.openpgp.org/about/api) and per [the OpenPGP spec](https://tools.ietf.org/html/draft-shaw-openpgp-hkp-00). At a minimum, if you know the ID of the key you're searching for, you can ask your keyserver for it with
 
 ```bash
 ❯ gpg --keyserver hkps://pgp.philihp.com --recv-key 5B640B9F9600F122
