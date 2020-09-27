@@ -9,7 +9,7 @@ My PGP key fingerprint is `427E 0329 39DB 40F2 9D03 D80F 5B64 0B9F 9600 F122`
 To receive my PGP key, either run
 
 ```bash
-gpg --keyserver hkps://keys.openpgp.org --recv-key 427E032939DB40F29D03D80F5B640B9F9600F122
+gpg --keyserver hkps://pgp.philihp.com --recv-key 427E032939DB40F29D03D80F5B640B9F9600F122
 ```
 
 or
@@ -42,7 +42,7 @@ Signing your key will attest that:
 gpg --ask-cert-level \
     --ask-cert-expire \
     --expert \
-    --sig-keyserver-url hkps://keys.openpgp.org \
+    --sig-keyserver-url hkps://pgp.philihp.com \
     --sig-policy-url 'https://philihp.com/pgp#policy' \
     --sign-key FINGERPRINT
 
