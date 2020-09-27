@@ -13,7 +13,7 @@ tags:
 
 The PGP keyservers in the SKS-Keyservers pool has been dwindling. What used to be in the hundreds now regularly dips below 20. The HKPS keyserver pool is just one server. My old entry in the pool is still there so I figured I'd do something with that. I also annotated key signatures with my keyserver for a while, so there's a chance someone's client might try to say hi. This isn't entirely useless; just mostly.
 
-## Introducing [`pgp.philihp.com`](https://pgp.philihp.com)
+## Introducing [pgp.philihp.com](https://pgp.philihp.com)
 
 The HKP protocol is really just a standardized interface of GET parameters for the path `/pks/lookup`. This is well documented at [keys.openpgp.org](https://keys.openpgp.org/about/api). At a minimum, if you know the ID of the key you're searching for, you can ask your keyserver for it with
 
@@ -31,4 +31,4 @@ gpg: key 0x5B640B9F9600F122: rejected by import screener
 gpg: Total number processed: 1
 ```
 
-¯\_(ツ)\_/¯
+¯\\\_(ツ)\_/¯
