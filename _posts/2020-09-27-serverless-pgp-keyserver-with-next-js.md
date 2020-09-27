@@ -25,10 +25,12 @@ HKPS is just HKP over SSL, simillar to HTTP and HTTPS. Since I deplyed this Next
 
 Since my keyserver always insists on sending you my key, if you query it with any other key ID, a key will come back and GnuPG will reject it.
 
-```
+```bash
 ❯ gpg --keyserver hkps://pgp.philihp.com --recv-key CE90A31451DE4AD7
 gpg: key 0x5B640B9F9600F122: rejected by import screener
 gpg: Total number processed: 1
 ```
 
 ¯\\\_(ツ)\_/¯
+
+The source code is available on [Github](https://github.com/philihp/pgp.philihp.com)
