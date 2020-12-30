@@ -22,7 +22,6 @@ remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
-  - jekyll-remote-theme
 
 header_pages:
   - about.md
