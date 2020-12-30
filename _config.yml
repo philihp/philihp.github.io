@@ -17,10 +17,12 @@ minima:
   date_format: "%Y-%m-%d"
 
 markdown: kramdown
-theme: minima
+# theme: minima
+remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
+  - jekyll-remote-theme
 
 header_pages:
   - about.md
