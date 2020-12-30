@@ -1,0 +1,29 @@
+---
+---
+
+@import "";
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url("https://philihp.com/assets/cmunss.otf");
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("https://philihp.com/assets/cmunss.otf");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("https://philihp.com/assets/cmunss.otf");
+  font-style: italic, oblique;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url("https://philihp.com/assets/cmunss.otf");
+  font-weight: bold;
+  font-style: italic, oblique;
+}
+
+body {
+  font-family: "Computer Modern", sans-serif;
+}
