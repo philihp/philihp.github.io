@@ -5,55 +5,66 @@
 
 @font-face {
   font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunrm-webfont.eot");
-  src: url("/assets/fonts/cmunrm-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/assets/fonts/cmunrm.otf") format("opentype"),
-    url("/assets/fonts/cmunrm-webfont.woff") format("woff"),
-    url("/assets/fonts/cmunrm-webfont.ttf") format("truetype"),
-    url("/assets/fonts/cmunrm-webfont.svg#cmu_serifroman") format("svg");
+  src: url("/assets/fonts/cmunrm.woff2") format("woff"),
+    url("/assets/fonts/cmunrm.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunsl-webfont.eot");
-  src: url("/assets/fonts/cmunsl-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/assets/fonts/cmunsl.otf") format("opentype"),
-    url("/assets/fonts/cmunsl-webfont.woff") format("woff"),
-    url("/assets/fonts/cmunsl-webfont.ttf") format("truetype"),
-    url("/assets/fonts/cmunsl-webfont.svg#cmu_serif_extraromanslanted")
-      format("svg");
+  src: url("/assets/fonts/cmunti.woff2") format("woff"),
+    url("/assets/fonts/cmunti.otf") format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunbl-webfont.eot");
-  src: url("/assets/fonts/cmunbl-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/assets/fonts/cmunbl.otf") format("opentype"),
-    url("/assets/fonts/cmunbl-webfont.woff") format("woff"),
-    url("/assets/fonts/cmunbl-webfont.ttf") format("truetype"),
-    url("/assets/fonts/cmunbl-webfont.svg#cmu_serif_extraboldslanted")
-      format("svg");
+  src: url("/assets/fonts/cmunbi.woff2") format("woff"),
+    url("/assets/fonts/cmunbi.otf") format("truetype");
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
   font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunbx-webfont.eot");
-  src: url("/assets/fonts/cmunbx-webfont.eot?#iefix")
-      format("embedded-opentype"),
-    url("/assets/fonts/cmunbx.otf") format("opentype"),
-    url("/assets/fonts/cmunbx-webfont.woff") format("woff"),
-    url("/assets/fonts/cmunbx-webfont.ttf") format("truetype"),
-    url("/assets/fonts/cmunbx-webfont.svg#cmu_serifbold") format("svg");
+  src: url("/assets/fonts/cmunbx.woff2") format("woff"),
+    url("/assets/fonts/cmunbx.otf") format("truetype");
   font-weight: bold;
   font-style: normal;
+}
+@font-face {
+  font-family: "Computer Typewriter";
+  src: url("/assets/fonts/cmuntt.woff2") format("woff"),
+    url("/assets/fonts/cmuntt.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Computer Typewriter";
+  src: url("/assets/fonts/cmunit.woff2") format("woff"),
+    url("/assets/fonts/cmunit.otf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Computer Typewriter";
+  src: url("/assets/fonts/cmuntb.woff2") format("woff"),
+    url("/assets/fonts/cmuntb.otf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Computer Typewriter";
+  src: url("/assets/fonts/cmuntx.woff2") format("woff"),
+    url("/assets/fonts/cmuntx.otf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
 }
 
 body {
-  font-family: "Computer Modern", sans-serif;
+  font-family: "Computer Modern", serif;
+}
+
+pre,
+code {
+  font-family: "Computer Typewriter", monospace;
 }
