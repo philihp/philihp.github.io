@@ -18,7 +18,6 @@ minima:
     linkedin: philihp
     keybase: philihp
 
-markdown: kramdown
 remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
