@@ -21,8 +21,16 @@ keybase_username: philihp
 
 minima:
   date_format: "%Y-%m-%d"
+  social_links:
+    twitter: philihp
+    github: philihp
+    facebook: philihp
+    instagram: philihp
+    linkedin: philihp
+    keybase: philihp
 
 theme: minima
+
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
