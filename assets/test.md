@@ -1,7 +1,7 @@
 ---
 ---
 
-@import "minima";
+// @import "minima";
 
 // @font-face {
 //   font-family: "Computer Modern";
