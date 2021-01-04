@@ -30,7 +30,6 @@ minima:
     keybase: philihp
 
 theme: minima
-
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
