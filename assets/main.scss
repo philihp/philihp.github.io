@@ -1,73 +1,73 @@
 ---
 ---
 
-// @import "minima";
+@import "minima";
 
-@font-face {
-  font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunrm.woff2") format("woff2"),
-    url("/assets/fonts/cmunrm.otf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunti.woff2") format("woff2"),
-    url("/assets/fonts/cmunti.otf") format("truetype");
-  font-weight: normal;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunbi.woff2") format("woff2"),
-    url("/assets/fonts/cmunbi.otf") format("truetype");
-  font-weight: bold;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Computer Modern";
-  src: url("/assets/fonts/cmunbx.woff2") format("woff2"),
-    url("/assets/fonts/cmunbx.otf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Computer Typewriter";
-  src: url("/assets/fonts/cmuntt.woff2") format("woff2"),
-    url("/assets/fonts/cmuntt.otf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Computer Typewriter";
-  src: url("/assets/fonts/cmunit.woff2") format("woff2"),
-    url("/assets/fonts/cmunit.otf") format("truetype");
-  font-weight: normal;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Computer Typewriter";
-  src: url("/assets/fonts/cmuntb.woff2") format("woff2"),
-    url("/assets/fonts/cmuntb.otf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Computer Typewriter";
-  src: url("/assets/fonts/cmuntx.woff2") format("woff2"),
-    url("/assets/fonts/cmuntx.otf") format("truetype");
-  font-weight: bold;
-  font-style: italic;
-}
+// @font-face {
+//   font-family: "Computer Modern";
+//   src: url("/assets/fonts/cmunrm.woff2") format("woff2"),
+//     url("/assets/fonts/cmunrm.otf") format("truetype");
+//   font-weight: normal;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Computer Modern";
+//   src: url("/assets/fonts/cmunti.woff2") format("woff2"),
+//     url("/assets/fonts/cmunti.otf") format("truetype");
+//   font-weight: normal;
+//   font-style: italic;
+// }
+// @font-face {
+//   font-family: "Computer Modern";
+//   src: url("/assets/fonts/cmunbi.woff2") format("woff2"),
+//     url("/assets/fonts/cmunbi.otf") format("truetype");
+//   font-weight: bold;
+//   font-style: italic;
+// }
+// @font-face {
+//   font-family: "Computer Modern";
+//   src: url("/assets/fonts/cmunbx.woff2") format("woff2"),
+//     url("/assets/fonts/cmunbx.otf") format("truetype");
+//   font-weight: bold;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Computer Typewriter";
+//   src: url("/assets/fonts/cmuntt.woff2") format("woff2"),
+//     url("/assets/fonts/cmuntt.otf") format("truetype");
+//   font-weight: normal;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Computer Typewriter";
+//   src: url("/assets/fonts/cmunit.woff2") format("woff2"),
+//     url("/assets/fonts/cmunit.otf") format("truetype");
+//   font-weight: normal;
+//   font-style: italic;
+// }
+// @font-face {
+//   font-family: "Computer Typewriter";
+//   src: url("/assets/fonts/cmuntb.woff2") format("woff2"),
+//     url("/assets/fonts/cmuntb.otf") format("truetype");
+//   font-weight: bold;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Computer Typewriter";
+//   src: url("/assets/fonts/cmuntx.woff2") format("woff2"),
+//     url("/assets/fonts/cmuntx.otf") format("truetype");
+//   font-weight: bold;
+//   font-style: italic;
+// }
 
-body {
-  font-family: "Computer Modern", serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+// body {
+//   font-family: "Computer Modern", serif;
+//   text-rendering: optimizeLegibility;
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
 
-pre,
-code {
-  font-family: "Computer Typewriter", monospace;
-}
+// pre,
+// code {
+//   font-family: "Computer Typewriter", monospace;
+// }
