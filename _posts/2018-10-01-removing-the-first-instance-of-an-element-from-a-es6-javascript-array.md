@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Removing the First Instance of an Element from a ES6 JavaScript Array
 date: 2018-10-01 20:54:06.000000000 -07:00
 tags:
