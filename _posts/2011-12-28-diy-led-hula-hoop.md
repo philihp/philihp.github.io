@@ -1,4 +1,5 @@
 ---
+layout: post
 title: DIY LED Hula Hoop
 date: 2011-12-28 04:00:15.000000000 -08:00
 tags:
