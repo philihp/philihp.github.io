@@ -8,7 +8,7 @@ description: >-
 baseurl: "/"
 
 url: "https://philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
-permalink: /blog/:year/:title:output_ext
+permalink: /:year/:title:output_ext
 
 google_analytics: UA-27506789-1
 
