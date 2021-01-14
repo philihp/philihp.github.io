@@ -199,7 +199,7 @@ redirect_from:
     >Source Code & EAGLE Wiring Diagrams</a
   >
 </p>
-<p><img style="width: 50%;" src="{{ site.baseurl }}/assets/wiring.png" /></p>
+<p><img style="width: 50%;" src="{{ post.baseurl }}/assets/wiring.png" /></p>
 <p>
   <iframe
     src="http://www.youtube.com/embed/s0otcdW-98w"

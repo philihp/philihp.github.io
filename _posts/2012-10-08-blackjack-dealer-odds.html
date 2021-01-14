@@ -3,152 +3,193 @@ layout: post
 title: Blackjack Dealer Odds
 date: 2012-10-08 22:09:46.000000000 -07:00
 type: post
-parent_id: '0'
+parent_id: "0"
 published: true
-password: ''
+password: ""
 status: publish
 categories: []
 tags:
-- blackjack
-- dealer
-- graph
-- odds
-- Programming
-- SAS
+  - blackjack
+  - dealer
+  - graph
+  - odds
+  - Programming
+  - SAS
 meta:
-  _edit_last: '1'
+  _edit_last: "1"
   _jetpack_related_posts_cache: a:1:{s:32:"8f6677c9d6b0f903e98ad32ec61f8deb";a:2:{s:7:"expires";i:1542774336;s:7:"payload";a:3:{i:0;a:1:{s:2:"id";i:680;}i:1;a:1:{s:2:"id";i:314;}i:2;a:1:{s:2:"id";i:247;}}}}
 author:
   login: Philihp
   email: philihp@gmail.com
   display_name: Philihp
-  first_name: ''
-  last_name: ''
+  first_name: ""
+  last_name: ""
 ---
-<p>Below is a graph and table showing the exact odds of a dealer's end-hand given his show card. One thing to keep in mind when playing: if the dealer is dealt a show-card of an ace and you're being asked to hit or to stand, you know that his hole card is not a ten. If it were, he'd have a blackjack, and you'd have already lost.</p>
+
+<p>
+  Below is a graph and table showing the exact odds of a dealer's end-hand given
+  his show card. One thing to keep in mind when playing: if the dealer is dealt
+  a show-card of an ace and you're being asked to hit or to stand, you know that
+  his hole card is not a ten. If it were, he'd have a blackjack, and you'd have
+  already lost.
+</p>
 <p>This graph was computed with the following rules:</p>
 <ul>
-<li><b>6</b>-deck shoe</li>
-<li>dealer <b>hits</b> on a soft 17</li>
-<li><b>zero</b>-high-card-count (a fresh shoe)</li>
-<li><b>No</b> <a href="http://www.rpsoft2000.com/terms/blackjack/5-card-charlie.htm">charlie</a> rule.</li>
+  <li><b>6</b>-deck shoe</li>
+  <li>dealer <b>hits</b> on a soft 17</li>
+  <li><b>zero</b>-high-card-count (a fresh shoe)</li>
+  <li>
+    <b>No</b>
+    <a href="http://www.rpsoft2000.com/terms/blackjack/5-card-charlie.htm"
+      >charlie</a
+    >
+    rule.
+  </li>
 </ul>
-<p>These are the most common house variations in low stakes games. In higher stakes you usually see house rules that favor the house less. The data was computed with <a href="https://github.com/philihp/Blackjack/blob/a872d50a0c410f7a43d768ed8e6d8f97b2c063e6/src/com/philihp/bj/DealerOddsCalculator.java">this simulator</a>. It was rendered in SAS.</p>
-<p style="text-align: center;"><a href="http://www.philihp.com/blog/wp-content/uploads/2012/10/img0.png"><img class="aligncenter  wp-image-1096" title="Dealer Odds" src="{{ site.baseurl }}/assets/img0.png" alt="" width="500" height="375" /></a></p>
-<table class="aligncenter" style="border: 1px solid #bbb; width: 100%;" cellspacing="0" cellpadding="3">
-<thead>
-<tr>
-<th scope="colgroup">Show Card</th>
-<th scope="colgroup">17</th>
-<th scope="colgroup">18</th>
-<th scope="colgroup">19</th>
-<th scope="colgroup">20</th>
-<th scope="colgroup">21</th>
-<th scope="colgroup">Blackjack</th>
-<th scope="colgroup">Bust</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>10</td>
-<td>3.44%</td>
-<td>3.44%</td>
-<td>3.44%</td>
-<td>10.46%</td>
-<td>1.07%</td>
-<td>2.37%</td>
-<td>6.54%</td>
-</tr>
-<tr>
-<td>2</td>
-<td>1.00%</td>
-<td>1.05%</td>
-<td>1.01%</td>
-<td>0.97%</td>
-<td>0.92%</td>
-<td>0.00%</td>
-<td>2.74%</td>
-</tr>
-<tr>
-<td>3</td>
-<td>0.97%</td>
-<td>1.01%</td>
-<td>0.97%</td>
-<td>0.94%</td>
-<td>0.90%</td>
-<td>0.00%</td>
-<td>2.90%</td>
-</tr>
-<tr>
-<td>4</td>
-<td>0.94%</td>
-<td>0.96%</td>
-<td>0.94%</td>
-<td>0.91%</td>
-<td>0.87%</td>
-<td>0.00%</td>
-<td>3.07%</td>
-</tr>
-<tr>
-<td>5</td>
-<td>0.91%</td>
-<td>0.95%</td>
-<td>0.91%</td>
-<td>0.86%</td>
-<td>0.84%</td>
-<td>0.00%</td>
-<td>3.23%</td>
-</tr>
-<tr>
-<td>6</td>
-<td>0.89%</td>
-<td>0.88%</td>
-<td>0.88%</td>
-<td>0.85%</td>
-<td>0.81%</td>
-<td>0.00%</td>
-<td>3.38%</td>
-</tr>
-<tr>
-<td>7</td>
-<td>2.84%</td>
-<td>1.06%</td>
-<td>0.60%</td>
-<td>0.61%</td>
-<td>0.57%</td>
-<td>0.00%</td>
-<td>2.01%</td>
-</tr>
-<tr>
-<td>8</td>
-<td>0.99%</td>
-<td>2.77%</td>
-<td>0.99%</td>
-<td>0.53%</td>
-<td>0.53%</td>
-<td>0.00%</td>
-<td>1.87%</td>
-</tr>
-<tr>
-<td>9</td>
-<td>0.93%</td>
-<td>0.90%</td>
-<td>2.71%</td>
-<td>0.93%</td>
-<td>0.47%</td>
-<td>0.00%</td>
-<td>1.76%</td>
-</tr>
-<tr>
-<td>A</td>
-<td>0.44%</td>
-<td>1.10%</td>
-<td>1.10%</td>
-<td>1.10%</td>
-<td>0.51%</td>
-<td>2.37%</td>
-<td>1.07%</td>
-</tr>
-</tbody>
+<p>
+  These are the most common house variations in low stakes games. In higher
+  stakes you usually see house rules that favor the house less. The data was
+  computed with
+  <a
+    href="https://github.com/philihp/Blackjack/blob/a872d50a0c410f7a43d768ed8e6d8f97b2c063e6/src/com/philihp/bj/DealerOddsCalculator.java"
+    >this simulator</a
+  >. It was rendered in SAS.
+</p>
+<p style="text-align: center">
+  <a href="http://www.philihp.com/blog/wp-content/uploads/2012/10/img0.png"
+    ><img
+      class="aligncenter wp-image-1096"
+      title="Dealer Odds"
+      src="{{ post.baseurl }}/assets/img0.png"
+      alt=""
+      width="500"
+      height="375"
+  /></a>
+</p>
+<table
+  class="aligncenter"
+  style="border: 1px solid #bbb; width: 100%"
+  cellspacing="0"
+  cellpadding="3"
+>
+  <thead>
+    <tr>
+      <th scope="colgroup">Show Card</th>
+      <th scope="colgroup">17</th>
+      <th scope="colgroup">18</th>
+      <th scope="colgroup">19</th>
+      <th scope="colgroup">20</th>
+      <th scope="colgroup">21</th>
+      <th scope="colgroup">Blackjack</th>
+      <th scope="colgroup">Bust</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>10</td>
+      <td>3.44%</td>
+      <td>3.44%</td>
+      <td>3.44%</td>
+      <td>10.46%</td>
+      <td>1.07%</td>
+      <td>2.37%</td>
+      <td>6.54%</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1.00%</td>
+      <td>1.05%</td>
+      <td>1.01%</td>
+      <td>0.97%</td>
+      <td>0.92%</td>
+      <td>0.00%</td>
+      <td>2.74%</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.97%</td>
+      <td>1.01%</td>
+      <td>0.97%</td>
+      <td>0.94%</td>
+      <td>0.90%</td>
+      <td>0.00%</td>
+      <td>2.90%</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.94%</td>
+      <td>0.96%</td>
+      <td>0.94%</td>
+      <td>0.91%</td>
+      <td>0.87%</td>
+      <td>0.00%</td>
+      <td>3.07%</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.91%</td>
+      <td>0.95%</td>
+      <td>0.91%</td>
+      <td>0.86%</td>
+      <td>0.84%</td>
+      <td>0.00%</td>
+      <td>3.23%</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0.89%</td>
+      <td>0.88%</td>
+      <td>0.88%</td>
+      <td>0.85%</td>
+      <td>0.81%</td>
+      <td>0.00%</td>
+      <td>3.38%</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>2.84%</td>
+      <td>1.06%</td>
+      <td>0.60%</td>
+      <td>0.61%</td>
+      <td>0.57%</td>
+      <td>0.00%</td>
+      <td>2.01%</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>0.99%</td>
+      <td>2.77%</td>
+      <td>0.99%</td>
+      <td>0.53%</td>
+      <td>0.53%</td>
+      <td>0.00%</td>
+      <td>1.87%</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>0.93%</td>
+      <td>0.90%</td>
+      <td>2.71%</td>
+      <td>0.93%</td>
+      <td>0.47%</td>
+      <td>0.00%</td>
+      <td>1.76%</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>0.44%</td>
+      <td>1.10%</td>
+      <td>1.10%</td>
+      <td>1.10%</td>
+      <td>0.51%</td>
+      <td>2.37%</td>
+      <td>1.07%</td>
+    </tr>
+  </tbody>
 </table>
-<p><strong>Interesting fact</strong>: The rarest dealer-hand is getting seven aces for soft 17, and then hitting and getting a 5 for a hard 12, and then getting 5 more aces for a hard 17. The odds of this are slightly less than 0.00000000000001509%.</p>
+<p>
+  <strong>Interesting fact</strong>: The rarest dealer-hand is getting seven
+  aces for soft 17, and then hitting and getting a 5 for a hard 12, and then
+  getting 5 more aces for a hard 17. The odds of this are slightly less than
+  0.00000000000001509%.
+</p>

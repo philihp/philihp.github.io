@@ -22,7 +22,7 @@ interested in the
 dataset, which has data that looks like this:
 
 <img
-  src="{{ site.baseurl }}/assets/uscounties.png"
+  src="{{ post.baseurl }}/assets/uscounties.png"
   alt=""
   title="US Counties Table"
   width="500"
@@ -92,7 +92,7 @@ points have been accumulated, the area is halfed so it's the actual area, and
 the area is used in calculating the centroid (<i>cx</i> and <i>cy</i>).
 
 <img
-  src="{{ site.baseurl }}/assets/pass1.png"
+  src="{{ post.baseurl }}/assets/pass1.png"
   alt=""
   title="pass1"
   width="440"
@@ -169,7 +169,7 @@ each county's centroids, weighted by the total area that centroid represents,
 which gives us correct centroids for counties drawn in multiple segments.
 
 <img
-  src="{{ site.baseurl }}/assets/pass2.png"
+  src="{{ post.baseurl }}/assets/pass2.png"
   alt=""
   title="pass2"
   width="438"

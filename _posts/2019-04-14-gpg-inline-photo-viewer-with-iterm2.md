@@ -10,7 +10,7 @@ tags:
   - uid
 ---
 
-<img src="{{ site.baseurl }}/assets/gpg-inline-photo.png" />
+<img src="{{ post.baseurl }}/assets/gpg-inline-photo.png" />
 
 If you have a PGP key with a photo included as a UID, you can configure PGP to open it. Out of the box, this will
 open a preview window, but with iTerm2 you can inline images into your console. The easiest way to do this is
