@@ -10,6 +10,7 @@ tags:
   - led
   - lithium battery
 redirect_from:
+  - /blog/2011/diy-led-hula-hoop
   - /blog/2011/diy-led-hula-hoop/
 ---
 
@@ -211,7 +212,7 @@ redirect_from:
 </p>
 <p>
   <b>UPDATE, 2012-09-28</b>:
-  <a href="http://www.philihp.com/blog/?p=1087"
+  <a href="/2012/turning-an-image-file-into-a-binary-bitmask-in-java"
     >Here's how I turned an image into a bitmask for the POV</a
   >
 </p>
