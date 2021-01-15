@@ -1,4 +1,6 @@
 \documentclass[11pt,english]{article}
+\usepackage{hyperref}
+
 \input{preamble}
 \begin{document}
 
@@ -7,7 +9,7 @@
 
 \contact{philihp@gmail.com}
         {philihp.com}
-        {\href{https://github.com/philihp}}
+        {\href{https://github.com/philihp}{github.com/philihp}}
         {San Francisco, California}
 
 \heading{Employment}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,33 +47,31 @@ Wrote and calibrated 4 of the 26 questions used for interviews.
 
 One of three sales engineers for entire US academic sales territory. 2012, hit 129\% of sales target. 2013, hit 120\% of sales target.
 
-Created demo for SAS Visual Analytics using
-public NCES data and geocoded it on tiered levels.
+Created sales demos for SAS Visual Analytics using public NCES data, added geocoding.
 
-Presented at 2013 Assoc. for Inst. Research, \href{http://support.sas.com/resources/papers/proceedings12/075-2012.pdf}{SAS Global Forum 2012}, \href{http://www.sesug.org/SESUG2013/abstract.html#CC-02}{SESUG 2013}.
+Presenter, 2013 Assoc. for Inst. Research, \href{http://support.sas.com/resources/papers/proceedings12/075-2012.pdf}{SAS Global Forum 2012}, \href{http://www.sesug.org/SESUG2013/abstract.html#CC-02}{SESUG 2013}.
 
-Maintained SAS Global Forum registrant data warehouse.
+Maintainer of SAS Global Forum registrant data warehouse.
 
-Part of on-call rotation for entire company's invoicing and reporting data warehouse.
+On-call rotation for entire company's invoicing and reporting data warehouse.
 
-Helped write internal healthcare primary care signup website in Struts.
+Wrote internal healthcare primary care signup website in Java Struts.
 
-Supported advertising campaign OLAP system before native OLAP cubes were a thing.
+Maintainer of advertising OLAP system before native OLAP cubes were a thing.
 
-Wrote a native HTTP/1.0 client in SAS/SCL because native SAS didn't support HTTP chunking on SOAP requests.
+Wrote a native HTTP/1.0 client in SAS/SCL because native SAS didn't support HTTP chunking on SOAP requests when dependent system changed their EJB container.
 
-Wrote a monitoring website that tracked a realtime sync of data between sales and invoincing systems over
-IBM MQSeries.
+Wrote a monitoring website that tracked a realtime sync of data with IBM MQSeries.
 
 \end{description}
 
 \heading{Skills}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \skill{Preferred Languages}
-      {Ruby, Javascript (ES7+)}
+      {Ruby, Javascript (ES7+), Elixir}
 
 \skill{Frameworks and Libraries}
-      {Redux, React, Ruby on Rails}
+      {Redux, React, Ruby on Rails, Phoenix}
 
 \skill{Acronyms and Trigger words}
       {SQL, OLAP, PGP, HTML, REST, \LaTeX}
@@ -93,6 +93,12 @@ Competed in regional ACM International Collegiate Programming Contest (ACM ICPC)
 \begin{description}
 \squish
 
+\experience{Openskill}
+           {Open source, license free competitor to Microsoft TrueSkill}
+           {2020-04}
+
+Implemented the \href{https://www.csie.ntu.edu.tw/~cjlin/papers/online_ranking/online_journal.pdf}{Weng-Lin rating system} in Javascript and Elixir. Created rating system for board game tournaments.
+
 \experience{Tarot}
            {Game AI for Kingdomino}
            {2017-09}
@@ -110,4 +116,3 @@ Implemented the board game Fields of Arle in the Boardgame.io framework using Fu
 
 \end{description}
 \end{document}
-
