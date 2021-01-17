@@ -2,6 +2,12 @@
 layout: page
 title: PGP
 permalink: /pgp/
+redirect_from:
+  - /pgp.html
+  - /blog/pgp/
+  - /blog/pgp.html
+  - /gpg/
+  - /gpg.html
 ---
 
 My PGP key fingerprint is `427E 0329 39DB 40F2 9D03 D80F 5B64 0B9F 9600 F122`
