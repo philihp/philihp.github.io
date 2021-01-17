@@ -25,12 +25,16 @@ So I reinvented the wheel. I got the OTF fonts from [CTAN](http://mirrors.ibibli
 <style>
   body {
     font-family: "Computer Modern", serif;
+    font-display: fallback;
   }
   pre,
   code {
     font-family: "Computer Typewriter", monospace;
+    font-display: fallback;
   }
 </style>
 ```
 
 [You can use this](https://caniuse.com/woff2) as long as you don't care for anyone using Internet Explorer, and [I'm okay with that](https://www.theverge.com/2019/2/8/18216767/microsoft-internet-explorer-warning-compatibility-solution).
+
+The value you use for [`font-display`](https://css-tricks.com/almanac/properties/f/font-display/) is probably personal taste. How do you feel about late swaps of the font? I think `fallback` is a good compromise. [IE also fails at this](https://caniuse.com/?search=font-display).
