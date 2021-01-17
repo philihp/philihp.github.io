@@ -10,6 +10,7 @@ tags:
   - SAS
 redirect_from:
   - /blog/2011/how-to-get-the-last-day-of-a-month-in-sas/
+  - /blog/2011/how-to-get-the-last-day-of-a-month-in-sas.html
 ---
 
 SAS has a really neat function called [intnx](http://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/viewer.htm#a000212700.htm), which will increment a date to the next of an interval.

@@ -10,6 +10,8 @@ tags:
   - pass
   - gpg
   - yubikey
+redirect_from:
+  - /blog/2020/mutt-gmail-passwordstore.html
 ---
 
 I use Mutt for most of my gmail needs for a number of reasons, including spam is usually HTML-only, while (actually important) emails written by humans always have a readable text-only format. My hubris also assures me that I'm reasonably insulated from [email worms](https://en.wikipedia.org/wiki/Category:Email_worms).

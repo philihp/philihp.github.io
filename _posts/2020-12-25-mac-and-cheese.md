@@ -8,6 +8,8 @@ tags:
   - dank
   - mac
   - cheese
+redirect_from:
+  - /blog/2020/mac-and-cheese.html
 ---
 
 - 20 grams garlic

@@ -13,6 +13,7 @@ tags:
   - thunk
 redirect_from:
   - /blog/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme/
+  - /blog/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme.html
 ---
 
 Let's say you've got a React component connected to a Redux store
@@ -26,7 +27,7 @@ import ColorButtons from "../components/ColorButtons";
 
 const ColorButtons = ({ colors, onClick }) => (
   <div>
-    {colors.map(color => {
+    {colors.map((color) => {
       <button type="button" key={color} onClick={onClick(color)}>
         {color}
       </button>;
@@ -36,23 +37,20 @@ const ColorButtons = ({ colors, onClick }) => (
 
 ColorButtons.propTypes = {
   colors: PropTypes.arrayOf(PropTypes.string),
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  colors: state.colors || []
+const mapStateToProps = (state) => ({
+  colors: state.colors || [],
 });
 
-const mapDispatchToProps = dispatch => ({
-  onClickColor: color => () => {
+const mapDispatchToProps = (dispatch) => ({
+  onClickColor: (color) => () => {
     dispatch(saveColor({ color }));
-  }
+  },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ColorButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(ColorButtons);
 ```
 
 Which calls this action creator.
@@ -61,7 +59,7 @@ Which calls this action creator.
 export const SAVE_COLOR = "SAVE_COLOR";
 export const saveColor = ({ color }) => ({
   type: SAVE_COLOR,
-  color
+  color,
 });
 ```
 
@@ -121,10 +119,10 @@ The second test makes sure that the store gets an action dispatched to it. It's 
 This will work for about 20% of your components, but if you ever want to call some async action, you'll probably dispatch a thunk action. That is, some of your actions will instead return functions that take dispatch. From the connected controller, they look the same, but the action looks slightly different. Say our mapDispatchToProps now looks like this contrived example
 
 ```javascript
-const mapDispatchToProps = dispatch => ({
-  onClickColor: color => () => {
-    dispatch(<b>storeColor</b>({ color }));
-  }
+const mapDispatchToProps = (dispatch) => ({
+  onClickColor: (color) => () => {
+    dispatch((<b>storeColor</b>)({ color }));
+  },
 });
 ```
 
