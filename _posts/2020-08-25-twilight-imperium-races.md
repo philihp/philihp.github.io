@@ -12,6 +12,8 @@ tags:
   - statistics
   - bayesian
   - analysis
+redirect_from:
+  - /blog/2020/twilight-imperium-races.html
 ---
 
 A few months ago I wrote a library for running multiplayer match results through a bayesian analysis to generate ordinal skill rankings for players. Internally, rather than represent a rating as a single number, e.g. Elo ratings, there is some assumed unknowable Heisenberg uncertainty around a rating, so instead it's represented as a gaussian/normal distribution centered on &mu; with a spread of &sigma;, of where the rating probably lies. With more observations and consistent performance, this curve can be narrowed.

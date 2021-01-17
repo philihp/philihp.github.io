@@ -70,4 +70,7 @@ body {
 pre,
 code {
   font-family: "Computer Typewriter", monospace;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

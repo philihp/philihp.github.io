@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 redirect_from:
   - /blog/about/
+  - /blog/about.html
 ---
 
 This is the personal website of Philihp Busby.
