@@ -5,15 +5,15 @@
       <div class="footer-col footer-col-1">
         <h2 class="footer-heading">{{- site.description | escape -}}</h2>
         <p>
-          This page was built on 
-          {{ site.time | date: '%F' }}
-          at
-          {{ site.time | date: '%R %Z' }}
-          from
-          <a href="https://github.com/philihp/philihp.github.io/commit/{{ site.env.VERCEL_GIT_COMMIT_SHA }}">{{ site.env.VERCEL_GIT_COMMIT_SHA | slice: 0,8 }}</a>
+          This page was built from
+          <a href="https://github.com/philihp/philihp.github.io/tree/{{ site.env.VERCEL_GIT_COMMIT_SHA }}">{{ site.env.VERCEL_GIT_COMMIT_SHA | slice: 0,8 }}</a>
+	  on
+	  {{ site.time | date: '%F' }}
+	  at
+	  {{ site.time | date: '%R %Z' }}
           and 
           <a href="https://creativecommons.org/licenses/by/4.0/">licensed</a>
-          with love in San Francisco.
+          with love from San Francisco.
         </p>
         <p class="feed-subscribe">
           <a href="{{ 'feed.xml' | relative_url }}">
