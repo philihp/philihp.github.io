@@ -28,9 +28,9 @@ The problem is this if you click on this first link, then read it and go "oh tha
 
 If only they had a target of "\_blank", they would all open up in a new browser every time.
 
-- [">Link 1](http://en.wikipedia.org/wiki/Hoag's_Object) target="\_blank"
-- [">Link 2](http://en.wikipedia.org/wiki/Vlad_III_Dracula) target="\_blank"
-- [">Link 3](<http://en.wikipedia.org/wiki/Jack_(playing_card)#History>) target="\_blank"
+- [Link 1](http://en.wikipedia.org/wiki/Hoag's_Object) target="\_blank"
+- [Link 2](http://en.wikipedia.org/wiki/Vlad_III_Dracula) target="\_blank"
+- [Link 3](<http://en.wikipedia.org/wiki/Jack_(playing_card)#History>) target="\_blank"
 
 It's a simple fix. Just stop using target="\_new".
 
