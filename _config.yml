@@ -7,7 +7,7 @@ description: >-
 # Don't set this to /blog, because then the /assets will move into that
 baseurl: "/"
 
-url: "https://philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
 permalink: /:year/:title:output_ext
 
 google_analytics: UA-27506789-1
