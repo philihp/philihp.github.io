@@ -1,0 +1,16 @@
+{
+  "public": true,
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/openskill.js/logo.png",
+      "destination": "/assets/openskill-logo.png",
+      "permanent": true
+    },
+    {
+      "source": "/openskill.js/logo.jpg",
+      "destination": "/assets/openskill-logo.jpg",
+      "permanent": true
+    }
+  ]
+}
