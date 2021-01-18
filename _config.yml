@@ -32,6 +32,8 @@ minima:
 theme: minima
 plugins:
   - jekyll-feed
+  # put sitemap _AFTER_ all of the URLs you want to generate have been made
+  - jekyll-sitemap
   - jekyll-redirect-from
 
 header_pages:
