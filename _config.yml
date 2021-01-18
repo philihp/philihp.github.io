@@ -10,15 +10,16 @@ baseurl: "/"
 url: "https://www.philihp.com" # the base hostname & protocol for your site, e.g. http://example.com
 permalink: /:year/:title:output_ext
 
-google_analytics: UA-27506789-1
+theme: minima
 
+# minima configuration
+google_analytics: UA-27506789-1
 twitter_username: philihp
 github_username: philihp
 facebook_username: philihp
 instagram_username: philihp
 linkedin_username: philihp
 keybase_username: philihp
-
 minima:
   date_format: "%Y-%m-%d"
   social_links:
@@ -29,7 +30,6 @@ minima:
     linkedin: philihp
     keybase: philihp
 
-theme: minima
 plugins:
   - jekyll-feed
   # put sitemap _AFTER_ all of the URLs you want to generate have been made
@@ -45,3 +45,18 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules/
+
+# jekyll-seo-tag configuration
+author:
+  twitter: philihp
+twitter:
+  username: philihp
+social:
+  name: Philihp Busby
+  links:
+    - https://twitter.com/philihp
+    - https://github.com/philihp
+    - https://facebook.com/philihp
+    - https://instagram.com/philihp
+    - https://linkedin.com/in/philihp
+    - https://keybase.io/philihp
