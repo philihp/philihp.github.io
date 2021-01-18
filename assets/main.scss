@@ -60,19 +60,21 @@
   font-style: italic;
 }
 
-body {
-  font-family: "Computer Modern", serif;
-  font-display: fallback;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+a:visited {
+  color: #551a8b;
 }
 
-pre,
-code {
-  font-family: "Computer Typewriter", monospace;
-  font-display: fallback;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+ul.social-media-list {
+  li {
+    a {
+      text-decoration: none;
+      span.username {
+        text-decoration: underline;
+      }
+    }
+  }
 }
