@@ -16,10 +16,16 @@
   href="/assets/favicon-16x16.png"
 />
 <link rel="manifest" href="/assets/site.webmanifest" />
+<link
+  rel="preload"
+  href="/assets/fonts/cmunrm.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
 <style>
   body {
     font-family: "Computer Modern", serif;
-    font-display: fallback;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -28,7 +34,6 @@
   pre,
   code {
     font-family: "Computer Typewriter", monospace;
-    font-display: fallback;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -4,6 +4,7 @@
     url("./cmunrm.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Modern";
@@ -11,6 +12,7 @@
     url("./cmunti.otf") format("truetype");
   font-weight: normal;
   font-style: italic;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Modern";
@@ -18,6 +20,7 @@
     url("./cmunbi.otf") format("truetype");
   font-weight: bold;
   font-style: italic;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Modern";
@@ -25,6 +28,7 @@
     url("./cmunbx.otf") format("truetype");
   font-weight: bold;
   font-style: normal;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Typewriter";
@@ -32,6 +36,7 @@
     url("./cmuntt.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Typewriter";
@@ -39,6 +44,7 @@
     url("./cmunit.otf") format("truetype");
   font-weight: normal;
   font-style: italic;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Typewriter";
@@ -46,6 +52,7 @@
     url("./cmuntb.otf") format("truetype");
   font-weight: bold;
   font-style: normal;
+  font-display: fallback;
 }
 @font-face {
   font-family: "Computer Typewriter";
@@ -53,4 +60,5 @@
     url("./cmuntx.otf") format("truetype");
   font-weight: bold;
   font-style: italic;
+  font-display: fallback;
 }
