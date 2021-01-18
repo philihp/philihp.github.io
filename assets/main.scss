@@ -69,12 +69,28 @@ a:visited {
 }
 
 ul.social-media-list {
+  float: right;
   li {
     a {
       text-decoration: none;
+      svg.svg-icon {
+        padding: 0;
+      }
       span.username {
         text-decoration: underline;
       }
     }
   }
+}
+
+.footer-col-wrapper {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: auto;
+}
+.footer-col-1 {
+  width: auto;
+}
+.footer-col-2 {
+  width: auto;
 }

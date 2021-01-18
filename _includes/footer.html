@@ -1,35 +1,31 @@
 <footer class="site-footer h-card">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
-
   <div class="wrapper">
-
-    <h2 class="footer-heading">{{ site.title | escape }}</h2>
-
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li class="p-name">
-            {%- if site.author -%}
-              {{ site.author | escape }}
-            {%- else -%}
-              {{ site.title | escape }}
-            {%- endif -%}
-            </li>
-            {%- if site.email -%}
-            <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-            {%- endif -%}
-        </ul>
+        <h2 class="footer-heading">{{- site.description | escape -}}</h2>
+        <p>
+          This site was built on 
+          {{ site.time | date: '%F' }}
+          at
+          {{ site.time | date: '%R %Z' }}
+          from
+          <a href="https://github.com/philihp/philihp.github.io/commit/{{ site.env.VERCEL_GIT_COMMIT_SHA }}">{{ site.env.VERCEL_GIT_COMMIT_SHA | slice: 0,8 }}</a>
+          and 
+          <a href="https://creativecommons.org/licenses/by/4.0/">licensed</a>
+          with love from San Francisco.
+        </p>
+        <p class="feed-subscribe">
+          <a href="{{ 'feed.xml' | relative_url }}">
+            <svg class="svg-icon orange">
+              <use xlink:href="{{ 'assets/minima-social-icons.svg#rss' | relative_url }}"></use>
+            </svg><span>Subscribe</span></a>
+          (RIP Google Reader)
+        </p>
       </div>
-
       <div class="footer-col footer-col-2">
         {%- include social.html -%}
       </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{- site.description | escape -}}</p>
-      </div>
     </div>
-
   </div>
-
 </footer>

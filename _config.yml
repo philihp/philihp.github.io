@@ -2,7 +2,7 @@
 title: Philihp Busby Blog Posts
 email: philihp@gmail.com
 description: >-
-  From the mind and mechanism of Philihp Busby.
+  Via the mind and mechanism of Philihp Busby.
 
 # Don't set this to /blog, because then the /assets will move into that
 baseurl: "/"
@@ -13,9 +13,6 @@ permalink: /:year/:title:output_ext
 theme: minima
 
 # minima configuration
-author:
-  name: Philihp Busby
-  email: philihp@gmail.com
 google_analytics: UA-27506789-1
 twitter_username: philihp
 github_username: philihp
@@ -50,6 +47,9 @@ exclude:
   - node_modules/
 
 # jekyll-seo-tag configuration
+author:
+  email: philihp@gmail.com
+  name: philihp
 twitter:
   username: philihp
 social:
