@@ -2,7 +2,7 @@
 title: Philihp Busby Blog Posts
 email: philihp@gmail.com
 description: >-
-  From the mind and mechanism of Philihp Busby.
+  Via the mind and mechanism of Philihp Busby.
 
 # Don't set this to /blog, because then the /assets will move into that
 baseurl: "/"
@@ -48,7 +48,8 @@ exclude:
 
 # jekyll-seo-tag configuration
 author:
-  twitter: philihp
+  email: philihp@gmail.com
+  name: philihp
 twitter:
   username: philihp
 social:
