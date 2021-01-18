@@ -13,6 +13,9 @@ permalink: /:year/:title:output_ext
 theme: minima
 
 # minima configuration
+author:
+  name: Philihp Busby
+  email: philihp@gmail.com
 google_analytics: UA-27506789-1
 twitter_username: philihp
 github_username: philihp
@@ -47,8 +50,6 @@ exclude:
   - node_modules/
 
 # jekyll-seo-tag configuration
-author:
-  twitter: philihp
 twitter:
   username: philihp
 social:
