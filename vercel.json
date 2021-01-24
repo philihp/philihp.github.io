@@ -11,6 +11,11 @@
       "source": "/openskill.js/logo.jpg",
       "destination": "/assets/openskill-logo.jpg",
       "permanent": true
+    },
+    {
+      "source": "/weblabora",
+      "destination": "https://github.com/philihp/weblabora",
+      "permanent": false
     }
   ]
 }
