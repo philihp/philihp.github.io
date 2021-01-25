@@ -4,6 +4,8 @@ title: I made a GPS Locator for Myself
 date: 2012-02-27T17:53:56.000000000Z
 tags:
   - Interesting Things
+redirect_from:
+  - /blog/2012/i-made-a-gps-locator-for-myself/
 ---
 
 Update, 2021: This no longer works and I haven't maintained it in forever. This is simply a stub, now.

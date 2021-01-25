@@ -2,6 +2,10 @@
 layout: post
 title: Things I Learned from Wiring a Car Stereo
 date: 2011-03-25T17:33:40
+redirect_from:
+  - /blog/2011/things-i-learned-from-wiring-a-car-stereo/
+  - /blog/2011/things-i-learned-from-wiring-a-car-stereo.html
+  - /blog/s2000wiring/
 ---
 
 [<img

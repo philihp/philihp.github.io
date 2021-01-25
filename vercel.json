@@ -4,18 +4,20 @@
   "redirects": [
     {
       "source": "/openskill.js/logo.png",
-      "destination": "/assets/openskill-logo.png",
-      "permanent": true
+      "destination": "/assets/openskill-logo.png"
     },
     {
       "source": "/openskill.js/logo.jpg",
-      "destination": "/assets/openskill-logo.jpg",
-      "permanent": true
+      "destination": "/assets/openskill-logo.jpg"
     },
     {
       "source": "/weblabora",
       "destination": "https://github.com/philihp/weblabora",
       "permanent": false
+    },
+    {
+      "source": "/blog/wp-content/uploads/2011/03/S2000Wiring2.png",
+      "destination": "/assets/S2000Wiring2.png"
     }
   ]
 }
