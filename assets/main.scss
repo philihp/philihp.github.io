@@ -71,6 +71,7 @@
 a {
   color: #0000ee;
   text-decoration: underline;
+  text-decoration-thickness: 0.1px;
 }
 a:visited {
   color: #551a8b;
@@ -86,6 +87,7 @@ ul.social-media-list {
       }
       span.username {
         text-decoration: underline;
+        text-decoration-thickness: 0.1px;
       }
     }
   }
