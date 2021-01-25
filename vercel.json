@@ -16,8 +16,12 @@
       "permanent": false
     },
     {
+      "source": "/blog/wp-content/uploads/2011/03/S2000Wiring2-150x150.png",
+      "destination": "/assets/S2000Wiring.png"
+    },
+    {
       "source": "/blog/wp-content/uploads/2011/03/S2000Wiring2.png",
-      "destination": "/assets/S2000Wiring2.png"
+      "destination": "/assets/S2000Wiring.png"
     }
   ]
 }

@@ -8,14 +8,6 @@ redirect_from:
   - /blog/s2000wiring/
 ---
 
-[<img
-      src="{{ post.baseurl }}/assets/S2000Wiring2-150x150.png"
-      alt="S2000 Wiring Diagram"
-      title="S2000 Wiring Diagram"
-      width="150"
-      height="150"
-      class="size-thumbnail wp-image-644" />](http://philihp.com/blog/wp-content/uploads/2011/03/S2000Wiring2.png)
-
 So I just finished installing a car stereo into my car. I wanted to
 do it myself to learn as much a possible. This post is to share bits of
 information that were previously buried on message boards, or were myths that
@@ -23,6 +15,8 @@ car audio shops had previously told me (or debunked for me).
 
 DISCLAIMER: I'm not a professional, any of this could be false, I just want to
 share what I now know, and believe to be true.
+
+[![S2000 Wiring Diagram]({{ post.baseurl }}/assets/S2000Wiring.png)](http://philihp.com/assets/S2000Wiring.png)
 
 ### Running power
 
