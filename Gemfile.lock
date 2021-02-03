@@ -1,5 +1,7 @@
-PATH
-  remote: ../jekyll-pgp-signatures
+GIT
+  remote: https://github.com/philihp/jekyll-pgp-signatures
+  revision: 12dfce8b054adf0428fb225dd66312d4448f7b18
+  branch: main
   specs:
     jekyll-pgp-signatures (0.0.1)
 
