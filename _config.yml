@@ -47,7 +47,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules/
-  # - _posts/*.asc
 
 author:
   email: philihp@gmail.com
