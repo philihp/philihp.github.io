@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/philihp/jekyll-pgp-signatures
-  revision: 12dfce8b054adf0428fb225dd66312d4448f7b18
+  revision: bdfa721c04ef138798b8f7099922e16cd61d1460
   branch: main
   specs:
     jekyll-pgp-signatures (0.0.1)
@@ -90,7 +90,6 @@ DEPENDENCIES
   jekyll-redirect-from
   jekyll-sitemap
   minima (~> 2.5)
-  tzinfo-data
 
 BUNDLED WITH
    2.2.3
