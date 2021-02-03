@@ -21,6 +21,7 @@ group :jekyll_plugins do
   gem "jekyll-redirect-from"
   gem "jekyll-sitemap"
   gem "jekyll-environment-variables"
+  gem 'jekyll-pgp-signatures', path: '../jekyll-pgp-signatures'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
