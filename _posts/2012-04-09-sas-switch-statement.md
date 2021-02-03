@@ -11,6 +11,7 @@ tags:
   - switch
 redirect_from:
   - /blog/2012/sas-switch-statement/
+  - /blog/2012/sas-switch-statement.html
 ---
 
 In SAS, the switch statement is called a SELECT statement.
