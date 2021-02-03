@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Easy Way to Remove All Variable Labels in SAS
 date: 2010-09-15 15:02:09.000000000 -07:00
 tags:
