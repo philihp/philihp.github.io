@@ -8,7 +8,7 @@ redirect_from:
   - /blog/about.html
 ---
 
-This is the personal website of Philihp Busby. The source for it is available on [Github](http://github.com/philihp/philihp.github.io). Pages have survived imports from Blogspot through a few major version migrations of Wordpress and then to Jekyll. If
+This is the personal website of Philihp Busby. The source for it is available on [Github](http://github.com/philihp/philihp.github.io). Pages have survived imports from Blogspot through a few major version migrations of Wordpress and then to Jekyll.
 
 I am a software engineer from Raleigh, and currently in San Francisco. I've worked for [SAS Institute](https://sas.com), [Airbnb](https://airbnb.com), and [Anomalie](https://dressanomalie.com). I also enjoy playing european board games and implementing them digitally.
 
