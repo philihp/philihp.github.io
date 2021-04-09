@@ -1,6 +1,12 @@
 {
   "public": true,
   "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/I/(.*)",
+      "headers": [{ "key": "Content-Type", "value": "text/plain" }]
+    }
+  ],
   "redirects": [
     {
       "source": "/openskill.js/logo.png",
@@ -25,19 +31,19 @@
     },
     {
       "source": "/1FC33516-891A-4385-85FD-7FCDDF932841",
-      "destination": "/I/1FC33516-891A-4385-85FD-7FCDDF932841"
+      "destination": "/I/1fc33516-891a-4385-85fd-7fcddf932841"
     },
     {
-      "source": "/695275AF-1208-4641-9A92-EF2139751678",
-      "destination": "/I/695275AF-1208-4641-9A92-EF2139751678"
+      "source": "/695275AF-1208-4641-9A92-EF2139751678/",
+      "destination": "/I/695275af-1208-4641-9a92-ef2139751678"
     },
     {
       "source": "/65348834-E01C-4B8E-9237-0B840FBA85EA",
-      "destination": "/I/65348834-E01C-4B8E-9237-0B840FBA85EA"
+      "destination": "/I/65348834-e01c-4b8e-9237-0b840fba85ea"
     },
     {
-      "source": "/C4D04D3C-F8A6-4274-AC5D-8249E18F223D",
-      "destination": "/I/C4D04D3C-F8A6-4274-AC5D-8249E18F223D"
+      "source": "/C4D04D3C-F8A6-4274-AC5D-8249E18F223D/",
+      "destination": "/I/c4d04d3c-f8a6-4274-ac5d-8249e18f223d"
     },
     {
       "source": "/0dfc71bb-1452-4a80-b24e-01438f7b60e4",
@@ -70,6 +76,14 @@
     {
       "source": "/0dfc71bb-1452-4a80-b24e-01438f7b60e4",
       "destination": "/I/0dfc71bb-1452-4a80-b24e-01438f7b60e4"
+    },
+    {
+      "source": "/I/2A167F3D-0177-4F5B-B666-01FC2B9CB7DB",
+      "destination": "/I/2a167f3d-0177-4f5b-b666-01fc2b9cb7db"
+    },
+    {
+      "source": "/I/5281C508-B153-4812-BCC9-988BBA3DFC19",
+      "destination": "/I/5281c508-b153-4812-bcc9-988bba3dfc19"
     }
   ]
 }
