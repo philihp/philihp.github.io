@@ -30,64 +30,32 @@
       "destination": "/assets/S2000Wiring.png"
     },
     {
-      "source": "/1FC33516-891A-4385-85FD-7FCDDF932841",
-      "destination": "/i/1fc33516-891a-4385-85fd-7fcddf932841"
-    },
-    {
-      "source": "/I/695275AF-1208-4641-9A92-EF2139751678",
-      "destination": "/i/695275af-1208-4641-9a92-ef2139751678"
-    },
-    {
-      "source": "/65348834-E01C-4B8E-9237-0B840FBA85EA",
-      "destination": "/i/65348834-e01c-4b8e-9237-0b840fba85ea"
-    },
-    {
-      "source": "/C4D04D3C-F8A6-4274-AC5D-8249E18F223D",
+      "source": "/I/C4D04D3C-F8A6-4274-AC5D-8249E18F223D",
       "destination": "/i/c4d04d3c-f8a6-4274-ac5d-8249e18f223d"
     },
     {
-      "source": "/0dfc71bb-1452-4a80-b24e-01438f7b60e4",
-      "destination": "/i/0dfc71bb-1452-4a80-b24e-01438f7b60e4"
-    },
-    {
-      "source": "/3a6c36bc-5d9b-4bbd-8ddc-45aec1dfd935",
-      "destination": "/i/3a6c36bc-5d9b-4bbd-8ddc-45aec1dfd935"
-    },
-    {
-      "source": "/56e99386-819e-4d7d-926d-08ea7426c67f",
-      "destination": "/i/56e99386-819e-4d7d-926d-08ea7426c67f"
-    },
-    {
-      "source": "/57ad3a03-012d-4a49-abe1-54a2ea559713",
-      "destination": "/i/57ad3a03-012d-4a49-abe1-54a2ea559713"
-    },
-    {
-      "source": "/59be911b-bcb5-46dd-9e2f-9d2380a3b530",
-      "destination": "/i/59be911b-bcb5-46dd-9e2f-9d2380a3b530"
-    },
-    {
-      "source": "/635ce830-f260-4970-a309-12478714293b",
-      "destination": "/i/635ce830-f260-4970-a309-12478714293b"
-    },
-    {
-      "source": "/a47815fa-9200-4a5e-a3af-fe4b5766f34a",
-      "destination": "/i/a47815fa-9200-4a5e-a3af-fe4b5766f34a"
-    },
-    {
-      "source": "/0dfc71bb-1452-4a80-b24e-01438f7b60e4",
-      "destination": "/i/0dfc71bb-1452-4a80-b24e-01438f7b60e4"
-    },
-    {
-      "source": "/I/2A167F3D-0177-4F5B-B666-01FC2B9CB7DB",
-      "destination": "/i/2a167f3d-0177-4f5b-b666-01fc2b9cb7db"
+      "source": "/I/8BBD0C08-AA7F-41F0-937A-16E11AE913B4",
+      "destination": "/i/8bbd0c08-aa7f-41f0-937a-16e11ae913b4"
     },
     {
       "source": "/I/5281C508-B153-4812-BCC9-988BBA3DFC19",
       "destination": "/i/5281c508-b153-4812-bcc9-988bba3dfc19"
     },
     {
-      "source": "/I/8BBD0C08-AA7F-41F0-937A-16E11AE913B4",
-      "destination": "/i/8bbd0c08-aa7f-41f0-937a-16e11ae913b4"
+      "source": "/I/2A167F3D-0177-4F5B-B666-01FC2B9CB7DB",
+      "destination": "/i/2a167f3d-0177-4f5b-b666-01fc2b9cb7db"
+    },
+    {
+      "source": "/I/1FC33516-891A-4385-85FD-7FCDDF932841",
+      "destination": "/i/1fc33516-891a-4385-85fd-7fcddf932841"
+    },
+    {
+      "source": "/I/65348834-E01C-4B8E-9237-0B840FBA85EA",
+      "destination": "/i/65348834-e01c-4b8e-9237-0b840fba85ea"
+    },
+    {
+      "source": "/I/695275AF-1208-4641-9A92-EF2139751678",
+      "destination": "/i/695275af-1208-4641-9a92-ef2139751678"
     }
   ]
 }
