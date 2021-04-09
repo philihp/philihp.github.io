@@ -34,11 +34,11 @@
       "destination": "/i/1fc33516-891a-4385-85fd-7fcddf932841"
     },
     {
-      "source": "/695275AF-1208-4641-9A92-EF2139751678",
+      "source": "/I/695275AF-1208-4641-9A92-EF2139751678",
       "destination": "/i/695275af-1208-4641-9a92-ef2139751678"
     },
     {
-      "source": "/I/65348834-E01C-4B8E-9237-0B840FBA85EA",
+      "source": "/65348834-E01C-4B8E-9237-0B840FBA85EA",
       "destination": "/i/65348834-e01c-4b8e-9237-0b840fba85ea"
     },
     {
@@ -84,6 +84,10 @@
     {
       "source": "/I/5281C508-B153-4812-BCC9-988BBA3DFC19",
       "destination": "/i/5281c508-b153-4812-bcc9-988bba3dfc19"
+    },
+    {
+      "source": "/I/8BBD0C08-AA7F-41F0-937A-16E11AE913B4",
+      "destination": "/i/8bbd0c08-aa7f-41f0-937a-16e11ae913b4"
     }
   ]
 }
