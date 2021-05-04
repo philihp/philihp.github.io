@@ -63,13 +63,14 @@ R.map(f, [, ,]);
 But it's only called twice! What gives? This is because of [trailing commas in arrays](https://github.com/denysdovhan/wtfjs#trailing-commas-in-array). It's a feature, not a bug.
 
 ```js
-const ff = R.forEach(f);
+const R = require("ramda");
+const ff = R.map(f);
 ff([, , ,]);
 
 // f() called
 // f() called
 // f() called
-// => <3 empty items>
+// => [ undefined, undefined, undefined ]
 ```
 
 Enjoy your job security!
