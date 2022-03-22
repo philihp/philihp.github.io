@@ -63,6 +63,6 @@ Which says \_for every combination of `user_id` and iso-week from the `sent_at` 
 | 41301   | 2021-10-03 | 6     |
 | ...     | ...        | ...   |
 
-The data is now in a useful proper cardinality and schema for presentation. I prefer [Superset](https://superset.apache.org/) because it's free, although [Preset](https://preset.io/) is a very affordable hosted alternative. The above query will probably take a while to run (it took me about 25 seconds), and Preset will attempt to cache data returned. With a **Time-series Bar Chart** configured as shown on the left, it shows me a graph like I had invisioned.
+The data is now in a useful proper cardinality and schema for presentation. I prefer [Superset](https://superset.apache.org/) because it's free, although [Preset](https://preset.io/) is a very affordable hosted alternative. The above query will probably take a while to run (it took me about 25 seconds), and Preset will attempt to cache data returned. With a **Time-series Bar Chart** configured as shown on the left, it shows me a graph like I had envisioned.
 
 <img src="{{ post.baseurl }}/assets/lness-stacked.png" />
