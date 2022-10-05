@@ -35,7 +35,6 @@ SELECT
     received_at
   FROM segment.event
   LIMIT 100000;
-SELECT pg_size_pretty( pg_total_relation_size('tmp_raw_table') );
 
 CREATE TABLE tmp_raw_uuid
 SELECT
@@ -43,6 +42,10 @@ SELECT
     received_at
   FROM segment.event
   LIMIT 10000000;
+```
+
+```sql
+SELECT pg_size_pretty( pg_total_relation_size('tmp_raw_table') );
 SELECT pg_size_pretty( pg_total_relation_size('tmp_uuid_table') );
 ```
 
@@ -52,7 +55,7 @@ Running this to test my syntax, and the reported size of the differences in tabl
 ERROR:  invalid input syntax for type uuid: "0qREGUQhbFNoRd-aeFacw"
 ```
 
-In my experience, halting functions like these are nasty when used in a production ETL flow, because one bit of bad data upstream will break the whole build. Here, it sounds like at some point they went from a random string to a legit UUID, and I wanted a similarly low-effort way of just making it so while preserving the uniqueness. [This post](https://stackoverflow.com/a/21327318/643928) had a good snippet, so I turned that into a database function.
+In my experience, halting functions like these are nasty when used in a production ETL flow. Imagine if a malformed ID like that were introduced months later; now the flow is broken until developer time can be allocated to fix it. Gross. In some situations you want your code to fail-fast, but I just wanted a damned UUID. Or maybe _null_ would have been acceptable. [This post](https://stackoverflow.com/a/21327318/643928) had a good snippet, so I turned that into a database function.
 
 ```sql
 CREATE OR REPLACE FUNCTION to_uuid(raw text)
@@ -69,11 +72,8 @@ $$ LANGUAGE plpgsql;
 There are a lot of good reasons to avoid database functions, but I think as long as they're very concise, it shouldn't be any more annoying than using built-in functions. I added that `IMMUTABLE` bit to make sure it's deterministic and fast/safe to use in indexes.
 
 ```sql
-CREATE TABLE tmp_raw_uuid
 SELECT
     to_uuid(id) as event_id,
     received_at
-  FROM segment.event
-  LIMIT 10000000;
-SELECT pg_size_pretty( pg_total_relation_size('tmp_uuid_table') );
+  FROM segment.event;
 ```
