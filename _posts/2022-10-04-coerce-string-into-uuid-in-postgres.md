@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Coerce a string into a uuid in Postgres
-date: 2021-10-06T00:12:00Z
+date: 2022-10-04T00:00:00Z
 categories: []
 tags:
   - sql
