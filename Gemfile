@@ -8,13 +8,13 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 4.3.1"
+gem "jekyll", "4.3.1"
 
 # Need this in Ruby 3
 # gem "webrick"
 
 # This is the default theme for new Jekyll sites.
-gem "minima", "~> 2.5.1"
+gem "minima", "2.5.1"
 
 group :jekyll_plugins do
   gem "jekyll-feed"
