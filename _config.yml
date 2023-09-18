@@ -14,7 +14,6 @@ permalink: /:year/:title:output_ext
 theme: minima
 
 # minima configuration
-google_analytics: UA-27506789-1
 twitter_username: philihp
 github_username: philihp
 facebook_username: philihp
