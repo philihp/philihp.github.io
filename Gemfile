@@ -14,7 +14,7 @@ gem "jekyll", "4.3.3"
 # gem "webrick"
 
 # This is the default theme for new Jekyll sites.
-gem "minima", "2.5.1"
+gem "minima", "2.5.2"
 
 group :jekyll_plugins do
   gem "jekyll-feed"
