@@ -105,13 +105,13 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
 
 ## Try It
 
-Drag the sliders to choose a regular polygon (3–13 sides) and a count of points (2–10). The library places the points; the Voronoi cells around each one are computed live in your browser.
+Drag the sliders to choose a regular polygon (3–7 sides) and a count of points (1–100). The library places the points; the Voronoi cells around each one are computed live in your browser.
 
 <div id="pointille-demo">
   <svg viewBox="-1.15 -1.15 2.3 2.3" preserveAspectRatio="xMidYMid meet" aria-label="Pointille interactive demo"></svg>
   <div class="controls">
-    <label><span class="lbl">Sides</span><input type="range" id="pointille-sides" min="3" max="13" value="5" step="1"><span class="val" id="pointille-sides-val">5</span></label>
-    <label><span class="lbl">Points</span><input type="range" id="pointille-points" min="2" max="10" value="6" step="1"><span class="val" id="pointille-points-val">6</span></label>
+    <label><span class="lbl">Sides</span><input type="range" id="pointille-sides" min="3" max="7" value="5" step="1"><span class="val" id="pointille-sides-val">5</span></label>
+    <label><span class="lbl">Points</span><input type="range" id="pointille-points" min="1" max="100" value="25" step="1"><span class="val" id="pointille-points-val">25</span></label>
   </div>
 </div>
 
@@ -121,7 +121,7 @@ Drag the sliders to choose a regular polygon (3–13 sides) and a count of point
   #pointille-demo .controls { display: flex; flex-direction: column; gap: .5em; margin-top: 1em; font-family: monospace; }
   #pointille-demo .controls label { display: flex; align-items: center; gap: .75em; }
   #pointille-demo .controls .lbl { width: 4em; }
-  #pointille-demo .controls .val { width: 2em; text-align: right; }
+  #pointille-demo .controls .val { width: 2.5em; text-align: right; }
   #pointille-demo .controls input[type=range] { flex: 1; }
 </style>
 
@@ -282,15 +282,22 @@ Drag the sliders to choose a regular polygon (3–13 sides) and a count of point
       'stroke-linejoin': 'round',
     }))
 
+    const r = Math.max(0.005, Math.min(0.04, 0.05 / Math.sqrt(k)))
     points.forEach(p => {
       g.appendChild(el('circle', {
-        cx: p[0], cy: p[1], r: '0.028', fill: '#222',
+        cx: p[0], cy: p[1], r: r, fill: '#222',
       }))
     })
   }
 
-  sidesEl.addEventListener('input', render)
-  pointsEl.addEventListener('input', render)
+  let scheduled = false
+  function schedule() {
+    if (scheduled) return
+    scheduled = true
+    requestAnimationFrame(() => { scheduled = false; render() })
+  }
+  sidesEl.addEventListener('input', schedule)
+  pointsEl.addEventListener('input', schedule)
   render()
 </script>
 
