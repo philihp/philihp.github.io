@@ -383,6 +383,7 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
       start: performance.now(),
       dur: 350,
       polyFrom, polyTo, ptFrom, ptTo: targetPoints,
+      targetPolygon,
     }
     if (!state.rafId) state.rafId = requestAnimationFrame(tick)
   }
@@ -392,6 +393,15 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
     const a = state.anim
     if (!a) return
     const t = Math.min(1, (now - a.start) / a.dur)
+    if (t >= 1) {
+      // Snap to the un-resampled target so the final shape is the real
+      // regular polygon, not a vertex-padded approximation of it.
+      state.displayPolygon = a.targetPolygon
+      state.displayPoints = a.ptTo
+      state.anim = null
+      render(a.targetPolygon, a.ptTo)
+      return
+    }
     const tt = easeInOut(t)
     const poly = a.polyFrom.map((p, i) => [
       p[0] + (a.polyTo[i][0] - p[0]) * tt,
@@ -404,11 +414,7 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
     state.displayPolygon = poly
     state.displayPoints = pts
     render(poly, pts)
-    if (t < 1) {
-      state.rafId = requestAnimationFrame(tick)
-    } else {
-      state.anim = null
-    }
+    state.rafId = requestAnimationFrame(tick)
   }
 
   function renderFigure(containerId, polygon, n) {
