@@ -102,3 +102,133 @@ Use the right tool for the job; for a few hundred well-placed dots on a fixed-ar
 ## Source
 
 The package is available on npm as [pointille](https://www.npmjs.com/package/pointille), and source lives at [github.com/philihp/pointille](https://github.com/philihp/pointille).
+
+## Try It
+
+Drag the sliders to choose a regular polygon (3–13 sides) and a count of points (2–10). The library places the points; the Voronoi cells around each one are computed live in your browser.
+
+<div id="pointille-demo">
+  <svg viewBox="-1.15 -1.15 2.3 2.3" preserveAspectRatio="xMidYMid meet" aria-label="Pointille interactive demo"></svg>
+  <div class="controls">
+    <label><span class="lbl">Sides</span><input type="range" id="pointille-sides" min="3" max="13" value="5" step="1"><span class="val" id="pointille-sides-val">5</span></label>
+    <label><span class="lbl">Points</span><input type="range" id="pointille-points" min="2" max="10" value="6" step="1"><span class="val" id="pointille-points-val">6</span></label>
+  </div>
+</div>
+
+<style>
+  #pointille-demo { max-width: 520px; margin: 2em auto; }
+  #pointille-demo svg { width: 100%; aspect-ratio: 1 / 1; background: #fafafa; border: 1px solid #eee; display: block; }
+  #pointille-demo .controls { display: flex; flex-direction: column; gap: .5em; margin-top: 1em; font-family: monospace; }
+  #pointille-demo .controls label { display: flex; align-items: center; gap: .75em; }
+  #pointille-demo .controls .lbl { width: 4em; }
+  #pointille-demo .controls .val { width: 2em; text-align: right; }
+  #pointille-demo .controls input[type=range] { flex: 1; }
+</style>
+
+<script type="module">
+  import { pointille } from 'https://esm.sh/pointille'
+
+  const svg = document.querySelector('#pointille-demo svg')
+  const sidesEl = document.getElementById('pointille-sides')
+  const pointsEl = document.getElementById('pointille-points')
+  const sidesVal = document.getElementById('pointille-sides-val')
+  const pointsVal = document.getElementById('pointille-points-val')
+  const NS = 'http://www.w3.org/2000/svg'
+  const palette = ['#fde8e8','#e8f5fd','#eafde8','#fdf5e8','#f5e8fd','#e8fdf5','#fdeae8','#e8eafd','#fdfde8','#e8fdfd']
+
+  function regularPolygon(n) {
+    const pts = []
+    for (let i = 0; i < n; i++) {
+      const a = -Math.PI / 2 + (i * 2 * Math.PI) / n
+      pts.push([Math.cos(a), Math.sin(a)])
+    }
+    return pts
+  }
+
+  // Clip convex polygon to the half-plane of points closer to `a` than `b`.
+  function clipHalfPlane(poly, a, b) {
+    const dx = b[0] - a[0], dy = b[1] - a[1]
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2
+    const f = p => (p[0] - mx) * dx + (p[1] - my) * dy
+    const out = []
+    for (let i = 0; i < poly.length; i++) {
+      const p = poly[i]
+      const q = poly[(i + 1) % poly.length]
+      const fp = f(p), fq = f(q)
+      if (fp <= 0) {
+        out.push(p)
+        if (fq > 0) {
+          const t = fp / (fp - fq)
+          out.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])])
+        }
+      } else if (fq <= 0) {
+        const t = fp / (fp - fq)
+        out.push([p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])])
+      }
+    }
+    return out
+  }
+
+  function voronoiCells(points, polygon) {
+    return points.map((p, i) => {
+      let cell = polygon
+      for (let j = 0; j < points.length; j++) {
+        if (i === j) continue
+        cell = clipHalfPlane(cell, p, points[j])
+        if (cell.length === 0) break
+      }
+      return cell
+    })
+  }
+
+  function el(name, attrs) {
+    const e = document.createElementNS(NS, name)
+    for (const k in attrs) e.setAttribute(k, attrs[k])
+    return e
+  }
+
+  function render() {
+    const n = +sidesEl.value
+    const k = +pointsEl.value
+    sidesVal.textContent = n
+    pointsVal.textContent = k
+
+    const polygon = regularPolygon(n)
+    const points = pointille(polygon, k)
+    const cells = voronoiCells(points, polygon)
+
+    while (svg.firstChild) svg.removeChild(svg.firstChild)
+    // Flip y so positive y points up, matching the math.
+    const g = el('g', { transform: 'scale(1,-1)' })
+    svg.appendChild(g)
+
+    cells.forEach((cell, i) => {
+      if (cell.length < 3) return
+      g.appendChild(el('polygon', {
+        points: cell.map(p => p.join(',')).join(' '),
+        fill: palette[i % palette.length],
+        stroke: '#bbb',
+        'stroke-width': '0.006',
+        'stroke-linejoin': 'round',
+      }))
+    })
+
+    g.appendChild(el('polygon', {
+      points: polygon.map(p => p.join(',')).join(' '),
+      fill: 'none',
+      stroke: '#333',
+      'stroke-width': '0.012',
+      'stroke-linejoin': 'round',
+    }))
+
+    points.forEach(p => {
+      g.appendChild(el('circle', {
+        cx: p[0], cy: p[1], r: '0.028', fill: '#222',
+      }))
+    })
+  }
+
+  sidesEl.addEventListener('input', render)
+  pointsEl.addEventListener('input', render)
+  render()
+</script>
