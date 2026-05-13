@@ -260,18 +260,10 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
     return e
   }
 
-  function render() {
-    const n = +sidesEl.value
-    const k = +pointsEl.value
-    sidesVal.textContent = n
-    pointsVal.textContent = k
-
-    const polygon = regularPolygon(n)
-    const points = pointille(polygon, k)
+  function render(polygon, points) {
     const cells = voronoiCells(points, polygon)
 
     while (svg.firstChild) svg.removeChild(svg.firstChild)
-    // Flip y so positive y points up, matching the math.
     const g = el('g', { transform: 'scale(1,-1)' })
     svg.appendChild(g)
 
@@ -294,12 +286,129 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
       'stroke-linejoin': 'round',
     }))
 
+    const k = points.length
     const r = Math.max(0.005, Math.min(0.04, 0.05 / Math.sqrt(k)))
     points.forEach(p => {
       g.appendChild(el('circle', {
         cx: p[0], cy: p[1], r: r, fill: '#222',
       }))
     })
+  }
+
+  function easeInOut(t) {
+    return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
+  }
+
+  // Resample a closed polygon to K vertices evenly along its perimeter,
+  // starting at the polygon's first vertex. Lets us tween between polygons
+  // that have different vertex counts.
+  function resamplePolygon(polygon, K) {
+    const N = polygon.length
+    const lens = new Array(N)
+    let total = 0
+    for (let i = 0; i < N; i++) {
+      const a = polygon[i], b = polygon[(i + 1) % N]
+      const dx = b[0] - a[0], dy = b[1] - a[1]
+      lens[i] = Math.sqrt(dx * dx + dy * dy)
+      total += lens[i]
+    }
+    const out = new Array(K)
+    for (let k = 0; k < K; k++) {
+      let target = (k * total) / K
+      let i = 0
+      while (i < N - 1 && target > lens[i]) {
+        target -= lens[i]
+        i++
+      }
+      const t = target / lens[i]
+      const a = polygon[i], b = polygon[(i + 1) % N]
+      out[k] = [a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])]
+    }
+    return out
+  }
+
+  // Greedy globally-shortest-pair matching from `from` to `to`. Returns a
+  // ptFrom[] of length to.length where each entry is the matched source point
+  // (or a clone of the target if there was no source to match).
+  function pairPoints(from, to) {
+    const M = from.length, N = to.length
+    const ptFrom = new Array(N)
+    if (M === 0) {
+      for (let j = 0; j < N; j++) ptFrom[j] = [to[j][0], to[j][1]]
+      return ptFrom
+    }
+    const pairs = []
+    for (let i = 0; i < M; i++) {
+      for (let j = 0; j < N; j++) {
+        const dx = from[i][0] - to[j][0]
+        const dy = from[i][1] - to[j][1]
+        pairs.push([dx * dx + dy * dy, i, j])
+      }
+    }
+    pairs.sort((a, b) => a[0] - b[0])
+    const usedF = new Uint8Array(M), usedT = new Uint8Array(N)
+    let filled = 0
+    for (let p = 0; p < pairs.length && filled < N; p++) {
+      const [, i, j] = pairs[p]
+      if (usedF[i] || usedT[j]) continue
+      ptFrom[j] = [from[i][0], from[i][1]]
+      usedF[i] = 1; usedT[j] = 1; filled++
+    }
+    for (let j = 0; j < N; j++) {
+      if (!ptFrom[j]) ptFrom[j] = [to[j][0], to[j][1]]
+    }
+    return ptFrom
+  }
+
+  const state = {
+    displayPolygon: regularPolygon(+sidesEl.value),
+    displayPoints: null,
+    anim: null,
+    rafId: 0,
+  }
+  state.displayPoints = pointille(state.displayPolygon, +pointsEl.value)
+
+  function startTransition() {
+    const n = +sidesEl.value
+    const k = +pointsEl.value
+    sidesVal.textContent = n
+    pointsVal.textContent = k
+    const targetPolygon = regularPolygon(n)
+    const targetPoints = pointille(targetPolygon, k)
+    const K = Math.max(state.displayPolygon.length, targetPolygon.length)
+    const polyFrom = resamplePolygon(state.displayPolygon, K)
+    const polyTo = resamplePolygon(targetPolygon, K)
+    const ptFrom = pairPoints(state.displayPoints, targetPoints)
+    state.anim = {
+      start: performance.now(),
+      dur: 350,
+      polyFrom, polyTo, ptFrom, ptTo: targetPoints,
+    }
+    if (!state.rafId) state.rafId = requestAnimationFrame(tick)
+  }
+
+  function tick(now) {
+    state.rafId = 0
+    const a = state.anim
+    if (!a) return
+    const t = Math.min(1, (now - a.start) / a.dur)
+    const tt = easeInOut(t)
+    const poly = a.polyFrom.map((p, i) => [
+      p[0] + (a.polyTo[i][0] - p[0]) * tt,
+      p[1] + (a.polyTo[i][1] - p[1]) * tt,
+    ])
+    const pts = a.ptFrom.map((p, i) => [
+      p[0] + (a.ptTo[i][0] - p[0]) * tt,
+      p[1] + (a.ptTo[i][1] - p[1]) * tt,
+    ])
+    state.displayPolygon = poly
+    state.displayPoints = pts
+    render(poly, pts)
+    if (t < 1) {
+      state.rafId = requestAnimationFrame(tick)
+    } else {
+      state.anim = null
+    }
   }
 
   function renderFigure(containerId, polygon, n) {
@@ -338,14 +447,10 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
   renderFigure('pointille-fig-square', [[0,0],[1,0],[1,1],[0,1]], 25)
   renderFigure('pointille-fig-l', [[0,0],[2,0],[2,1],[1,1],[1,2],[0,2]], 40)
 
-  let scheduled = false
-  function schedule() {
-    if (scheduled) return
-    scheduled = true
-    requestAnimationFrame(() => { scheduled = false; render() })
-  }
-  sidesEl.addEventListener('input', schedule)
-  pointsEl.addEventListener('input', schedule)
-  render()
+  sidesEl.addEventListener('input', startTransition)
+  pointsEl.addEventListener('input', startTransition)
+  sidesVal.textContent = sidesEl.value
+  pointsVal.textContent = pointsEl.value
+  render(state.displayPolygon, state.displayPoints)
 </script>
 
