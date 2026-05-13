@@ -125,9 +125,7 @@ Drag the sliders to choose a regular polygon (3–13 sides) and a count of point
   #pointille-demo .controls input[type=range] { flex: 1; }
 </style>
 
-<script type="module">
-  import { pointille } from 'https://esm.sh/pointille'
-
+<script>
   const svg = document.querySelector('#pointille-demo svg')
   const sidesEl = document.getElementById('pointille-sides')
   const pointsEl = document.getElementById('pointille-points')
@@ -181,6 +179,69 @@ Drag the sliders to choose a regular polygon (3–13 sides) and a count of point
     })
   }
 
+  function halton(i, base) {
+    let f = 1, r = 0
+    while (i > 0) {
+      f /= base
+      r += f * (i % base)
+      i = Math.floor(i / base)
+    }
+    return r
+  }
+
+  function pointInConvexPolygonCCW(p, polygon) {
+    for (let i = 0; i < polygon.length; i++) {
+      const a = polygon[i]
+      const b = polygon[(i + 1) % polygon.length]
+      const c = (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
+      if (c < 0) return false
+    }
+    return true
+  }
+
+  function polygonCentroid(poly) {
+    let cx = 0, cy = 0, A = 0
+    for (let i = 0; i < poly.length; i++) {
+      const [x0, y0] = poly[i]
+      const [x1, y1] = poly[(i + 1) % poly.length]
+      const cross = x0 * y1 - x1 * y0
+      A += cross
+      cx += (x0 + x1) * cross
+      cy += (y0 + y1) * cross
+    }
+    A *= 0.5
+    if (Math.abs(A) < 1e-12) {
+      let sx = 0, sy = 0
+      for (const [x, y] of poly) { sx += x; sy += y }
+      return [sx / poly.length, sy / poly.length]
+    }
+    return [cx / (6 * A), cy / (6 * A)]
+  }
+
+  // Vendored pointille: seed with 2D Halton, then Lloyd-relax against the polygon.
+  function pointille(polygon, n, { iterations = 30, seed = 1 } = {}) {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+    for (const [x, y] of polygon) {
+      if (x < minX) minX = x; if (y < minY) minY = y
+      if (x > maxX) maxX = x; if (y > maxY) maxY = y
+    }
+    const W = maxX - minX, H = maxY - minY
+    const points = []
+    let i = seed
+    while (points.length < n && i < seed + 100000) {
+      const p = [minX + halton(i, 2) * W, minY + halton(i, 3) * H]
+      if (pointInConvexPolygonCCW(p, polygon)) points.push(p)
+      i++
+    }
+    for (let it = 0; it < iterations; it++) {
+      const cells = voronoiCells(points, polygon)
+      for (let k = 0; k < points.length; k++) {
+        if (cells[k].length >= 3) points[k] = polygonCentroid(cells[k])
+      }
+    }
+    return points
+  }
+
   function el(name, attrs) {
     const e = document.createElementNS(NS, name)
     for (const k in attrs) e.setAttribute(k, attrs[k])
@@ -232,3 +293,4 @@ Drag the sliders to choose a regular polygon (3–13 sides) and a count of point
   pointsEl.addEventListener('input', render)
   render()
 </script>
+
