@@ -40,6 +40,8 @@ const points = pointille(unitSquare, 25)
 // => 25 [x, y] tuples, approximately evenly spread inside the square
 ```
 
+<div class="pointille-figure" id="pointille-fig-square"></div>
+
 The function is pure and deterministic: the same polygon and the same `n` will always give you back the same set of points. That makes it easy to use in tests, in snapshot rendering, and anywhere else you'd rather not deal with hidden state.
 
 ## Concave Polygons
@@ -58,6 +60,8 @@ const lShape = [
 
 const points = pointille(lShape, 40)
 ```
+
+<div class="pointille-figure" id="pointille-fig-l"></div>
 
 No points will leak into the missing corner, and the density along the two arms of the L stays roughly equal.
 
@@ -123,6 +127,8 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
   #pointille-demo .controls .lbl { width: 4em; }
   #pointille-demo .controls .val { width: 2.5em; text-align: right; }
   #pointille-demo .controls input[type=range] { flex: 1; }
+  .pointille-figure { max-width: 320px; margin: 1.25em auto; }
+  .pointille-figure svg { width: 100%; display: block; background: #fafafa; border: 1px solid #eee; }
 </style>
 
 <script>
@@ -189,14 +195,18 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
     return r
   }
 
-  function pointInConvexPolygonCCW(p, polygon) {
-    for (let i = 0; i < polygon.length; i++) {
-      const a = polygon[i]
-      const b = polygon[(i + 1) % polygon.length]
-      const c = (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
-      if (c < 0) return false
+  function pointInPolygon(p, polygon) {
+    let inside = false
+    const px = p[0], py = p[1]
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i][0], yi = polygon[i][1]
+      const xj = polygon[j][0], yj = polygon[j][1]
+      if (((yi > py) !== (yj > py)) &&
+          (px < ((xj - xi) * (py - yi)) / (yj - yi) + xi)) {
+        inside = !inside
+      }
     }
-    return true
+    return inside
   }
 
   function polygonCentroid(poly) {
@@ -230,13 +240,15 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
     let i = seed
     while (points.length < n && i < seed + 100000) {
       const p = [minX + halton(i, 2) * W, minY + halton(i, 3) * H]
-      if (pointInConvexPolygonCCW(p, polygon)) points.push(p)
+      if (pointInPolygon(p, polygon)) points.push(p)
       i++
     }
     for (let it = 0; it < iterations; it++) {
       const cells = voronoiCells(points, polygon)
       for (let k = 0; k < points.length; k++) {
-        if (cells[k].length >= 3) points[k] = polygonCentroid(cells[k])
+        if (cells[k].length < 3) continue
+        const c = polygonCentroid(cells[k])
+        if (pointInPolygon(c, polygon)) points[k] = c
       }
     }
     return points
@@ -289,6 +301,42 @@ Drag the sliders to choose a regular polygon (3–7 sides) and a count of points
       }))
     })
   }
+
+  function renderFigure(containerId, polygon, n) {
+    const container = document.getElementById(containerId)
+    if (!container) return
+    const points = pointille(polygon, n)
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+    for (const [x, y] of polygon) {
+      if (x < minX) minX = x; if (y < minY) minY = y
+      if (x > maxX) maxX = x; if (y > maxY) maxY = y
+    }
+    const w = maxX - minX, h = maxY - minY
+    const span = Math.max(w, h)
+    const pad = span * 0.08
+    const svgEl = document.createElementNS(NS, 'svg')
+    svgEl.setAttribute('viewBox', `${minX - pad} ${-maxY - pad} ${w + 2 * pad} ${h + 2 * pad}`)
+    svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+    svgEl.setAttribute('style', `aspect-ratio: ${(w + 2 * pad)} / ${(h + 2 * pad)}`)
+    const g = el('g', { transform: 'scale(1,-1)' })
+    svgEl.appendChild(g)
+    g.appendChild(el('polygon', {
+      points: polygon.map(p => p.join(',')).join(' '),
+      fill: 'none',
+      stroke: '#333',
+      'stroke-width': span * 0.008,
+      'stroke-linejoin': 'round',
+    }))
+    const r = span * 0.018
+    points.forEach(p => {
+      g.appendChild(el('circle', { cx: p[0], cy: p[1], r: r, fill: '#222' }))
+    })
+    container.innerHTML = ''
+    container.appendChild(svgEl)
+  }
+
+  renderFigure('pointille-fig-square', [[0,0],[1,0],[1,1],[0,1]], 25)
+  renderFigure('pointille-fig-l', [[0,0],[2,0],[2,1],[1,1],[1,2],[0,2]], 40)
 
   let scheduled = false
   function schedule() {
