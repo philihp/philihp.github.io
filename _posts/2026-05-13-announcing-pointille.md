@@ -12,7 +12,7 @@ tags:
   - geometry
 ---
 
-<svg style="float:right;width:450px;height:450px" viewBox="-210.5 -210.5 420 420"><defs><linearGradient id="housefill" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#004e85;stop-opacity:1"></stop><stop offset="100%" style="stop-color:#1973b2;stop-opacity:1"></stop></linearGradient><filter id="shadow"><feGaussianBlur in="SourceGraphic" stdDeviation="4"></feGaussianBlur></filter></defs><g id="shadowMask" opacity="0.2"><polyline points="0,-200 -92.9446344,-177.0912051 -164.5967732,-113.6129493 -198.5417748,-24.1073361 -187.0032485,70.9209774 -132.6245316,149.7021496 -47.8631329,194.1883635 47.8631329,194.1883635 132.6245316,149.7021496 187.0032485,70.9209774 198.5417748,-24.1073361 164.5967732,-113.6129493 92.9446344,-177.0912051 0,-200 " fill="black" filter="url(#shadow)"></polyline></g><g id="wheel"><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 0,-200 -92.9446344,-177.0912051 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -92.9446344,-177.0912051 -164.5967732,-113.6129493 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -164.5967732,-113.6129493 -198.5417748,-24.1073361 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -198.5417748,-24.1073361 -187.0032485,70.9209774 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -187.0032485,70.9209774 -132.6245316,149.7021496 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -132.6245316,149.7021496 -47.8631329,194.1883635 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -47.8631329,194.1883635 47.8631329,194.1883635 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 47.8631329,194.1883635 132.6245316,149.7021496 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 132.6245316,149.7021496 187.0032485,70.9209774 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 187.0032485,70.9209774 198.5417748,-24.1073361 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 198.5417748,-24.1073361 164.5967732,-113.6129493 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 164.5967732,-113.6129493 92.9446344,-177.0912051 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 92.9446344,-177.0912051 0,-200 0,0"></polyline></g><g id="grain" transform="rotate(346.15384615384613)"><text x="13" y="-146" class="rondel_token__lMZWd">🌾</text></g><g id="sheep" transform="rotate(346.15384615384613)"><text x="-13" y="-146" class="rondel_token__lMZWd">🐑</text></g><g id="joker" transform="rotate(290.7692307692308)"><text x="11" y="-123.5" class="rondel_token__lMZWd">🃏</text></g><g id="wood" transform="rotate(318.46153846153845)"><text x="-11" y="-123.5" class="rondel_token__lMZWd">🪵</text></g><g id="clay" transform="rotate(318.46153846153845)"><text x="-9" y="-105.5" class="rondel_token__lMZWd">🧱</text></g><g id="peat" transform="rotate(290.7692307692308)"><text x="9" y="-105.5" class="rondel_token__lMZWd">💩</text></g><g id="coin" transform="rotate(346.15384615384613)"><text x="0" y="-87" class="rondel_token__lMZWd">🪙</text></g></svg>
+<svg id="rondel" style="float:right;width:450px;height:450px" viewBox="-210.5 -210.5 420 420" aria-label="A 13-sided rondel with emoji tokens placed in three of its wedges"></svg>
 
 A problem that's been nagging me for a while involves a game with a rondel shown here. I want these tokens to be centered evenly in each wedge of a regular 13-sided polygon (triskaidecagon). I've also been seeing this problem in rootspace maxxing plants in an irregularly shaped garden plot. I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
 
@@ -458,5 +458,72 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
   sidesVal.textContent = sidesEl.value
   pointsVal.textContent = pointsEl.value
   render(state.displayPolygon, state.displayPoints)
+
+  // Render the rondel at the top of the post: a 13-gon whose wedges hold
+  // emoji tokens. The tokens-per-wedge counts come from the game; their
+  // positions inside each wedge are computed by pointille.
+  function renderRondel() {
+    const rondel = document.getElementById('rondel')
+    if (!rondel) return
+
+    const R = 200
+    const SIDES = 13
+    const vertices = []
+    for (let i = 0; i < SIDES; i++) {
+      const a = -Math.PI / 2 - (i * 2 * Math.PI) / SIDES
+      vertices.push([R * Math.cos(a), R * Math.sin(a)])
+    }
+
+    const defs = el('defs')
+    const filter = el('filter', { id: 'rondel-shadow' })
+    filter.appendChild(el('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '4' }))
+    defs.appendChild(filter)
+    rondel.appendChild(defs)
+
+    const outline = vertices.map(v => v.join(',')).join(' ') + ' ' + vertices[0].join(',')
+    const shadowG = el('g', { opacity: '0.2' })
+    shadowG.appendChild(el('polyline', {
+      points: outline, fill: 'black', filter: 'url(#rondel-shadow)',
+    }))
+    rondel.appendChild(shadowG)
+
+    const wheel = el('g')
+    for (let i = 0; i < SIDES; i++) {
+      const a = vertices[i], b = vertices[(i + 1) % SIDES]
+      wheel.appendChild(el('polyline', {
+        points: `0,0 ${a[0]},${a[1]} ${b[0]},${b[1]} 0,0`,
+        fill: '#fcfcfc', stroke: '#b3b3b3', 'stroke-width': '1',
+      }))
+    }
+    rondel.appendChild(wheel)
+
+    const wedges = {
+      0: ['🌾', '🐑', '🪙'],
+      1: ['🪵', '🧱'],
+      2: ['🃏', '💩'],
+    }
+
+    const tokenLayer = el('g')
+    for (const key in wedges) {
+      const i = +key
+      const emojis = wedges[key]
+      const wedgePolygon = [[0, 0], vertices[i], vertices[(i + 1) % SIDES]]
+      const positions = pointille(wedgePolygon, emojis.length, { iterations: 60 })
+      emojis.forEach((emoji, j) => {
+        const t = el('text', {
+          x: positions[j][0],
+          y: positions[j][1],
+          'text-anchor': 'middle',
+          'dominant-baseline': 'central',
+          'font-size': '28',
+        })
+        t.textContent = emoji
+        tokenLayer.appendChild(t)
+      })
+    }
+    rondel.appendChild(tokenLayer)
+  }
+
+  renderRondel()
 </script>
 
