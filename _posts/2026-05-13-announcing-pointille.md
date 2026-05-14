@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Announcing Pointille: Evenly Distributing Points in a Polygon"
+title: "Pointille: Evenly Distributing Points in a Polygon"
 date: 2026-05-13T00:00:00Z
 categories: []
 tags:
@@ -12,9 +12,11 @@ tags:
   - geometry
 ---
 
-I have been chipping away at a small problem for a while: given an arbitrary polygon and a count `n`, how do you scatter `n` points inside the polygon so that they look _evenly spaced_? Not on a grid (which betrays the polygon's edges) and not purely random (which clumps and leaves gaps). Pointillist painters were solving this same problem by hand a century ago, dotting paint onto canvas in distributions that read as uniform to the eye without being mechanical.
+<svg style="float:left;width:450px;height:225px" viewBox="-210.5 -210.5 210 420"><defs><linearGradient id="housefill" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#004e85;stop-opacity:1"></stop><stop offset="100%" style="stop-color:#1973b2;stop-opacity:1"></stop></linearGradient><filter id="shadow"><feGaussianBlur in="SourceGraphic" stdDeviation="4"></feGaussianBlur></filter></defs><g id="shadowMask" opacity="0.2"><polyline points="0,-200 -92.9446344,-177.0912051 -164.5967732,-113.6129493 -198.5417748,-24.1073361 -187.0032485,70.9209774 -132.6245316,149.7021496 -47.8631329,194.1883635 47.8631329,194.1883635 132.6245316,149.7021496 187.0032485,70.9209774 198.5417748,-24.1073361 164.5967732,-113.6129493 92.9446344,-177.0912051 0,-200 " fill="black" filter="url(#shadow)"></polyline></g><g id="wheel"><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 0,-200 -92.9446344,-177.0912051 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -92.9446344,-177.0912051 -164.5967732,-113.6129493 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -164.5967732,-113.6129493 -198.5417748,-24.1073361 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -198.5417748,-24.1073361 -187.0032485,70.9209774 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -187.0032485,70.9209774 -132.6245316,149.7021496 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -132.6245316,149.7021496 -47.8631329,194.1883635 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 -47.8631329,194.1883635 47.8631329,194.1883635 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 47.8631329,194.1883635 132.6245316,149.7021496 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 132.6245316,149.7021496 187.0032485,70.9209774 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 187.0032485,70.9209774 198.5417748,-24.1073361 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 198.5417748,-24.1073361 164.5967732,-113.6129493 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 164.5967732,-113.6129493 92.9446344,-177.0912051 0,0"></polyline><polyline fill="#fcfcfc" stroke="#b3b3b3" stroke-width="1" points="0,0 92.9446344,-177.0912051 0,-200 0,0"></polyline></g><g id="settlement-a" transform="rotate(152.30769230769232)"><path d="M0,-190 l-6,5 v8 h12 v-8 z" style="fill:url(#housefill);fill-opacity:1;stroke:#202020;stroke-width:1"></path><text x="0" y="-179" style="font-size:9px;font-weight:100;text-anchor:middle;fill:#fff">A</text></g><g id="settlement-b" transform="rotate(318.46153846153845)"><path d="M0,-190 l-6,5 v8 h12 v-8 z" style="fill:url(#housefill);fill-opacity:1;stroke:#202020;stroke-width:1"></path><text x="0" y="-179" style="font-size:9px;font-weight:100;text-anchor:middle;fill:#fff">B</text></g><g id="settlement-c" transform="rotate(124.61538461538461)"><path d="M0,-190 l-6,5 v8 h12 v-8 z" style="fill:url(#housefill);fill-opacity:1;stroke:#202020;stroke-width:1"></path><text x="0" y="-179" style="font-size:9px;font-weight:100;text-anchor:middle;fill:#fff">C</text></g><g id="settlement-d" transform="rotate(290.7692307692308)"><path d="M0,-190 l-6,5 v8 h12 v-8 z" style="fill:url(#housefill);fill-opacity:1;stroke:#202020;stroke-width:1"></path><text x="0" y="-179" style="font-size:9px;font-weight:100;text-anchor:middle;fill:#fff">D</text></g><g id="grain" transform="rotate(346.15384615384613)"><text x="13" y="-146" class="rondel_token__lMZWd">🌾</text></g><g id="sheep" transform="rotate(346.15384615384613)"><text x="-13" y="-146" class="rondel_token__lMZWd">🐑</text></g><g id="joker" transform="rotate(290.7692307692308)"><text x="11" y="-123.5" class="rondel_token__lMZWd">🃏</text></g><g id="wood" transform="rotate(318.46153846153845)"><text x="-11" y="-123.5" class="rondel_token__lMZWd">🪵</text></g><g id="clay" transform="rotate(318.46153846153845)"><text x="-9" y="-105.5" class="rondel_token__lMZWd">🧱</text></g><g id="peat" transform="rotate(290.7692307692308)"><text x="9" y="-105.5" class="rondel_token__lMZWd">💩</text></g><g id="coin" transform="rotate(346.15384615384613)"><text x="0" y="-87" class="rondel_token__lMZWd">🪙</text></g><g id="shadowMask" opacity="0.2" transform="rotate(249.23076923076925)"><path d="M-3,-180 Q-3,-35 -16.265311021531893,-30.99096089786235 A35,35 0 1,0 16.2653110215319,-30.990960897862347 Q3,-35 3,-180 z" fill="black" filter="url(#shadow)"></path></g><g id="arm" transform="rotate(249.23076923076925)" style="font-size:10px;text-anchor:middle"><path d="M-3,-180 Q-3,-35 -16.265311021531893,-30.99096089786235 A35,35 0 1,0 16.2653110215319,-30.990960897862347 Q3,-35 3,-180 z" class="rondel_armPath__5wgZk"></path><path d="M-3.5,-44 l7,3.5 v-7 z" fill="#000"></path><text x="0" y="-25" transform="rotate(346.15384615384613)">10</text><text x="0" y="-25" transform="rotate(318.46153846153845)">9</text><text x="0" y="-25" transform="rotate(290.7692307692308)">8</text><text x="0" y="-25" transform="rotate(263.0769230769231)">8</text><text x="0" y="-25" transform="rotate(235.3846153846154)">7</text><text x="0" y="-25" transform="rotate(207.69230769230768)">7</text><text x="0" y="-25" transform="rotate(180)">6</text><text x="0" y="-25" transform="rotate(152.30769230769232)">6</text><text x="0" y="-25" transform="rotate(124.61538461538461)">5</text><text x="0" y="-25" transform="rotate(96.92307692307692)">4</text><text x="0" y="-25" transform="rotate(69.23076923076923)">3</text><text x="0" y="-25" transform="rotate(41.53846153846154)">2</text><text x="0" y="-25" transform="rotate(13.846153846153847)">0</text></g></svg>
 
-I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
+A problem that's been nagging me for a while involves a game with a rondel shown above. When played on a tabletop, these emojis represent tokens, which would sit on a certain wedge of a regular 13-sided polygon (triskaidecagon). In the visualization of this, I want the tokens to be evenlly scattered in the triangle. I also started seeing this problem in "rootspace maxxing" (perhaps the first recorded juxtaposition of those strings) irregularly shaped garden plots.  I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
+
+The pointillist painters were also solving this same problem by hand a century ago, dotting paint onto canvas in distributions that read as uniform to the eye without being mechanical, so this one's for y'all.
 
 ## Install
 
@@ -37,7 +39,13 @@ const unitSquare = [
 ] as const
 
 const points = pointille(unitSquare, 25)
-// => 25 [x, y] tuples, approximately evenly spread inside the square
+// => [
+//   ...
+//   [ 0.4973001454916204, 0.5078269245431213 ],
+//   [ 0.902819350372445, 0.9059261510512003 ],
+//   [ 0.13364467572889838, 0.25595086132355166 ],
+//   [ 0.5177439763083426, 0.7246545345081363 ]
+// ]
 ```
 
 <div class="pointille-figure" id="pointille-fig-square"></div>
@@ -73,43 +81,35 @@ There are two optional parameters worth knowing about:
 pointille(polygon, n, { iterations: 30, seed: 1 })
 ```
 
-- `iterations` — how many Lloyd relaxation steps to run. The default of `30` is usually enough for the points to settle. Fewer iterations is faster but more clustered; more iterations approaches a perfect centroidal Voronoi tessellation with diminishing returns.
-- `seed` — the starting index into the Halton sequence used for the initial point placement. Changing it gives you a different (but still deterministic) layout. Useful when you want variety across, say, several rendered tiles, without giving up reproducibility.
+- `iterations` — how many Lloyd relaxation steps to run. The default of `30` is usually enough for the points to settle, but peep the tail end of the mantissa and you might spot asymmetry. Lower is faster, higher gets you closer to a perfect centroidal Voronoi tessellation.
+- `seed` — the starting index into the Halton sequence used for the initial point placement. Changing it gives you a different (but still deterministic) layout. Useful when you want variety across, say, several rendered tiles, without compromising reproducibility.
 
 ```typescript
 const a = pointille(unitSquare, 25, { seed: 1 })
 const b = pointille(unitSquare, 25, { seed: 2 })
 // a and b are both evenly distributed, but different from each other.
-// Running either call again returns the exact same array.
+// Running either call again returns an equivalent array.
 ```
 
 ## How It Works
 
 There are three pieces:
 
-1. **Halton sequence** — a low-discrepancy quasi-random sequence is used to seed initial point positions inside the polygon's bounding box, rejecting any points that fall outside the polygon. Compared to `Math.random()`, this starting layout already has much less clumping.
-2. **Voronoi diagram** — each iteration computes the Voronoi tessellation of the current points, then clips each cell against the polygon so that cells along the boundary don't extend past the edge.
+1. **Halton sequence** — a low-discrepancy quasi-random sequence is used to seed initial point positions inside the polygon's bounding box, rejecting any points that fall outside the polygon. Compared to `Math.random()`, this starting layout already has much less clumping so you start from a better place.
+2. **Voronoi masking** — each iteration computes the Voronoi tessellation of the current points, then clips each cell against the polygon so that cells along the boundary don't extend past the edge.
 3. **Lloyd's algorithm** — each point is moved to the centroid of its clipped Voronoi cell. Repeat. Points drift apart from each other and toward an even spacing.
 
 The result is what's called a _centroidal Voronoi tessellation_ (CVT): a tiling where every point sits at the center of mass of its own cell. It's a fixed point of the relaxation process, and once you're close to it, the points stop moving.
 
-## Why Not Just Poisson-Disk Sampling?
+## Why Not Poisson-Disk Sampling?
 
-Poisson-disk sampling is the usual go-to for "evenly spread but not gridded" points, and it's great. The main reasons I reached for CVT/Lloyd instead:
-
-- You specify exactly how many points you want. Poisson-disk gives you whatever fits a minimum-distance constraint.
-- Lloyd relaxation converges to a global property (every point at its cell's centroid), which to my eye reads as more uniform for small `n`.
-- It's deterministic with no rejection sampling loop.
-
-Use the right tool for the job; for a few hundred well-placed dots on a fixed-area polygon, this fits.
+[Poisson-disk sampling](https://www.jasondavies.com/poisson-disc/) is the usual go-to for "evenly spread but not gridded" points. It's a much faster algorithm which generates a nice organic and natural pattern. If you wanted something more intentionally spaced, with a more crystalline quality to it, I think this would be better.
 
 ## Source
 
 The package is available on npm as [pointille](https://www.npmjs.com/package/pointille), and source lives at [github.com/philihp/pointille](https://github.com/philihp/pointille).
 
 ## Try It
-
-Drag the sliders to choose a regular polygon (3–7 sides) and a count of points (1–100). The library places the points; the Voronoi cells around each one are computed live in your browser.
 
 <div id="pointille-demo">
   <svg viewBox="-1.15 -1.15 2.3 2.3" preserveAspectRatio="xMidYMid meet" aria-label="Pointille interactive demo"></svg>
