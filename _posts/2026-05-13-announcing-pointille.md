@@ -16,7 +16,7 @@ tags:
 
 A problem that's been nagging me for a while involves a game with a rondel shown here. I want these tokens to be centered evenly in each wedge of a regular 13-sided polygon (triskaidecagon). I've also been seeing this problem in rootspace maxxing plants in an irregularly shaped garden plot. I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
 
-The pointillist painters were also solving this same problem by hand a century ago, dotting paint onto canvas in distributions that read as uniform to the eye without being mechanical, so this one's for y'all.
+Named after the decorative pattern used in jewelry, [pointillé](https://en.wikipedia.org/wiki/Pointillé).
 
 ## Install
 
