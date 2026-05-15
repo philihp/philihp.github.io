@@ -28,9 +28,10 @@ layout: default
       >
       {%- endif -%} {% pgp_signature %}
     </p>
+    {%- include translations.html -%}
   </header>
 
-  <div class="post-content e-content" itemprop="articleBody">{{ content }}</div>
+  <div class="post-content e-content" itemprop="articleBody" {% if page.lang %}lang="{{ page.lang }}"{% endif %}>{{ content }}</div>
 
   {%- if site.disqus.shortname -%} {%- include disqus_comments.html -%} {%-
   endif -%}

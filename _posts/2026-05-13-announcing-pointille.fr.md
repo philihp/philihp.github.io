@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Pointille: Evenly Distributing Points in a Polygon"
+title: "Pointille : Répartir uniformément des points dans un polygone"
 date: 2026-05-13T00:00:00Z
-lang: en
+lang: fr
 ref: announcing-pointille
 categories: []
 tags:
@@ -14,33 +14,33 @@ tags:
   - geometry
 ---
 
-<svg id="rondel" style="float:right;width:450px;height:450px" viewBox="-210.5 -210.5 420 420" aria-label="A 13-sided rondel with emoji tokens placed in three of its wedges"></svg>
+<svg id="rondel" style="float:right;width:450px;height:450px" viewBox="-210.5 -210.5 420 420" aria-label="Un rondel à 13 côtés avec des jetons emoji placés dans trois de ses secteurs"></svg>
 
-A problem that's been nagging me for a while involves a game with a rondel shown here. I want these tokens to be centered evenly in each wedge of a regular 13-sided polygon (triskaidecagon). I've also been seeing this problem in rootspace maxxing plants in an irregularly shaped garden plot. I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
+Un problème qui me trotte dans la tête depuis quelque temps concerne un jeu avec un rondel comme celui montré ici. Je veux que ces jetons soient centrés uniformément dans chaque secteur d'un polygone régulier à 13 côtés (triskaidécagone). J'ai aussi rencontré ce problème en optimisant l'espace racinaire de plantes dans une parcelle de jardin de forme irrégulière. J'ai empaqueté mon approche sous le nom de [pointille](https://github.com/philihp/pointille), une petite bibliothèque TypeScript sur npm.
 
-Named after the decorative pattern used in jewelry, [pointillé](https://en.wikipedia.org/wiki/Pointillé).
+Nommé d'après le motif décoratif utilisé en bijouterie, [pointillé](https://fr.wikipedia.org/wiki/Pointill%C3%A9).
 
-## Install
+## Installation
 
 ```bash
 npm install pointille
 ```
 
-## Basic Usage
+## Utilisation de base
 
-`pointille` takes a polygon as an array of `[x, y]` vertices and a count, and returns that many points distributed inside the polygon.
+`pointille` prend un polygone sous forme de tableau de sommets `[x, y]` et un compte, et renvoie autant de points répartis à l'intérieur du polygone.
 
 ```typescript
 import { pointille } from 'pointille'
 
-const unitSquare = [
+const carreUnitaire = [
   [0, 0],
   [1, 0],
   [1, 1],
   [0, 1],
 ] as const
 
-const points = pointille(unitSquare, 25)
+const points = pointille(carreUnitaire, 25)
 // => [
 //   ...
 //   [ 0.4973001454916204, 0.5078269245431213 ],
@@ -52,14 +52,14 @@ const points = pointille(unitSquare, 25)
 
 <div class="pointille-figure" id="pointille-fig-square"></div>
 
-The function is pure and deterministic: the same polygon and the same `n` will always give you back the same set of points. That makes it easy to use in tests, in snapshot rendering, and anywhere else you'd rather not deal with hidden state.
+La fonction est pure et déterministe : le même polygone et le même `n` vous renverront toujours le même ensemble de points. Cela facilite son utilisation dans les tests, dans le rendu de snapshots, et partout où vous préférez éviter l'état caché.
 
-## Concave Polygons
+## Polygones concaves
 
-The algorithm clips Voronoi cells against the input polygon, so concave shapes work too. Here's an L-shape:
+L'algorithme rogne les cellules de Voronoï contre le polygone d'entrée, donc les formes concaves fonctionnent aussi. Voici une forme en L :
 
 ```typescript
-const lShape = [
+const formeL = [
   [0, 0],
   [2, 0],
   [2, 1],
@@ -68,55 +68,55 @@ const lShape = [
   [0, 2],
 ] as const
 
-const points = pointille(lShape, 40)
+const points = pointille(formeL, 40)
 ```
 
 <div class="pointille-figure" id="pointille-fig-l"></div>
 
-No points will leak into the missing corner, and the density along the two arms of the L stays roughly equal.
+Aucun point ne s'échappera dans le coin manquant, et la densité le long des deux bras du L reste à peu près égale.
 
 ## Options
 
-There are two optional parameters worth knowing about:
+Deux paramètres optionnels valent la peine d'être connus :
 
 ```typescript
-pointille(polygon, n, { iterations: 30, seed: 1 })
+pointille(polygone, n, { iterations: 30, seed: 1 })
 ```
 
-- `iterations` — how many Lloyd relaxation steps to run. The default of `30` is usually enough for the points to settle, but peep the tail end of the mantissa and you might spot asymmetry. Lower is faster, higher gets you closer to a perfect centroidal Voronoi tessellation.
-- `seed` — the starting index into the Halton sequence used for the initial point placement. Changing it gives you a different (but still deterministic) layout. Useful when you want variety across, say, several rendered tiles, without compromising reproducibility.
+- `iterations` — le nombre d'étapes de relaxation de Lloyd à exécuter. La valeur par défaut de `30` suffit généralement pour que les points se stabilisent, mais en regardant de près la fin de la mantisse, vous pourriez repérer une asymétrie. Plus bas est plus rapide, plus haut vous rapproche d'une tessellation de Voronoï centroïdale parfaite.
+- `seed` — l'indice de départ dans la séquence de Halton utilisée pour le placement initial des points. Le modifier vous donne une disposition différente (mais toujours déterministe). Utile quand vous voulez de la variété entre, disons, plusieurs tuiles rendues, sans compromettre la reproductibilité.
 
 ```typescript
-const a = pointille(unitSquare, 25, { seed: 1 })
-const b = pointille(unitSquare, 25, { seed: 2 })
-// a and b are both evenly distributed, but different from each other.
-// Running either call again returns an equivalent array.
+const a = pointille(carreUnitaire, 25, { seed: 1 })
+const b = pointille(carreUnitaire, 25, { seed: 2 })
+// a et b sont tous deux uniformément répartis, mais différents l'un de l'autre.
+// Relancer l'un ou l'autre appel renvoie un tableau équivalent.
 ```
 
-## How It Works
+## Comment ça marche
 
-There are three pieces:
+Il y a trois pièces :
 
-1. **Halton sequence** — a low-discrepancy quasi-random sequence is used to seed initial point positions inside the polygon's bounding box, rejecting any points that fall outside the polygon. Compared to `Math.random()`, this starting layout already has much less clumping so you start from a better place.
-2. **Voronoi masking** — each iteration computes the Voronoi tessellation of the current points, then clips each cell against the polygon so that cells along the boundary don't extend past the edge.
-3. **Lloyd's algorithm** — each point is moved to the centroid of its clipped Voronoi cell. Repeat. Points drift apart from each other and toward an even spacing.
+1. **Séquence de Halton** — une séquence quasi-aléatoire à faible discrépance est utilisée pour initialiser les positions des points à l'intérieur de la boîte englobante du polygone, en rejetant tout point qui tombe à l'extérieur. Comparée à `Math.random()`, cette disposition de départ présente déjà beaucoup moins d'agrégats, donc vous partez d'un meilleur point.
+2. **Masquage de Voronoï** — chaque itération calcule la tessellation de Voronoï des points actuels, puis rogne chaque cellule contre le polygone afin que les cellules aux bords ne dépassent pas les limites.
+3. **Algorithme de Lloyd** — chaque point est déplacé vers le centroïde de sa cellule de Voronoï rognée. Répétez. Les points s'éloignent les uns des autres et tendent vers un espacement uniforme.
 
-The result is what's called a _centroidal Voronoi tessellation_ (CVT): a tiling where every point sits at the center of mass of its own cell. It's a fixed point of the relaxation process, and once you're close to it, the points stop moving.
+Le résultat est ce qu'on appelle une _tessellation de Voronoï centroïdale_ (CVT) : un pavage où chaque point se situe au centre de masse de sa propre cellule. C'est un point fixe du processus de relaxation, et une fois qu'on en est proche, les points cessent de bouger.
 
-## Why Not Poisson-Disk Sampling?
+## Pourquoi pas l'échantillonnage Poisson-disque ?
 
-[Poisson-disk sampling](https://www.jasondavies.com/poisson-disc/) is the usual go-to for "evenly spread but not gridded" points. It's a much faster algorithm which generates a nice organic and natural pattern. If you wanted something more intentionally spaced, with a more crystalline quality to it, I think this would be better.
+L'[échantillonnage Poisson-disque](https://www.jasondavies.com/poisson-disc/) est la référence habituelle pour des points « répartis uniformément mais non en grille ». C'est un algorithme bien plus rapide qui produit un motif organique et naturel. Si vous vouliez un espacement plus intentionnel, avec une qualité plus cristalline, je pense que celui-ci serait préférable.
 
 ## Source
 
-The package is available on npm as [pointille](https://www.npmjs.com/package/pointille), and source lives at [github.com/philihp/pointille](https://github.com/philihp/pointille).
+Le paquet est disponible sur npm sous le nom [pointille](https://www.npmjs.com/package/pointille), et le code source se trouve sur [github.com/philihp/pointille](https://github.com/philihp/pointille).
 
-## Try It
+## Essayez-le
 
 <div id="pointille-demo">
-  <svg viewBox="-1.15 -1.15 2.3 2.3" preserveAspectRatio="xMidYMid meet" aria-label="Pointille interactive demo"></svg>
+  <svg viewBox="-1.15 -1.15 2.3 2.3" preserveAspectRatio="xMidYMid meet" aria-label="Démo interactive de Pointille"></svg>
   <div class="controls">
-    <label><span class="lbl">Sides</span><input type="range" id="pointille-sides" min="3" max="7" value="5" step="1"><span class="val" id="pointille-sides-val">5</span></label>
+    <label><span class="lbl">Côtés</span><input type="range" id="pointille-sides" min="3" max="7" value="5" step="1"><span class="val" id="pointille-sides-val">5</span></label>
     <label><span class="lbl">Points</span><input type="range" id="pointille-points" min="1" max="100" value="25" step="1"><span class="val" id="pointille-points-val">25</span></label>
   </div>
 </div>
@@ -151,7 +151,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
     return pts
   }
 
-  // Clip convex polygon to the half-plane of points closer to `a` than `b`.
   function clipHalfPlane(poly, a, b) {
     const dx = b[0] - a[0], dy = b[1] - a[1]
     const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2
@@ -230,7 +229,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
     return [cx / (6 * A), cy / (6 * A)]
   }
 
-  // Vendored pointille: seed with 2D Halton, then Lloyd-relax against the polygon.
   function pointille(polygon, n, { iterations = 30, seed = 1 } = {}) {
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
     for (const [x, y] of polygon) {
@@ -301,9 +299,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
     return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
   }
 
-  // Resample a closed polygon to K vertices evenly along its perimeter,
-  // starting at the polygon's first vertex. Lets us tween between polygons
-  // that have different vertex counts.
   function resamplePolygon(polygon, K) {
     const N = polygon.length
     const lens = new Array(N)
@@ -329,9 +324,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
     return out
   }
 
-  // Greedy globally-shortest-pair matching from `from` to `to`. Returns a
-  // ptFrom[] of length to.length where each entry is the matched source point
-  // (or a clone of the target if there was no source to match).
   function pairPoints(from, to) {
     const M = from.length, N = to.length
     const ptFrom = new Array(N)
@@ -396,8 +388,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
     if (!a) return
     const t = Math.min(1, (now - a.start) / a.dur)
     if (t >= 1) {
-      // Snap to the un-resampled target so the final shape is the real
-      // regular polygon, not a vertex-padded approximation of it.
       state.displayPolygon = a.targetPolygon
       state.displayPoints = a.ptTo
       state.anim = null
@@ -461,9 +451,6 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
   pointsVal.textContent = pointsEl.value
   render(state.displayPolygon, state.displayPoints)
 
-  // Render the rondel at the top of the post: a 13-gon whose wedges hold
-  // emoji tokens. The tokens-per-wedge counts come from the game; their
-  // positions inside each wedge are computed by pointille.
   function renderRondel() {
     const rondel = document.getElementById('rondel')
     if (!rondel) return
@@ -528,4 +515,3 @@ The package is available on npm as [pointille](https://www.npmjs.com/package/poi
 
   renderRondel()
 </script>
-

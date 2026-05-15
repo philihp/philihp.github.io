@@ -1,5 +1,6 @@
 # Site settings
 timezone: Etc/UTC
+default_lang: en
 title: Philihp Busby Blog Posts
 email: philihp@gmail.com
 description: >-
