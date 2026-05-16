@@ -12,6 +12,17 @@
   {%- seo title=false -%}
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}" media="all" rel="preload" as="style" />
   {%- feed_meta -%}
+  {%- if page.ref -%}
+    {%- assign siblings = site.posts | where: "ref", page.ref -%}
+    {%- for t in siblings -%}
+      <link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.url | absolute_url }}" />
+    {%- endfor -%}
+    {%- assign default_lang = site.default_lang | default: "en" -%}
+    {%- assign default_post = siblings | where: "lang", default_lang | first -%}
+    {%- if default_post -%}
+      <link rel="alternate" hreflang="x-default" href="{{ default_post.url | absolute_url }}" />
+    {%- endif -%}
+  {%- endif -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
   {%- endif -%}
