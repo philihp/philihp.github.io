@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>It's Always Five O'Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@200;300;400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0a0807;
+    --amber: #e8a85c;
+    --amber-bright: #f4c47a;
+    --amber-dim: #8a6438;
+    --cream: #e8dfd2;
+    --cream-dim: #8b8377;
+    --rule: rgba(232, 168, 92, 0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow: hidden;
+  }
+  body {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 45%, rgba(232, 168, 92, 0.10), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(244, 196, 122, 0.06), transparent 70%),
+      linear-gradient(180deg, #0a0807 0%, #14100d 50%, #0a0807 100%);
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    z-index: 1;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
+    z-index: 2;
+  }
+  main {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(1.5rem, 3vw, 3rem);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+  }
+  header .mark { color: var(--amber); }
+  header .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    margin: 0 1.5rem;
+    align-self: center;
+  }
+  .stage {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    gap: 2.5rem;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards;
+  }
+  .clock {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(4.5rem, 14vw, 11rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--amber-bright);
+    text-shadow:
+      0 0 40px rgba(232, 168, 92, 0.25),
+      0 0 80px rgba(232, 168, 92, 0.15);
+    opacity: 0;
+    animation: fadeUp 1.4s 0.2s ease forwards;
+    font-variant-numeric: tabular-nums;
+  }
+  .clock .colon {
+    display: inline-block;
+    transform: translateY(-0.05em);
+    animation: blink 2s ease-in-out infinite;
+    color: var(--amber);
+  }
+  .day-zone {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 3vw, 2.2rem);
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 1.4s 0.4s ease forwards;
+  }
+  .day-zone .sep {
+    color: var(--amber-dim);
+    margin: 0 0.6em;
+    font-style: normal;
+  }
+  .city {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    opacity: 0;
+    animation: fadeUp 1.4s 0.6s ease forwards;
+  }
+  .city .pulse {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    margin-right: 0.8em;
+    transform: translateY(-1px);
+    box-shadow: 0 0 8px var(--amber);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    opacity: 0;
+    animation: fadeUp 1.4s 0.8s ease forwards;
+  }
+  footer .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--cream);
+    max-width: 24ch;
+    line-height: 1.4;
+  }
+  footer .quote::before { content: "\201C"; color: var(--amber); font-size: 1.4em; margin-right: 0.1em; }
+  footer .quote::after  { content: "\201D"; color: var(--amber); font-size: 1.4em; margin-left: 0.1em; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blink {
+    0%, 45%, 100% { opacity: 1; }
+    50%, 95%      { opacity: 0.25; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1;   transform: translateY(-1px) scale(1); }
+    50%      { opacity: 0.4; transform: translateY(-1px) scale(0.85); }
+  }
+  @media (max-width: 640px) {
+    header .rule { display: none; }
+    header { gap: 1rem; }
+    footer { flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="mark">&#9670; ALWAYS 17:00</span>
+    <span class="rule"></span>
+    <span id="utc-stamp">&mdash; &mdash;</span>
+  </header>
+
+  <section class="stage">
+    <div class="eyebrow">It is, somewhere</div>
+    <div class="clock" id="clock">
+      <span id="hh">&mdash;</span><span class="colon">:</span><span id="mm">&mdash;</span>
+    </div>
+    <div class="day-zone">
+      <span id="day">&mdash;</span><span class="sep">&middot;</span><span id="zone">&mdash;</span>
+    </div>
+    <div class="city">
+      <span class="pulse"></span><span id="city">locating happy hour&hellip;</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>Est. somewhere &middot; Now serving</span>
+    <span class="quote">It's five o'clock somewhere</span>
+    <span id="next-shift">next shift &mdash;</span>
+  </footer>
+</main>
+
+<script>
+  const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)
+  const map = f => xs => xs.map(f)
+  const find = pred => xs => xs.find(pred)
+  const defaultTo = d => x => (x == null ? d : x)
+
+  const ZONES_BY_OFFSET = {
+    '-11': { zone: 'Pacific/Pago_Pago',     label: 'Pago Pago',    tag: 'SST'   },
+    '-10': { zone: 'Pacific/Honolulu',      label: 'Honolulu',     tag: 'HST'   },
+    '-9b': { zone: 'America/Adak',          label: 'Adak',         tag: 'HST'   },
+    '-9':  { zone: 'America/Anchorage',     label: 'Anchorage',    tag: 'AKST'  },
+    '-8':  { zone: 'America/Los_Angeles',   label: 'Los Angeles',  tag: 'PST'   },
+    '-7':  { zone: 'America/Denver',        label: 'Denver',       tag: 'MST'   },
+    '-6':  { zone: 'America/Chicago',       label: 'Chicago',      tag: 'CST'   },
+    '-5':  { zone: 'America/New_York',      label: 'New York',     tag: 'EST'   },
+    '-4':  { zone: 'America/Halifax',       label: 'Halifax',      tag: 'AST'   },
+    '-3':  { zone: 'America/Sao_Paulo',     label: 'Sao Paulo',    tag: 'BRT'   },
+    '-2':  { zone: 'Atlantic/South_Georgia',label: 'South Georgia',tag: 'GST'   },
+    '-1':  { zone: 'Atlantic/Cape_Verde',   label: 'Cape Verde',   tag: 'CVT'   },
+    '-1b': { zone: 'Atlantic/Azores',       label: 'Azores',       tag: 'AZOT'  },
+    '0':   { zone: 'Africa/Abidjan',        label: 'Abidjan',      tag: 'GMT'   },
+    '1':   { zone: 'Africa/Lagos',          label: 'Lagos',        tag: 'WAT'   },
+    '2a':  { zone: 'Africa/Johannesburg',   label: 'Johannesburg', tag: 'SAST'  },
+    '2':   { zone: 'Africa/Cairo',          label: 'Cairo',        tag: 'EET'   },
+    '3':   { zone: 'Europe/Moscow',         label: 'Moscow',       tag: 'MSK'   },
+    '4':   { zone: 'Asia/Dubai',            label: 'Dubai',        tag: 'GST'   },
+    '5':   { zone: 'Asia/Karachi',          label: 'Karachi',      tag: 'PKT'   },
+    '6':   { zone: 'Asia/Dhaka',            label: 'Dhaka',        tag: 'BST'   },
+    '7':   { zone: 'Asia/Bangkok',          label: 'Bangkok',      tag: 'ICT'   },
+    '8':   { zone: 'Asia/Shanghai',         label: 'Shanghai',     tag: 'CST'   },
+    '9':   { zone: 'Asia/Tokyo',            label: 'Tokyo',        tag: 'JST'   },
+    '10':  { zone: 'Australia/Brisbane',    label: 'Brisbane',     tag: 'AEST'  },
+    '11':  { zone: 'Pacific/Noumea',        label: 'Noumea',       tag: 'NCT'   },
+    '12':  { zone: 'Pacific/Auckland',      label: 'Auckland',     tag: 'NZST'  },
+    '13':  { zone: 'Pacific/Apia',          label: 'Apia',         tag: 'WST'   },
+    '14':  { zone: 'Pacific/Kiritimati',    label: 'Kiritimati',   tag: 'LINT'  }
+  }
+
+  const pad2 = n => String(n).padStart(2, '0')
+
+  const partsAt = date => zone => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: zone, hour12: false,
+      weekday: 'long', hour: '2-digit', minute: '2-digit'
+    }).formatToParts(date)
+    const get = t => pipe(find(p => p.type === t), defaultTo({ value: '' }), p => p.value)(parts)
+    return { hour: get('hour'), minute: get('minute'), weekday: get('weekday') }
+  }
+
+  const findFiveOClockZone = date => {
+    const read = partsAt(date)
+    const candidates = pipe(
+      Object.values,
+      map(z => ({ ...z, ...read(z.zone) }))
+    )(ZONES_BY_OFFSET)
+
+    const hit = find(c => c.hour === '17')(candidates)
+    return defaultTo({
+      label: '—', tag: '—', zone: '—',
+      hour: pad2(date.getUTCHours()),
+      minute: pad2(date.getUTCMinutes()),
+      weekday: '—'
+    })(hit)
+  }
+
+  const utcStamp = date =>
+    `UTC ${pad2(date.getUTCHours())}:${pad2(date.getUTCMinutes())}:${pad2(date.getUTCSeconds())}`
+
+  const nextPour = date => `next pour in ${pad2(60 - date.getUTCSeconds())}s`
+
+  const $ = id => document.getElementById(id)
+
+  const render = () => {
+    const now = new Date()
+    const hit = findFiveOClockZone(now)
+    $('hh').textContent = hit.hour
+    $('mm').textContent = hit.minute
+    $('day').textContent = hit.weekday
+    $('zone').textContent = hit.tag
+    $('city').textContent = hit.label
+    $('utc-stamp').textContent = utcStamp(now)
+    $('next-shift').textContent = nextPour(now)
+  }
+
+  render()
+  setInterval(render, 1000)
+</script>
+</body>
+</html>
