@@ -111,6 +111,15 @@
     animation: blink 2s ease-in-out infinite;
     color: var(--amber);
   }
+  .clock .meridiem {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.22em;
+    letter-spacing: 0.3em;
+    color: var(--amber);
+    margin-left: 0.4em;
+    vertical-align: 0.9em;
+    font-weight: 300;
+  }
   .day-zone {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
@@ -192,15 +201,15 @@
 <body>
 <main>
   <header>
-    <span class="mark">&#9670; ALWAYS 17:00</span>
+    <span class="mark">&#9670; ALWAYS 5 PM</span>
     <span class="rule"></span>
     <span id="utc-stamp">&mdash; &mdash;</span>
   </header>
 
   <section class="stage">
-    <div class="eyebrow">It is, somewhere</div>
+    <div class="eyebrow">It's five o'clock somewhere</div>
     <div class="clock" id="clock">
-      <span id="hh">&mdash;</span><span class="colon">:</span><span id="mm">&mdash;</span>
+      <span id="hh">&mdash;</span><span class="colon">:</span><span id="mm">&mdash;</span><span class="meridiem" id="ap">PM</span>
     </div>
     <div class="day-zone">
       <span id="day">&mdash;</span><span class="sep">&middot;</span><span id="zone">&mdash;</span>
@@ -212,7 +221,6 @@
 
   <footer>
     <span>Est. somewhere &middot; Now serving</span>
-    <span class="quote">It's five o'clock somewhere</span>
     <span id="next-shift">next shift &mdash;</span>
   </footer>
 </main>
@@ -257,6 +265,14 @@
 
   const pad2 = n => String(n).padStart(2, '0')
 
+  const to12h = h24 => {
+    const n = Number(h24)
+    if (!Number.isFinite(n)) return { hour: h24, meridiem: '' }
+    const meridiem = n >= 12 ? 'PM' : 'AM'
+    const hour = ((n + 11) % 12) + 1
+    return { hour: String(hour), meridiem }
+  }
+
   const partsAt = date => zone => {
     const parts = new Intl.DateTimeFormat('en-US', {
       timeZone: zone, hour12: false,
@@ -292,8 +308,10 @@
   const render = () => {
     const now = new Date()
     const hit = findFiveOClockZone(now)
-    $('hh').textContent = hit.hour
+    const { hour, meridiem } = to12h(hit.hour)
+    $('hh').textContent = hour
     $('mm').textContent = hit.minute
+    $('ap').textContent = meridiem
     $('day').textContent = hit.weekday
     $('zone').textContent = hit.tag
     $('city').textContent = hit.label
