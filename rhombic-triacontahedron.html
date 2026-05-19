@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rhombic Triacontahedron — Penrose Texture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0a08;
+    --ink: #f1ddae;
+    --dim: #8a7a55;
+    --rule: #2a1a08;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--ink); overflow: hidden; }
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background:
+      radial-gradient(ellipse at 50% 40%, #1a1610 0%, #0b0a08 70%),
+      var(--bg);
+  }
+  header {
+    padding: 1.4rem 2rem 0.7rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.35rem;
+    letter-spacing: 0.04em;
+  }
+  header h1 em { font-style: italic; color: var(--dim); font-weight: 400; }
+  header .meta {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  #stage { position: relative; overflow: hidden; }
+  #stage canvas { display: block; width: 100%; height: 100%; }
+  #loading {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--dim); font-style: italic; letter-spacing: 0.08em;
+  }
+  footer {
+    padding: 0.7rem 2rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--rule);
+  }
+  footer kbd {
+    font-family: inherit;
+    border: 1px solid var(--rule);
+    padding: 0 0.35rem;
+    border-radius: 2px;
+    color: var(--ink);
+  }
+  @media (max-width: 600px) {
+    header { padding: 1rem 1rem 0.5rem; flex-direction: column; gap: 0.3rem; }
+    header h1 { font-size: 1.15rem; }
+    footer { padding: 0.5rem 1rem 0.8rem; flex-direction: column; gap: 0.3rem; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Rhombic Triacontahedron <em>— faced with a Penrose patch</em></h1>
+    <div class="meta">30 golden rhombi · φ = (1+√5)/2</div>
+  </header>
+  <main id="stage">
+    <div id="loading">composing…</div>
+  </main>
+  <footer>
+    <span><kbd>drag</kbd> rotate · <kbd>scroll</kbd> zoom</span>
+    <span>texture: thick-rhomb-3-square.svg</span>
+  </footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+const PHI = (1 + Math.sqrt(5)) / 2
+
+// ───────────────────────────────────────────────────────────────
+// Icosahedron: 12 vertices on radius 1
+// ───────────────────────────────────────────────────────────────
+const icoVerts = (() => {
+  const a = 1, b = PHI
+  const raw = [
+    [ 0,  a,  b], [ 0,  a, -b], [ 0, -a,  b], [ 0, -a, -b],
+    [ a,  b,  0], [ a, -b,  0], [-a,  b,  0], [-a, -b,  0],
+    [ b,  0,  a], [ b,  0, -a], [-b,  0,  a], [-b,  0, -a],
+  ]
+  const r = Math.hypot(a, b)
+  return raw.map(([x, y, z]) => new THREE.Vector3(x / r, y / r, z / r))
+})()
+
+// ───────────────────────────────────────────────────────────────
+// Dodecahedron: 20 vertices, dual-aligned with the icosahedron above.
+// Combinations: (±1, ±1, ±1) plus the THREE cyclic permutations of
+// (±1/φ, 0, ±φ): namely (a,0,b), (0,b,a), (b,a,0).
+// ───────────────────────────────────────────────────────────────
+const dodecVerts = (() => {
+  const raw = []
+  for (const x of [-1, 1])
+    for (const y of [-1, 1])
+      for (const z of [-1, 1])
+        raw.push([x, y, z])
+  const inv = 1 / PHI
+  for (const a of [-inv, inv])
+    for (const b of [-PHI, PHI]) {
+      raw.push([a, 0, b])
+      raw.push([0, b, a])
+      raw.push([b, a, 0])
+    }
+  const r = Math.sqrt(3)
+  return raw.map(([x, y, z]) => new THREE.Vector3(x / r, y / r, z / r))
+})()
+
+// ───────────────────────────────────────────────────────────────
+// Derive: ico edges → ico faces → face-dual dodec vertices → 30 rhombic faces.
+// ───────────────────────────────────────────────────────────────
+const shortestPairDistance = (verts) => {
+  let m = Infinity
+  for (let i = 0; i < verts.length; i++)
+    for (let j = i + 1; j < verts.length; j++)
+      m = Math.min(m, verts[i].distanceTo(verts[j]))
+  return m
+}
+
+const icoEdgeLen = shortestPairDistance(icoVerts)
+const EPS = 1e-4
+
+const icoEdges = (() => {
+  const edges = []
+  for (let i = 0; i < icoVerts.length; i++)
+    for (let j = i + 1; j < icoVerts.length; j++)
+      if (Math.abs(icoVerts[i].distanceTo(icoVerts[j]) - icoEdgeLen) < EPS)
+        edges.push([i, j])
+  return edges
+})()
+
+const icoFaces = (() => {
+  const adj = new Map(icoVerts.map((_, i) => [i, new Set()]))
+  icoEdges.forEach(([a, b]) => { adj.get(a).add(b); adj.get(b).add(a) })
+  const faces = []
+  for (let i = 0; i < icoVerts.length; i++)
+    for (const j of adj.get(i)) {
+      if (j <= i) continue
+      for (const k of adj.get(j)) {
+        if (k <= j) continue
+        if (!adj.get(i).has(k)) continue
+        faces.push([i, j, k])
+      }
+    }
+  return faces
+})()
+
+// Each ico face's outward normal direction matches exactly one dodec vertex direction.
+const faceToDodec = icoFaces.map((tri) => {
+  const c = new THREE.Vector3()
+    .add(icoVerts[tri[0]])
+    .add(icoVerts[tri[1]])
+    .add(icoVerts[tri[2]])
+    .normalize()
+  let bestIdx = 0, bestDot = -Infinity
+  dodecVerts.forEach((dv, idx) => {
+    const d = dv.clone().normalize().dot(c)
+    if (d > bestDot) { bestDot = d; bestIdx = idx }
+  })
+  return bestIdx
+})
+
+// 30 rhombic faces: each ico edge → two ico faces → two dodec verts.
+const rhombicFaces = (() => {
+  const edgeKey = (a, b) => a < b ? `${a},${b}` : `${b},${a}`
+  const edgeToFaces = new Map()
+  icoFaces.forEach((tri, fi) => {
+    for (const [a, b] of [[tri[0], tri[1]], [tri[1], tri[2]], [tri[2], tri[0]]]) {
+      const k = edgeKey(a, b)
+      if (!edgeToFaces.has(k)) edgeToFaces.set(k, [])
+      edgeToFaces.get(k).push(fi)
+    }
+  })
+  const out = []
+  for (const [key, faceIdxs] of edgeToFaces) {
+    if (faceIdxs.length !== 2) continue
+    const [a, b] = key.split(',').map(Number)
+    const [f1, f2] = faceIdxs
+    out.push({
+      icoA: a, icoB: b,
+      dodecA: faceToDodec[f1], dodecB: faceToDodec[f2],
+    })
+  }
+  return out
+})()
+
+// Uniform dodec scale: all 30 rhombi are planar, perpendicular-diagonal,
+// midpoint-coincident when we apply this single factor.
+const dodecScale = (() => {
+  const f = rhombicFaces[0]
+  const icoMid = icoVerts[f.icoA].clone().add(icoVerts[f.icoB]).multiplyScalar(0.5)
+  const dodecMid = dodecVerts[f.dodecA].clone().add(dodecVerts[f.dodecB]).multiplyScalar(0.5)
+  return icoMid.length() / dodecMid.length()
+})()
+
+const scaledDodec = dodecVerts.map((v) => v.clone().multiplyScalar(dodecScale))
+
+// ───────────────────────────────────────────────────────────────
+// SVG texture (inline). Verified: after the rotate(45) the depicted rhombus's
+// four extreme corners map exactly to the four corners of the texture's UV
+// square. So we map the texture's (0,0)(1,0)(1,1)(0,1) onto each face's four
+// vertices going around the perimeter.
+//
+// Each face perimeter, in cyclic order: icoA, dodecA, icoB, dodecB.
+// The ico-vertex pair is the LONG diagonal; the dodec-vertex pair is the
+// SHORT diagonal. We orient the texture so its long diagonal (the diagonal of
+// the UV square from (0,0) to (1,1)) aligns with the face's long diagonal.
+// ───────────────────────────────────────────────────────────────
+const svgText = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="381.48 211.94 637.04 637.04" width="1024" height="1024">
+  <g transform="rotate(45 700 530.46)">
+    <path d="M674.923,530.46 L568.694,424.12 L462.458,530.46 L568.694,636.79Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M568.694,424.12 L674.923,530.46 L634.344,358.4 L528.115,252.06Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,530.46 L674.923,530.46 L634.344,358.4 L765.656,358.4Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M528.115,252.06 L568.694,424.12 L462.458,530.46 L421.885,358.4Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M381.306,530.46 L421.885,358.4 L462.458,530.46 L421.885,702.52Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M659.42,252.06 L528.115,252.06 L634.344,358.4 L765.656,358.4Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M765.656,358.4 L659.42,252.06 L700,80 L806.229,186.34Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M912.458,424.12 L1043.771,424.12 L937.542,530.46 L806.229,530.46Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M1150,530.46 L1043.771,424.12 L937.542,530.46 L1043.771,636.79Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,530.46 L912.458,424.12 L871.885,252.06 L765.656,358.4Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M568.694,636.79 L674.923,530.46 L634.344,702.52 L528.115,808.85Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,530.46 L674.923,530.46 L634.344,702.52 L765.656,702.52Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M528.115,808.85 L568.694,636.79 L462.458,530.46 L421.885,702.52Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M659.42,808.85 L528.115,808.85 L634.344,702.52 L765.656,702.52Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M765.656,702.52 L659.42,808.85 L700,980.91 L806.229,874.57Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M912.458,636.79 L1043.771,636.79 L937.542,530.46 L806.229,530.46Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,530.46 L912.458,636.79 L871.885,808.85 L765.656,702.52Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M421.885,358.4 L381.306,530.46 L250,530.46Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M528.115,252.06 L659.42,252.06 L700,80Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M1043.771,424.12 L912.458,424.12 L871.885,252.06Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,186.34 L765.656,358.4 L871.885,252.06Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M421.885,702.52 L381.306,530.46 L250,530.46Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M528.115,808.85 L659.42,808.85 L700,980.91Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M1043.771,636.79 L912.458,636.79 L871.885,808.85Z" fill="#c9882f" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+    <path d="M806.229,874.57 L765.656,702.52 L871.885,808.85Z" fill="#f1ddae" stroke="#2a1a08" stroke-width="1.2" stroke-linejoin="round"/>
+  </g>
+</svg>`
+
+const svgBlob = new Blob([svgText], { type: 'image/svg+xml' })
+const svgUrl = URL.createObjectURL(svgBlob)
+
+const texLoader = new THREE.TextureLoader()
+const texture = await new Promise((resolve, reject) => {
+  texLoader.load(svgUrl, (tex) => {
+    tex.colorSpace = THREE.SRGBColorSpace
+    tex.anisotropy = 16
+    tex.minFilter = THREE.LinearMipmapLinearFilter
+    tex.magFilter = THREE.LinearFilter
+    tex.generateMipmaps = true
+    resolve(tex)
+  }, undefined, reject)
+})
+
+// ───────────────────────────────────────────────────────────────
+// Build the mesh
+// ───────────────────────────────────────────────────────────────
+const positions = []
+const uvs = []
+const normals = []
+const indices = []
+
+rhombicFaces.forEach((face) => {
+  const v0 = icoVerts[face.icoA]        // long-diag end 1
+  const v1 = scaledDodec[face.dodecA]   // short-diag end 1
+  const v2 = icoVerts[face.icoB]        // long-diag end 2
+  const v3 = scaledDodec[face.dodecB]   // short-diag end 2
+
+  const e1 = new THREE.Vector3().subVectors(v1, v0)
+  const e2 = new THREE.Vector3().subVectors(v3, v0)
+  const n = new THREE.Vector3().crossVectors(e1, e2).normalize()
+  const center = new THREE.Vector3()
+    .add(v0).add(v1).add(v2).add(v3).multiplyScalar(0.25)
+  if (n.dot(center) < 0) n.multiplyScalar(-1)
+
+  // UV: face's long diagonal (v0↔v2) → texture's diagonal (0,0)↔(1,1).
+  //     face's short diagonal (v1↔v3) → texture's diagonal (1,0)↔(0,1).
+  const baseIdx = positions.length / 3
+
+  positions.push(v0.x, v0.y, v0.z)
+  positions.push(v1.x, v1.y, v1.z)
+  positions.push(v2.x, v2.y, v2.z)
+  positions.push(v3.x, v3.y, v3.z)
+
+  uvs.push(0, 0)   // v0 — long end
+  uvs.push(1, 0)   // v1 — short end
+  uvs.push(1, 1)   // v2 — long end
+  uvs.push(0, 1)   // v3 — short end
+
+  for (let i = 0; i < 4; i++) normals.push(n.x, n.y, n.z)
+
+  indices.push(baseIdx, baseIdx + 1, baseIdx + 2)
+  indices.push(baseIdx, baseIdx + 2, baseIdx + 3)
+})
+
+const geom = new THREE.BufferGeometry()
+geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+geom.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2))
+geom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3))
+geom.setIndex(indices)
+
+const material = new THREE.MeshStandardMaterial({
+  map: texture,
+  roughness: 0.55,
+  metalness: 0.15,
+  side: THREE.DoubleSide,
+})
+
+const mesh = new THREE.Mesh(geom, material)
+
+// ───────────────────────────────────────────────────────────────
+// Scene
+// ───────────────────────────────────────────────────────────────
+const stage = document.getElementById('stage')
+const loadingEl = document.getElementById('loading')
+loadingEl.remove()
+
+const w = stage.clientWidth
+const h = stage.clientHeight
+
+const scene = new THREE.Scene()
+scene.background = null
+
+const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100)
+camera.position.set(2.4, 1.8, 3.6)
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setSize(w, h)
+renderer.outputColorSpace = THREE.SRGBColorSpace
+stage.appendChild(renderer.domElement)
+
+scene.add(mesh)
+
+const key = new THREE.DirectionalLight(0xfff2d4, 1.5)
+key.position.set(3, 4, 5)
+scene.add(key)
+
+const fill = new THREE.DirectionalLight(0x88aacc, 0.4)
+fill.position.set(-4, -2, -3)
+scene.add(fill)
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.35)
+scene.add(ambient)
+
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
+controls.dampingFactor = 0.08
+controls.autoRotate = true
+controls.autoRotateSpeed = 0.5
+controls.minDistance = 1.8
+controls.maxDistance = 8
+
+window.addEventListener('resize', () => {
+  const w = stage.clientWidth
+  const h = stage.clientHeight
+  camera.aspect = w / h
+  camera.updateProjectionMatrix()
+  renderer.setSize(w, h)
+})
+
+controls.addEventListener('start', () => { controls.autoRotate = false })
+
+const animate = () => {
+  requestAnimationFrame(animate)
+  controls.update()
+  renderer.render(scene, camera)
+}
+animate()
+</script>
+</body>
+</html>
