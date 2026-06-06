@@ -1,6 +1,27 @@
 {
+  "name": "philihp.com",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
   "engines": {
-    "node": "24.x"
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
+    "start": "next start",
+    "convert": "node scripts/convert-posts.mjs"
+  },
+  "dependencies": {
+    "next": "^16.2.7",
+    "nextra": "^4.6.1",
+    "nextra-theme-blog": "^4.6.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "pagefind": "^1.5.2"
   }
 }
