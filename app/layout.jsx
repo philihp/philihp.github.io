@@ -1,6 +1,7 @@
 import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
+import Script from 'next/script'
 import 'nextra-theme-blog/style.css'
 import './computer-modern.css'
 
@@ -34,6 +35,16 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
+      <Script id="in-app-browser-redirect" strategy="beforeInteractive">
+        {`(function () {
+  // Redirect visitors arriving from the Instagram or Facebook in-app
+  // browsers (which break many web features) over to Bluesky.
+  var ua = navigator.userAgent || "";
+  if (/Instagram|FBAN|FBAV|FB_IAB/.test(ua)) {
+    window.location.replace("https://bsky.app/profile/philihp.com");
+  }
+})();`}
+      </Script>
       <link rel="stylesheet" href="/assets/fonts/fonts.css" />
       <body>
         <Layout>
