@@ -1,3 +1,13 @@
+<script>
+  // Redirect visitors arriving from the Instagram or Facebook in-app
+  // browsers (which break many web features) over to Bluesky.
+  (function () {
+    var ua = navigator.userAgent || "";
+    if (/Instagram|FBAN|FBAV|FB_IAB/.test(ua)) {
+      window.location.replace("https://bsky.app/profile/philihp.com");
+    }
+  })();
+</script>
 <link
   rel="apple-touch-icon"
   sizes="180x180"
