@@ -2,6 +2,7 @@ import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-blog/style.css'
+import './computer-modern.css'
 
 const SITE_URL = 'https://philihp.com'
 
@@ -21,7 +22,7 @@ export const metadata = {
 
 const SOCIAL = [
   ['GitHub', 'https://github.com/philihp'],
-  ['Twitter', 'https://twitter.com/philihp'],
+  ['Bluesky', 'https://bsky.app/profile/philihp.com'],
   ['LinkedIn', 'https://linkedin.com/in/philihp'],
   ['Instagram', 'https://instagram.com/philihp'],
   ['Keybase', 'https://keybase.io/philihp']
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
+      <link rel="stylesheet" href="/assets/fonts/fonts.css" />
       <body>
         <Layout>
           <Navbar pageMap={await getPageMap()}>
