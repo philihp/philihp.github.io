@@ -47,7 +47,7 @@ export default async function RootLayout({ children }) {
       <body>
         <Layout>
           <Navbar pageMap={await getPageMap()}>
-            <Search />
+            <Search placeholder="Search" />
             <ThemeSwitch />
           </Navbar>
 
