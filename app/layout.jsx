@@ -3,7 +3,6 @@ import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import Script from 'next/script'
 import 'nextra-theme-blog/style.css'
-import './computer-modern.css'
 
 const SITE_URL = 'https://philihp.com'
 
@@ -45,7 +44,6 @@ export default async function RootLayout({ children }) {
   }
 })();`}
       </Script>
-      <link rel="stylesheet" href="/assets/fonts/fonts.css" />
       <body>
         <Layout>
           <Navbar pageMap={await getPageMap()}>
