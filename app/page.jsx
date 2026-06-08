@@ -16,7 +16,11 @@ export default async function HomePage() {
           <li key={post.route} style={{ margin: '.4rem 0' }}>
             <time
               dateTime={post.frontMatter.date}
-              style={{ opacity: 0.6, marginRight: '.75rem' }}
+              style={{
+                opacity: 0.6,
+                marginRight: '.75rem',
+                fontFamily: 'monospace'
+              }}
             >
               {post.frontMatter.date}
             </time>
