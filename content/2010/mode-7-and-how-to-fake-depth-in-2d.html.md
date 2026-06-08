@@ -1,0 +1,52 @@
+---
+title: "Mode 7, and How to Fake Depth in 2d"
+date: 2010-10-18
+tags:
+  - "F-Zero"
+  - "Interesting Things"
+  - "Mode 7"
+  - "SNES"
+  - "Star Fox"
+  - "Super FX"
+  - "Super Mario Kart"
+author: "Philihp Busby"
+---
+
+<p>
+  <a href="http://en.wikipedia.org/wiki/Mode_7"
+    ><img
+      class="alignright"
+      title="Mode 7 Test"
+      src="/assets/Mode_7_Test-0000.png"
+      alt=""
+      width="256"
+      height="224"
+  /></a>
+</p>
+<blockquote>
+  <p>
+    The term Mode 7 originated on the Super NES video game console, on which it
+    describes a simple texture mapping graphics mode that allows a background
+    layer to be rotated and scaled. By modifying the scaling and positioning of
+    the layer on a scanline-by-scanline basis, a simple perspective effect can
+    be applied, transforming the layer into a 2-dimensional horizontal
+    texture-mapped plane that trades height for depth. Thus, an impression of
+    3-dimensional graphics is achieved.
+  </p>
+  <p>
+    <a href="http://en.wikipedia.org/wiki/Mode_7">wikipedia.org/wiki/Mode_7</a>
+  </p>
+</blockquote>
+<p>
+  Basically, for lines on the screen, when they're at the top, scale the texture
+  smaller. When they're near the bottom, scale the texture bigger.
+</p>
+<p>
+  Immediately makes me remember Super Mario Kart and F-Zero. This is how they
+  did the fake 3d perspective of the ground before titles like Star Fox came
+  out;and it also explains why the barriers on the racetracks always appeared
+  flat, whereas in games like Stunt Race FX, the barriers were solid. What I
+  didn't realize, was that
+  <a href="http://en.wikipedia.org/wiki/Final_Fantasy_VI">Final Fantasy VI</a>
+  also used this trick for the world map. Neat.
+</p>

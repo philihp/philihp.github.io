@@ -1,0 +1,302 @@
+[
+  {
+    "source": "/blog/2008/using-wget-with-http-get-parameters",
+    "destination": "/2008/using-wget-with-http-get-parameters.html",
+    "permanent": true
+  },
+  {
+    "source": "/2009/avoid-correlated-subqueries.html",
+    "destination": "/2008/avoid-correlated-subqueries-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2008/connecting-to-mysql-with-php-in-apache-on-openbsd.html",
+    "destination": "/2008/connecting-to-mysql-with-php-in-apache-on-openbsd.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2009/how-to-retrieve-the-id-after-a-mysql-insert-in-python",
+    "destination": "/2009/how-to-retrieve-the-id-after-a-mysql-insert-in-python.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2009/converting-a-date-to-a-datetime-in-sas",
+    "destination": "/2009/converting-a-date-to-a-datetime-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2009/for-loops-in-sas",
+    "destination": "/2009/for-loops-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2010/easy-way-to-remove-all-variable-labels-in-sas",
+    "destination": "/2010/easy-way-to-remove-all-variable-labels-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/things-i-learned-from-wiring-a-car-stereo",
+    "destination": "/2011/things-i-learned-from-wiring-a-car-stereo.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/things-i-learned-from-wiring-a-car-stereo.html",
+    "destination": "/2011/things-i-learned-from-wiring-a-car-stereo.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/s2000wiring",
+    "destination": "/2011/things-i-learned-from-wiring-a-car-stereo.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/maximum-sizes-of-mysql-blob-fields",
+    "destination": "/2011/maximum-sizes-of-mysql-blob-fields.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/how-to-get-the-last-day-of-a-month-in-sas",
+    "destination": "/2011/how-to-get-the-last-day-of-a-month-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/how-to-get-the-last-day-of-a-month-in-sas.html",
+    "destination": "/2011/how-to-get-the-last-day-of-a-month-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2011/diy-led-hula-hoop",
+    "destination": "/2011/diy-led-hula-hoop.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/how-to-create-an-empty-sas-dataset.html",
+    "destination": "/2012/how-to-create-an-empty-sas-dataset.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/chained-struts-actions-accessible-only-by-forward.html",
+    "destination": "/2012/chained-struts-actions-that-accessible-only-by-forward.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/chained-struts-actions-that-accessible-only-by-forward.html",
+    "destination": "/2012/chained-struts-actions-that-accessible-only-by-forward.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/multiple-instances-of-the-same-embedded-jpa-entity",
+    "destination": "/2012/multiple-instances-of-the-same-embedded-jpa-entity.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/i-made-a-gps-locator-for-myself",
+    "destination": "/2012/i-made-a-gps-locator-for-myself.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/reusing-a-libnames-database-connection-in-pass-through",
+    "destination": "/2012/reusing-a-libnames-database-connection-in-pass-through.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/sas-switch-statement",
+    "destination": "/2012/sas-switch-statement.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/sas-switch-statement.html",
+    "destination": "/2012/sas-switch-statement.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/metaout-data-error.html",
+    "destination": "/2012/metaout-data-error.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/turning-an-image-file-into-a-binary-bitmask-in-java",
+    "destination": "/2012/turning-an-image-file-into-a-binary-bitmask-in-java.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/how-to-write-your-own-custom-sas-functions",
+    "destination": "/2012/how-to-write-your-own-custom-sas-functions.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/getting-the-last-element-in-an-array-in-jsp-with-jstl",
+    "destination": "/2012/getting-the-last-element-in-an-array-in-jsp-with-jstl.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2012/how-to-save-struts-messages-after-a-redirect",
+    "destination": "/2012/how-to-save-struts-messages-after-a-redirect.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2013/bayesian-averaging-in-sas",
+    "destination": "/2013/bayesian-averaging-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2013/finding-the-center-of-us-counties-in-sas",
+    "destination": "/2013/finding-the-center-of-us-counties-in-sas.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2013/handlebars-each-in-a-play-scala-view",
+    "destination": "/2013/handlebars-each-in-a-play-scala-view.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2014/new-city-new-job-new-format",
+    "destination": "/2014/new-city-new-job-new-format.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2015/how-to-use-junit4-hamcrest-matchers",
+    "destination": "/2015/how-to-use-junit4-hamcrest-matchers.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2015/using-java-8-lambdas-with-google-guava-caches",
+    "destination": "/2015/how-to-parameterize-an-rspec-shared-context.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2016/configure-mysql-on-aws-t2-micro-linux-ami",
+    "destination": "/2016/configure-mysql-on-aws-t2-micro-linux-ami.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2016/class-foo-has-no-initializers",
+    "destination": "/2016/class-foo-has-no-initializers.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2016/error-enoent-when-installing-pow-on-macos",
+    "destination": "/2016/error-enoent-when-installing-pow-on-macos.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2016/transitioning-pgp-keys",
+    "destination": "/2016/transitioning-pgp-keys.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2017/r2-the-infinite-composer",
+    "destination": "/2017/r2-the-infinite-composer.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2018/prefer-if-object-present-over-if-object",
+    "destination": "/2018/prefer-if-object-present-over-if-object.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2018/removing-the-first-instance-of-an-element-from-a-es6-javascript-array",
+    "destination": "/2018/removing-the-first-instance-of-an-element-from-a-es6-javascript-array.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme",
+    "destination": "/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme.html",
+    "destination": "/2018/testing-a-redux-connected-component-with-thunk-actions-with-enzyme.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2020/mutt-gmail-passwordstore.html",
+    "destination": "/2020/mutt-gmail-passwordstore.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2020/twilight-imperium-races.html",
+    "destination": "/2020/twilight-imperium-races.html",
+    "permanent": true
+  },
+  {
+    "source": "/blog/2020/mac-and-cheese.html",
+    "destination": "/2020/mac-and-cheese.html",
+    "permanent": true
+  },
+  {
+    "source": "/about.html",
+    "destination": "/about",
+    "permanent": true
+  },
+  {
+    "source": "/blog/about",
+    "destination": "/about",
+    "permanent": true
+  },
+  {
+    "source": "/blog/about.html",
+    "destination": "/about",
+    "permanent": true
+  },
+  {
+    "source": "/pgp.html",
+    "destination": "/pgp",
+    "permanent": true
+  },
+  {
+    "source": "/blog/pgp",
+    "destination": "/pgp",
+    "permanent": true
+  },
+  {
+    "source": "/blog/pgp.html",
+    "destination": "/pgp",
+    "permanent": true
+  },
+  {
+    "source": "/gpg",
+    "destination": "/pgp",
+    "permanent": true
+  },
+  {
+    "source": "/gpg.html",
+    "destination": "/pgp",
+    "permanent": true
+  },
+  {
+    "source": "/blog",
+    "destination": "/",
+    "permanent": true
+  },
+  {
+    "source": "/openskill.js/logo.png",
+    "destination": "/assets/openskill-logo.png",
+    "permanent": true
+  },
+  {
+    "source": "/openskill.js/logo.jpg",
+    "destination": "/assets/openskill-logo.jpg",
+    "permanent": true
+  },
+  {
+    "source": "/weblabora",
+    "destination": "https://github.com/philihp/weblabora",
+    "permanent": false
+  },
+  {
+    "source": "/blog/wp-content/uploads/2011/03/S2000Wiring2-150x150.png",
+    "destination": "/assets/S2000Wiring.png",
+    "permanent": true
+  },
+  {
+    "source": "/blog/wp-content/uploads/2011/03/S2000Wiring2.png",
+    "destination": "/assets/S2000Wiring.png",
+    "permanent": true
+  },
+  {
+    "source": "/2026/announcing-pointille.fr.html",
+    "destination": "/2026/announcing-pointille.html",
+    "permanent": false
+  }
+]

@@ -1,0 +1,113 @@
+---
+title: "Pointille: Evenly Distributing Points in a Polygon"
+date: 2026-05-13
+tags:
+  - pointille
+  - typescript
+  - voronoi
+  - lloyds-algorithm
+  - halton-sequence
+  - geometry
+author: Philihp Busby
+---
+
+<PointilleRondel />
+
+A problem that's been nagging me for a while involves a game with a rondel shown here. I want these tokens to be centered evenly in each wedge of a regular 13-sided polygon (triskaidecagon). I've also been seeing this problem in rootspace maxxing plants in an irregularly shaped garden plot. I've packaged my approach as [pointille](https://github.com/philihp/pointille), a small TypeScript library on npm.
+
+Named after the decorative pattern used in jewelry, [pointillé](https://en.wikipedia.org/wiki/Pointillé).
+
+## Install
+
+```bash
+npm install pointille
+```
+
+## Basic Usage
+
+`pointille` takes a polygon as an array of `[x, y]` vertices and a count, and returns that many points distributed inside the polygon.
+
+```typescript
+import { pointille } from 'pointille'
+
+const unitSquare = [
+  [0, 0],
+  [1, 0],
+  [1, 1],
+  [0, 1],
+] as const
+
+const points = pointille(unitSquare, 25)
+// => [
+//   ...
+//   [ 0.4973001454916204, 0.5078269245431213 ],
+//   [ 0.902819350372445, 0.9059261510512003 ],
+//   [ 0.13364467572889838, 0.25595086132355166 ],
+//   [ 0.5177439763083426, 0.7246545345081363 ]
+// ]
+```
+
+<PointilleFigure polygon={[[0,0],[1,0],[1,1],[0,1]]} n={25} />
+
+The function is pure and deterministic: the same polygon and the same `n` will always give you back the same set of points. That makes it easy to use in tests, in snapshot rendering, and anywhere else you'd rather not deal with hidden state.
+
+## Concave Polygons
+
+The algorithm clips Voronoi cells against the input polygon, so concave shapes work too. Here's an L-shape:
+
+```typescript
+const lShape = [
+  [0, 0],
+  [2, 0],
+  [2, 1],
+  [1, 1],
+  [1, 2],
+  [0, 2],
+] as const
+
+const points = pointille(lShape, 40)
+```
+
+<PointilleFigure polygon={[[0,0],[2,0],[2,1],[1,1],[1,2],[0,2]]} n={40} />
+
+No points will leak into the missing corner, and the density along the two arms of the L stays roughly equal.
+
+## Options
+
+There are two optional parameters worth knowing about:
+
+```typescript
+pointille(polygon, n, { iterations: 30, seed: 1 })
+```
+
+- `iterations` — how many Lloyd relaxation steps to run. The default of `30` is usually enough for the points to settle, but peep the tail end of the mantissa and you might spot asymmetry. Lower is faster, higher gets you closer to a perfect centroidal Voronoi tessellation.
+- `seed` — the starting index into the Halton sequence used for the initial point placement. Changing it gives you a different (but still deterministic) layout. Useful when you want variety across, say, several rendered tiles, without compromising reproducibility.
+
+```typescript
+const a = pointille(unitSquare, 25, { seed: 1 })
+const b = pointille(unitSquare, 25, { seed: 2 })
+// a and b are both evenly distributed, but different from each other.
+// Running either call again returns an equivalent array.
+```
+
+## How It Works
+
+There are three pieces:
+
+1. **Halton sequence** — a low-discrepancy quasi-random sequence is used to seed initial point positions inside the polygon's bounding box, rejecting any points that fall outside the polygon. Compared to `Math.random()`, this starting layout already has much less clumping so you start from a better place.
+2. **Voronoi masking** — each iteration computes the Voronoi tessellation of the current points, then clips each cell against the polygon so that cells along the boundary don't extend past the edge.
+3. **Lloyd's algorithm** — each point is moved to the centroid of its clipped Voronoi cell. Repeat. Points drift apart from each other and toward an even spacing.
+
+The result is what's called a _centroidal Voronoi tessellation_ (CVT): a tiling where every point sits at the center of mass of its own cell. It's a fixed point of the relaxation process, and once you're close to it, the points stop moving.
+
+## Why Not Poisson-Disk Sampling?
+
+[Poisson-disk sampling](https://www.jasondavies.com/poisson-disc/) is the usual go-to for "evenly spread but not gridded" points. It's a much faster algorithm which generates a nice organic and natural pattern. If you wanted something more intentionally spaced, with a more crystalline quality to it, I think this would be better.
+
+## Source
+
+The package is available on npm as [pointille](https://www.npmjs.com/package/pointille), and source lives at [github.com/philihp/pointille](https://github.com/philihp/pointille).
+
+## Try It
+
+<PointilleDemo />
