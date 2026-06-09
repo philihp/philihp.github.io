@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Donate — Levantar</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:#222; background:#f7f5f0; line-height:1.6; }
+  header { background:#2a7a5b; color:white; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+  header h1 { margin:0; font-size:1.5rem; }
+  nav a { color:white; margin-left:1.5rem; text-decoration:none; font-weight:500; }
+  main { max-width:560px; margin:2rem auto; padding:2.5rem; background:white; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
+  h2 { color:#1f5a43; margin-top:0; }
+  label { display:block; margin-top:1.2rem; font-weight:600; }
+  input[type="email"] { width:100%; padding:0.7rem; font-size:1rem; border:1px solid #ccc; border-radius:5px; margin-top:0.3rem; }
+  input[type="email"]:focus { outline:none; border-color:#2a7a5b; box-shadow:0 0 0 3px rgba(42,122,91,0.15); }
+  .amounts { display:grid; grid-template-columns:repeat(4,1fr); gap:0.6rem; margin-top:0.6rem; }
+  .amount-btn { padding:0.9rem; font-size:1rem; border:2px solid #2a7a5b; background:white; color:#2a7a5b; border-radius:6px; cursor:pointer; font-weight:600; }
+  .amount-btn.selected, .amount-btn:hover { background:#2a7a5b; color:white; }
+  .btn { display:inline-block; background:#2a7a5b; color:white; padding:0.9rem 1.8rem; border-radius:6px; border:none; cursor:pointer; font-size:1rem; font-weight:600; margin-top:1.5rem; }
+  .btn:hover { background:#1f5a43; }
+  .btn:disabled { background:#aaa; cursor:not-allowed; }
+  footer { text-align:center; padding:2rem; color:#666; font-size:0.9rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Levantar</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="volunteer.html">Volunteer</a>
+    <a href="donate.html">Donate</a>
+  </nav>
+</header>
+
+<main>
+  <h2>Support Our Mission</h2>
+  <p>Every dollar helps us serve more meals, fund more programs, and lift more lives.</p>
+
+  <form id="donate-form" action="thank-you.html" method="get">
+    <label for="email">Email Address
+      <input type="email" id="email" name="email" required placeholder="you@example.com" />
+    </label>
+
+    <label>Choose an Amount</label>
+    <div class="amounts">
+      <button type="button" class="amount-btn" data-amount="10">$10</button>
+      <button type="button" class="amount-btn" data-amount="25">$25</button>
+      <button type="button" class="amount-btn" data-amount="50">$50</button>
+      <button type="button" class="amount-btn" data-amount="100">$100</button>
+    </div>
+    <input type="hidden" id="amount" name="amount" value="" />
+
+    <button type="submit" id="submit-btn" class="btn" disabled>Donate</button>
+  </form>
+</main>
+
+<footer>&copy; 2026 Levantar. A demo nonprofit for educational purposes.</footer>
+
+<script>
+  document.getElementById('email').addEventListener('click', function() {
+    gtag('event', 'form_field_click', { form_name: 'donate', field_name: 'email' });
+  });
+
+  var amountInput = document.getElementById('amount');
+  var submitBtn = document.getElementById('submit-btn');
+  document.querySelectorAll('.amount-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var amount = btn.getAttribute('data-amount');
+      document.querySelectorAll('.amount-btn').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      amountInput.value = amount;
+      submitBtn.disabled = false;
+      gtag('event', 'form_field_click', { form_name: 'donate', field_name: 'amount', amount: Number(amount) });
+    });
+  });
+
+  submitBtn.addEventListener('click', function() {
+    gtag('event', 'form_submit_click', { form_name: 'donate', amount: Number(amountInput.value) });
+  });
+</script>
+</body>
+</html>
