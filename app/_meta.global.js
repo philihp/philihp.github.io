@@ -17,5 +17,15 @@ export default {
   lightning: {
     type: 'page',
     title: 'Lightning'
+  },
+  sun: {
+    type: 'page',
+    title: 'Sun',
+    href: '/sun'
+  },
+  moon: {
+    type: 'page',
+    title: 'Moon',
+    href: '/moon'
   }
 }
