@@ -38,7 +38,12 @@ export default function DeviceLocationButton() {
 
   return (
     <p>
-      <button onClick={request} disabled={loading}>
+      <button
+        type="button"
+        className="device-location-button"
+        onClick={request}
+        disabled={loading}
+      >
         {loading ? 'Locating…' : 'Use my device location'}
       </button>
       {error && <span style={{ marginLeft: '.5rem' }}>{error}</span>}
