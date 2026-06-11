@@ -1,0 +1,59 @@
+/*
+ * Site-wide overrides on top of `nextra-theme-blog/style.css` (imported just
+ * before this file in app/layout.jsx).
+ */
+
+/*
+ * Link colour. The blog theme renders links in a near-black slate in light
+ * mode and white in dark mode, which makes them read as plain text. Restore a
+ * blue/purple (indigo) link colour, with a lighter shade for dark mode that
+ * stays pleasant on a black background.
+ *
+ * The theme drives every link through these prose custom properties (the whole
+ * site — navbar, content, and footer — is wrapped in a single `.x:prose`
+ * article), so overriding them here recolours links everywhere.
+ */
+.x\:prose {
+  --tw-prose-links: #4f46e5; /* indigo-600, light mode */
+  --tw-prose-invert-links: #818cf8; /* indigo-400, dark mode */
+}
+
+/*
+ * The "Use my device location" control on /sun and /moon. Tailwind's preflight
+ * strips a <button> down to transparent/borderless inherited text, so it looks
+ * like an undecorated link. Give it an actual button appearance.
+ */
+.device-location-button {
+  display: inline-block;
+  margin: 0;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  background-color: #4f46e5; /* indigo-600 */
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.device-location-button:hover:not(:disabled) {
+  background-color: #4338ca; /* indigo-700 */
+}
+
+.device-location-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.dark .device-location-button {
+  background-color: #6366f1; /* indigo-500 */
+}
+
+.dark .device-location-button:hover:not(:disabled) {
+  background-color: #818cf8; /* indigo-400 */
+}

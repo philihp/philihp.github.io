@@ -3,6 +3,7 @@ import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import Script from 'next/script'
 import 'nextra-theme-blog/style.css'
+import './globals.css'
 
 const SITE_URL = 'https://philihp.com'
 
