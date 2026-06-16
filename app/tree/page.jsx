@@ -21,7 +21,7 @@ async function fetchTrees(lat, lon) {
   try {
     const url =
       `https://data.sfgov.org/resource/tkzw-k3nq.json` +
-      `?$where=within_circle(location,${lat},${lon},100)&$limit=500`
+      `?$where=within_circle(location,${lat},${lon},50)&$limit=100`
     const res = await fetch(url, { cache: 'no-store' })
     if (!res.ok) return []
     return await res.json()
@@ -41,7 +41,7 @@ export default async function TreePage() {
         <h2>Location &amp; Time</h2>
         <LocationTable loc={loc} />
 
-        <h2>Trees within 100 m</h2>
+        <h2>Nearest trees within 50 m</h2>
         <p>
           {loc.usingDeviceLocation
             ? 'Using your device location.'
