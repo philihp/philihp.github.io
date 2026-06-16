@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useNow } from '../sun/live'
 import { solarPosition, compass } from '../sun/solar'
 import { moonPosition } from '../moon/moon'
@@ -36,8 +37,44 @@ function formatSpecies(qspecies) {
   return `${common} (${scientific})`
 }
 
-export function LiveTrees({ lat, lon, trees }) {
+async function fetchTreesNear(lat, lon) {
+  const url =
+    `https://data.sfgov.org/resource/tkzw-k3nq.json` +
+    `?$where=within_circle(location,${lat},${lon},50)&$limit=100`
+  const res = await fetch(url)
+  if (!res.ok) return null
+  return await res.json()
+}
+
+export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTrees, usingDeviceLocation }) {
   const now = useNow()
+  const [lat, setLat] = useState(initialLat)
+  const [lon, setLon] = useState(initialLon)
+  const [trees, setTrees] = useState(initialTrees)
+
+  // When device location is available, re-query every 15 s for a fresh position
+  // and refetch trees from that new location.
+  useEffect(() => {
+    if (!usingDeviceLocation || typeof navigator === 'undefined' || !navigator.geolocation) return
+
+    const poll = () => {
+      navigator.geolocation.getCurrentPosition(
+        async pos => {
+          const newLat = pos.coords.latitude
+          const newLon = pos.coords.longitude
+          setLat(newLat)
+          setLon(newLon)
+          const newTrees = await fetchTreesNear(newLat, newLon)
+          if (newTrees !== null) setTrees(newTrees)
+        },
+        null,
+        { enableHighAccuracy: true, timeout: 10000 }
+      )
+    }
+
+    const id = setInterval(poll, 15000)
+    return () => clearInterval(id)
+  }, [usingDeviceLocation])
 
   if (lat === null || lon === null) {
     return (
@@ -80,7 +117,7 @@ export function LiveTrees({ lat, lon, trees }) {
       return { ...t, _bearing: b, _distance: d, _angleDiff: (b - refAzimuth + 360) % 360 }
     })
     .sort((a, b) => a._distance - b._distance)
-    .slice(0, 20)
+    .slice(0, 10)
     .sort((a, b) => a._angleDiff - b._angleDiff)
 
   return (
