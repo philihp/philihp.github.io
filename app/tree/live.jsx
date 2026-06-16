@@ -51,7 +51,7 @@ export function LiveTrees({ lat, lon, trees }) {
   if (!trees || trees.length === 0) {
     return (
       <p>
-        No trees found within 100 m of this location. The dataset covers San
+        No trees found within 50 m of this location. The dataset covers San
         Francisco street trees only.
       </p>
     )
@@ -79,6 +79,8 @@ export function LiveTrees({ lat, lon, trees }) {
       const d = distanceTo(lat, lon, tlat, tlon)
       return { ...t, _bearing: b, _distance: d, _angleDiff: (b - refAzimuth + 360) % 360 }
     })
+    .sort((a, b) => a._distance - b._distance)
+    .slice(0, 20)
     .sort((a, b) => a._angleDiff - b._angleDiff)
 
   return (
