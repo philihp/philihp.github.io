@@ -57,3 +57,78 @@
 .dark .device-location-button:hover:not(:disabled) {
   background-color: #818cf8; /* indigo-400 */
 }
+
+/*
+ * /tree page: responsive tree-tile grid.
+ * Mobile: each tile is full viewport width (stacked).
+ * Desktop (≥640 px): tiles are inline blocks that wrap to fill available space.
+ */
+.tree-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tree-tile {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .tree-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .tree-tile {
+    width: auto;
+    min-width: 220px;
+    max-width: 340px;
+  }
+}
+
+.dark .tree-tile {
+  border-color: #334155;
+}
+
+.tree-tile-direction {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.tree-tile-distance {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 0.4rem;
+}
+
+.dark .tree-tile-distance {
+  color: #94a3b8;
+}
+
+.tree-tile-species {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.tree-tile-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.6rem;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.tree-tile-details dt {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.dark .tree-tile-details dt {
+  color: #94a3b8;
+}
