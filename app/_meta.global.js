@@ -3,7 +3,7 @@
 export default {
   index: {
     type: 'page',
-    title: 'philihp',
+    title: 'Blog',
     href: '/'
   },
   about: {
@@ -22,6 +22,7 @@ export default {
     type: 'menu',
     title: 'Toys',
     items: {
+      overview: { title: 'Overview', href: '/toys' },
       sun: { title: 'Sun', href: '/toys/sun' },
       moon: { title: 'Moon', href: '/toys/moon' },
       trees: { title: 'Trees', href: '/toys/trees' }

@@ -96,8 +96,22 @@ export default function LocationInput({ initialPlace }) {
     setLocating(true)
     setGpsError(null)
     navigator.geolocation.getCurrentPosition(
-      pos => {
-        setLocationCookie(pos.coords.latitude, pos.coords.longitude)
+      async pos => {
+        const { latitude, longitude } = pos.coords
+        // Reverse geocode to update the text box immediately.
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=10`
+          )
+          if (res.ok) {
+            const data = await res.json()
+            const a = data.address ?? {}
+            const city = a.city ?? a.town ?? a.village ?? a.hamlet ?? a.county ?? a.suburb
+            const parts = [city, a.state, a.country_code?.toUpperCase() ?? a.country].filter(Boolean)
+            if (parts.length > 0) setValue(parts.join(', '))
+          }
+        } catch {}
+        setLocationCookie(latitude, longitude)
         setLocating(false)
         router.refresh()
       },

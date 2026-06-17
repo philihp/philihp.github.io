@@ -4,6 +4,7 @@ import { resolveLocation } from '../../geo'
 import LocationTable from '../../location-table'
 import { LiveTimeProvider } from '../../sun/live'
 import { LiveTrees } from '../../tree/live'
+import ToyNav from '../toy-nav'
 
 export const metadata = {
   title: 'Nearby Trees',
@@ -37,6 +38,7 @@ export default async function TreesPage() {
   return (
     <LiveTimeProvider initialISO={now.toISOString()}>
       <Wrapper metadata={{ title: 'Nearby Trees' }}>
+        <ToyNav />
         <h2>Location &amp; Time</h2>
         <LocationTable loc={loc} showClock={false} />
 

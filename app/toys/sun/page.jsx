@@ -3,6 +3,7 @@ import { useMDXComponents } from '../../../mdx-components'
 import { resolveLocation } from '../../geo'
 import LocationTable from '../../location-table'
 import { LiveSun, LiveTimeProvider } from '../../sun/live'
+import ToyNav from '../toy-nav'
 
 export const metadata = {
   title: 'Sun Position',
@@ -21,6 +22,7 @@ export default async function SunPage() {
   return (
     <LiveTimeProvider initialISO={now.toISOString()}>
       <Wrapper metadata={{ title: 'Sun Position' }}>
+        <ToyNav />
         <h2>Location &amp; Time</h2>
         <LocationTable loc={loc} />
 
