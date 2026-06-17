@@ -20,12 +20,12 @@ export default {
   },
   toys: {
     type: 'menu',
-    title: 'Toys',
+    title: 'Apps',
     items: {
-      overview: { title: 'Overview', href: '/toys' },
-      sun: { title: 'Sun', href: '/toys/sun' },
-      moon: { title: 'Moon', href: '/toys/moon' },
-      trees: { title: 'Trees', href: '/toys/trees' }
+      overview: { title: 'Overview', href: '/apps' },
+      sun: { title: 'Sun', href: '/apps/sun' },
+      moon: { title: 'Moon', href: '/apps/moon' },
+      trees: { title: 'Trees', href: '/apps/trees' }
     }
   }
 }

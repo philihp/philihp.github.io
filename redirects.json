@@ -1,7 +1,11 @@
 [
-  { "source": "/sun",  "destination": "/toys/sun",   "permanent": true },
-  { "source": "/moon", "destination": "/toys/moon",  "permanent": true },
-  { "source": "/tree", "destination": "/toys/trees", "permanent": true },
+  { "source": "/sun",        "destination": "/apps/sun",   "permanent": true },
+  { "source": "/moon",       "destination": "/apps/moon",  "permanent": true },
+  { "source": "/tree",       "destination": "/apps/trees", "permanent": true },
+  { "source": "/toys",       "destination": "/apps",       "permanent": true },
+  { "source": "/toys/sun",   "destination": "/apps/sun",   "permanent": true },
+  { "source": "/toys/moon",  "destination": "/apps/moon",  "permanent": true },
+  { "source": "/toys/trees", "destination": "/apps/trees", "permanent": true },
   {
     "source": "/blog/2008/using-wget-with-http-get-parameters",
     "destination": "/2008/using-wget-with-http-get-parameters.html",

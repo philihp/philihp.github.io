@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import { SunIcon, MoonIcon, TreeIcon } from './icons'
 
 const TOYS = [
-  { href: '/toys/sun',   label: 'Sun',   Icon: SunIcon  },
-  { href: '/toys/moon',  label: 'Moon',  Icon: MoonIcon },
-  { href: '/toys/trees', label: 'Trees', Icon: TreeIcon  },
+  { href: '/apps/sun',   label: 'Sun',   Icon: SunIcon  },
+  { href: '/apps/moon',  label: 'Moon',  Icon: MoonIcon },
+  { href: '/apps/trees', label: 'Trees', Icon: TreeIcon  },
 ]
 
 export default function ToyNav() {

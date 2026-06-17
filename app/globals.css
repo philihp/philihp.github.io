@@ -197,7 +197,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* /toys root page: large icon grid */
+/* /apps root page: large icon grid */
 .toys-grid {
   display: flex;
   flex-wrap: wrap;
