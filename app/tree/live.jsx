@@ -156,17 +156,16 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
       <div className="tree-grid">
         {sorted.map(t => (
           <div key={t.treeid} className="tree-tile">
+            <TreeImage qspecies={t.qspecies} />
+            <div className="tree-tile-body">
             <div className="tree-tile-direction">
               {compass(t._bearing)} &middot; {t._bearing.toFixed(1)}°
             </div>
             <div className="tree-tile-distance">
               {Math.round(t._distance)} m away
             </div>
-            <div className="tree-tile-species-row">
-              <TreeImage qspecies={t.qspecies} />
-              <div className="tree-tile-species">
-                {formatSpecies(t.qspecies)}
-              </div>
+            <div className="tree-tile-species">
+              {formatSpecies(t.qspecies)}
             </div>
             <dl className="tree-tile-details">
               {t.qaddress && (
@@ -206,6 +205,7 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
                 </>
               )}
             </dl>
+            </div>
           </div>
         ))}
       </div>
