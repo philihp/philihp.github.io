@@ -46,6 +46,33 @@ async function fetchTreesNear(lat, lon) {
   return await res.json()
 }
 
+// Fetches a Wikipedia thumbnail for a tree species using its scientific name.
+function TreeImage({ qspecies }) {
+  const [src, setSrc] = useState(null)
+  const [alt, setAlt] = useState('')
+
+  useEffect(() => {
+    if (!qspecies) return
+    const sep = qspecies.indexOf(' :: ')
+    const scientific = sep === -1 ? qspecies : qspecies.slice(0, sep)
+    if (!scientific) return
+
+    const title = scientific.trim().replace(/ /g, '_')
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (data?.type !== 'disambiguation' && data?.thumbnail?.source) {
+          setSrc(data.thumbnail.source)
+          setAlt(data.title ?? scientific)
+        }
+      })
+      .catch(() => {})
+  }, [qspecies])
+
+  if (!src) return null
+  return <img src={src} alt={alt} className="tree-tile-image" />
+}
+
 export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTrees, usingDeviceLocation }) {
   const now = useNow()
   const [lat, setLat] = useState(initialLat)
@@ -129,6 +156,8 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
       <div className="tree-grid">
         {sorted.map(t => (
           <div key={t.treeid} className="tree-tile">
+            <TreeImage qspecies={t.qspecies} />
+            <div className="tree-tile-body">
             <div className="tree-tile-direction">
               {compass(t._bearing)} &middot; {t._bearing.toFixed(1)}°
             </div>
@@ -176,6 +205,7 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
                 </>
               )}
             </dl>
+            </div>
           </div>
         ))}
       </div>
