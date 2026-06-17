@@ -39,7 +39,7 @@ export default async function TreePage() {
     <LiveTimeProvider initialISO={now.toISOString()}>
       <Wrapper metadata={{ title: 'Nearby Trees' }}>
         <h2>Location &amp; Time</h2>
-        <LocationTable loc={loc} />
+        <LocationTable loc={loc} showClock={false} />
 
         <h2>Nearest trees within 50 m</h2>
         <p>
@@ -47,7 +47,7 @@ export default async function TreePage() {
             ? 'Using your device location.'
             : 'Using the Vercel IP-based location estimate.'}
         </p>
-        <LiveTrees lat={loc.effLat} lon={loc.effLon} trees={trees} />
+        <LiveTrees lat={loc.effLat} lon={loc.effLon} trees={trees} usingDeviceLocation={loc.usingDeviceLocation} />
 
         <DeviceLocationButton />
 
