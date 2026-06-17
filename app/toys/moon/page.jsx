@@ -1,10 +1,9 @@
 import Link from 'next/link'
-import { useMDXComponents } from '../../mdx-components'
-import { resolveLocation } from '../geo'
-import LocationTable from '../location-table'
-import DeviceLocationButton from '../sun/device-location-button'
-import { LiveTimeProvider } from '../sun/live'
-import { LiveMoon } from './live'
+import { useMDXComponents } from '../../../mdx-components'
+import { resolveLocation } from '../../geo'
+import LocationTable from '../../location-table'
+import { LiveTimeProvider } from '../../sun/live'
+import { LiveMoon } from '../../moon/live'
 
 export const metadata = {
   title: 'Moon Position',
@@ -12,13 +11,8 @@ export const metadata = {
     'Live phase, illumination, azimuth, elevation, and distance of the moon at your location, updating in real time.'
 }
 
-// Server component so we can read the Vercel-provided location. The time and
-// moon position are then re-rendered live in the browser.
-// `force-dynamic` keeps the location/request data fresh per request.
 export const dynamic = 'force-dynamic'
 
-// The blog theme's content wrapper, so this page gets the same heading, meta
-// bar, container width, and typography as every other page on the site.
 const Wrapper = useMDXComponents().wrapper
 
 export default async function MoonPage() {
@@ -39,10 +33,11 @@ export default async function MoonPage() {
         </p>
         <LiveMoon lat={loc.effLat} lon={loc.effLon} />
 
-        <DeviceLocationButton />
-
         <p>
-          <Link href="/sun">Where is the Sun? →</Link>
+          <Link href="/toys/sun">Where is the Sun? →</Link>
+        </p>
+        <p>
+          <Link href="/toys/trees">Nearby trees →</Link>
         </p>
 
         <p>

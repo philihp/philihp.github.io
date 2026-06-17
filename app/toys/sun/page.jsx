@@ -1,9 +1,8 @@
 import Link from 'next/link'
-import { useMDXComponents } from '../../mdx-components'
-import { resolveLocation } from '../geo'
-import LocationTable from '../location-table'
-import DeviceLocationButton from './device-location-button'
-import { LiveSun, LiveTimeProvider } from './live'
+import { useMDXComponents } from '../../../mdx-components'
+import { resolveLocation } from '../../geo'
+import LocationTable from '../../location-table'
+import { LiveSun, LiveTimeProvider } from '../../sun/live'
 
 export const metadata = {
   title: 'Sun Position',
@@ -11,13 +10,8 @@ export const metadata = {
     'Live azimuth and elevation of the sun at your location, updating in real time.'
 }
 
-// Server component so we can read the Vercel-provided location. The time and
-// sun position are then re-rendered live in the browser.
-// `force-dynamic` keeps the location/request data fresh per request.
 export const dynamic = 'force-dynamic'
 
-// The blog theme's content wrapper, so this page gets the same heading, meta
-// bar, container width, and typography as every other page on the site.
 const Wrapper = useMDXComponents().wrapper
 
 export default async function SunPage() {
@@ -38,10 +32,11 @@ export default async function SunPage() {
         </p>
         <LiveSun lat={loc.effLat} lon={loc.effLon} />
 
-        <DeviceLocationButton />
-
         <p>
-          <Link href="/moon">Where is the Moon? →</Link>
+          <Link href="/toys/moon">Where is the Moon? →</Link>
+        </p>
+        <p>
+          <Link href="/toys/trees">Nearby trees →</Link>
         </p>
 
         <p>

@@ -18,14 +18,13 @@ export default {
     type: 'page',
     title: 'Lightning'
   },
-  sun: {
-    type: 'page',
-    title: 'Sun',
-    href: '/sun'
-  },
-  moon: {
-    type: 'page',
-    title: 'Moon',
-    href: '/moon'
+  toys: {
+    type: 'menu',
+    title: 'Toys',
+    items: {
+      sun: { title: 'Sun', href: '/toys/sun' },
+      moon: { title: 'Moon', href: '/toys/moon' },
+      trees: { title: 'Trees', href: '/toys/trees' }
+    }
   }
 }

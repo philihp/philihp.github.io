@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import { useMDXComponents } from '../../mdx-components'
-import { resolveLocation } from '../geo'
-import LocationTable from '../location-table'
-import DeviceLocationButton from '../sun/device-location-button'
-import { LiveTimeProvider } from '../sun/live'
-import { LiveTrees } from './live'
+import { useMDXComponents } from '../../../mdx-components'
+import { resolveLocation } from '../../geo'
+import LocationTable from '../../location-table'
+import { LiveTimeProvider } from '../../sun/live'
+import { LiveTrees } from '../../tree/live'
 
 export const metadata = {
   title: 'Nearby Trees',
   description:
-    'San Francisco street trees within 100 metres of your location, sorted by direction.'
+    'San Francisco street trees within 50 metres of your location, sorted by direction.'
 }
 
 export const dynamic = 'force-dynamic'
@@ -21,7 +20,7 @@ async function fetchTrees(lat, lon) {
   try {
     const url =
       `https://data.sfgov.org/resource/tkzw-k3nq.json` +
-      `?$where=within_circle(location,${lat},${lon},50)&$limit=100`
+      `?$where=within_circle(location,${lat},${lon},50)&$limit=200`
     const res = await fetch(url, { cache: 'no-store' })
     if (!res.ok) return []
     return await res.json()
@@ -30,7 +29,7 @@ async function fetchTrees(lat, lon) {
   }
 }
 
-export default async function TreePage() {
+export default async function TreesPage() {
   const now = new Date()
   const loc = await resolveLocation()
   const trees = await fetchTrees(loc.effLat, loc.effLon)
@@ -47,12 +46,15 @@ export default async function TreePage() {
             ? 'Using your device location.'
             : 'Using the Vercel IP-based location estimate.'}
         </p>
-        <LiveTrees lat={loc.effLat} lon={loc.effLon} trees={trees} usingDeviceLocation={loc.usingDeviceLocation} />
-
-        <DeviceLocationButton />
+        <LiveTrees
+          lat={loc.effLat}
+          lon={loc.effLon}
+          trees={trees}
+          usingDeviceLocation={loc.usingDeviceLocation}
+        />
 
         <p>
-          <Link href="/sun">Where is the Sun? →</Link>
+          <Link href="/toys/sun">Where is the Sun? →</Link>
         </p>
         <p>
           Tree data from the{' '}
