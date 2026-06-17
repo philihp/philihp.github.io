@@ -35,6 +35,15 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <Head />
+      <Script id="theme-cookie-sync" strategy="beforeInteractive">{`(function(){
+  var KEY='theme',COOKIE='x-theme',MAX=3600;
+  function read(){var m=document.cookie.match(/(?:^|;\\s*)x-theme=([^;]*)/);return m?decodeURIComponent(m[1]):null;}
+  function write(v){document.cookie=COOKIE+'='+encodeURIComponent(v)+'; path=/; max-age='+MAX+'; samesite=lax';}
+  var saved=read();
+  if(saved){try{localStorage.setItem(KEY,saved);}catch(e){}write(saved);}
+  var _set=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,v){_set.call(this,k,v);if(this===localStorage&&k===KEY)write(v);};
+})();`}</Script>
       <Script id="in-app-browser-redirect" strategy="beforeInteractive">
         {`(function () {
   // Redirect visitors arriving from the Instagram or Facebook in-app

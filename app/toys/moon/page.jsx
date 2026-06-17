@@ -4,6 +4,7 @@ import { resolveLocation } from '../../geo'
 import LocationTable from '../../location-table'
 import { LiveTimeProvider } from '../../sun/live'
 import { LiveMoon } from '../../moon/live'
+import ToyNav from '../toy-nav'
 
 export const metadata = {
   title: 'Moon Position',
@@ -22,6 +23,7 @@ export default async function MoonPage() {
   return (
     <LiveTimeProvider initialISO={now.toISOString()}>
       <Wrapper metadata={{ title: 'Moon Position' }}>
+        <ToyNav />
         <h2>Location &amp; Time</h2>
         <LocationTable loc={loc} />
 
