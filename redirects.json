@@ -1,4 +1,7 @@
 [
+  { "source": "/sun",  "destination": "/toys/sun",   "permanent": true },
+  { "source": "/moon", "destination": "/toys/moon",  "permanent": true },
+  { "source": "/tree", "destination": "/toys/trees", "permanent": true },
   {
     "source": "/blog/2008/using-wget-with-http-get-parameters",
     "destination": "/2008/using-wget-with-http-get-parameters.html",
