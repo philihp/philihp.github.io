@@ -1,9 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useNow } from '../sun/live'
-import { solarPosition, compass } from '../sun/solar'
-import { moonPosition } from '../moon/moon'
+import { compass } from '../sun/solar'
 
 const RAD = Math.PI / 180
 
@@ -74,7 +72,6 @@ function TreeImage({ qspecies }) {
 }
 
 export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTrees, usingDeviceLocation }) {
-  const now = useNow()
   const [lat, setLat] = useState(initialLat)
   const [lon, setLon] = useState(initialLon)
   const [trees, setTrees] = useState(initialTrees)
@@ -143,19 +140,6 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
     )
   }
 
-  const sun = solarPosition(now, lat, lon)
-  const moon = moonPosition(now, lat, lon)
-
-  let refAzimuth = 0
-  let refLabel = 'North (0°)'
-  if (sun.elevation > 0) {
-    refAzimuth = sun.azimuth
-    refLabel = `Sun (${sun.azimuth.toFixed(1)}° ${compass(sun.azimuth)})`
-  } else if (moon.elevation > 0) {
-    refAzimuth = moon.azimuth
-    refLabel = `Moon (${moon.azimuth.toFixed(1)}° ${compass(moon.azimuth)})`
-  }
-
   const sorted = trees
     .filter(t => t.latitude && t.longitude)
     .map(t => {
@@ -163,17 +147,16 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
       const tlon = parseFloat(t.longitude)
       const b = bearingTo(lat, lon, tlat, tlon)
       const d = distanceTo(lat, lon, tlat, tlon)
-      return { ...t, _bearing: b, _distance: d, _angleDiff: (b - refAzimuth + 360) % 360 }
+      return { ...t, _bearing: b, _distance: d }
     })
     .sort((a, b) => a._distance - b._distance)
     .slice(0, 20)
-    .sort((a, b) => a._angleDiff - b._angleDiff)
 
   return (
     <>
       <p>
-        {sorted.length} tree{sorted.length !== 1 ? 's' : ''} found, sorted
-        clockwise starting from {refLabel}.
+        {sorted.length} tree{sorted.length !== 1 ? 's' : ''} found, sorted by
+        distance.
       </p>
       <div className="tree-grid">
         {sorted.map(t => (

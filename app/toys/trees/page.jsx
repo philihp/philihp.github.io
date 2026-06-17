@@ -2,14 +2,13 @@ import Link from 'next/link'
 import { useMDXComponents } from '../../../mdx-components'
 import { resolveLocation } from '../../geo'
 import LocationTable from '../../location-table'
-import { LiveTimeProvider } from '../../sun/live'
 import { LiveTrees } from '../../tree/live'
 import ToyNav from '../toy-nav'
 
 export const metadata = {
   title: 'Nearby Trees',
   description:
-    'San Francisco street trees within 50 metres of your location, sorted by direction.'
+    'San Francisco street trees within 50 metres of your location, sorted by distance.'
 }
 
 export const dynamic = 'force-dynamic'
@@ -31,41 +30,38 @@ async function fetchTrees(lat, lon) {
 }
 
 export default async function TreesPage() {
-  const now = new Date()
   const loc = await resolveLocation()
   const trees = await fetchTrees(loc.effLat, loc.effLon)
 
   return (
-    <LiveTimeProvider initialISO={now.toISOString()}>
-      <Wrapper metadata={{ title: 'Nearby Trees' }}>
-        <ToyNav />
-        <h2>Location &amp; Time</h2>
-        <LocationTable loc={loc} showClock={false} />
+    <Wrapper metadata={{ title: 'Nearby Trees' }}>
+      <ToyNav />
+      <h2>Location &amp; Time</h2>
+      <LocationTable loc={loc} showClock={false} />
 
-        <h2>Nearest trees within 50 m</h2>
-        <p>
-          {loc.usingDeviceLocation
-            ? 'Using your device location.'
-            : 'Using the Vercel IP-based location estimate.'}
-        </p>
-        <LiveTrees
-          lat={loc.effLat}
-          lon={loc.effLon}
-          trees={trees}
-          usingDeviceLocation={loc.usingDeviceLocation}
-        />
+      <h2>Nearest trees within 50 m</h2>
+      <p>
+        {loc.usingDeviceLocation
+          ? 'Using your device location.'
+          : 'Using the Vercel IP-based location estimate.'}
+      </p>
+      <LiveTrees
+        lat={loc.effLat}
+        lon={loc.effLon}
+        trees={trees}
+        usingDeviceLocation={loc.usingDeviceLocation}
+      />
 
-        <p>
-          <Link href="/toys/sun">Where is the Sun? →</Link>
-        </p>
-        <p>
-          Tree data from the{' '}
-          <a href="https://data.sfgov.org/City-Infrastructure/Street-Tree-List/tkzw-k3nq">
-            SF Department of Public Works Street Tree List
-          </a>
-          .
-        </p>
-      </Wrapper>
-    </LiveTimeProvider>
+      <p>
+        <Link href="/toys/sun">Where is the Sun? →</Link>
+      </p>
+      <p>
+        Tree data from the{' '}
+        <a href="https://data.sfgov.org/City-Infrastructure/Street-Tree-List/tkzw-k3nq">
+          SF Department of Public Works Street Tree List
+        </a>
+        .
+      </p>
+    </Wrapper>
   )
 }
