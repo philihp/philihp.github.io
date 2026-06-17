@@ -19,136 +19,9 @@
 }
 
 /*
- * The "Use my device location" control on /sun and /moon. Tailwind's preflight
- * strips a <button> down to transparent/borderless inherited text, so it looks
- * like an undecorated link. Give it an actual button appearance.
+ * The "Use my device location" GPS button in the location table. Tailwind's
+ * preflight strips a <button> to plain text; restore a proper button look.
  */
-.device-location-button {
-  display: inline-block;
-  margin: 0;
-  padding: 0.45rem 0.9rem;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.2;
-  color: #fff;
-  background-color: #4f46e5; /* indigo-600 */
-  border: 1px solid transparent;
-  border-radius: 6px;
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    opacity 0.15s ease;
-}
-
-.device-location-button:hover:not(:disabled) {
-  background-color: #4338ca; /* indigo-700 */
-}
-
-.device-location-button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.dark .device-location-button {
-  background-color: #6366f1; /* indigo-500 */
-}
-
-.dark .device-location-button:hover:not(:disabled) {
-  background-color: #818cf8; /* indigo-400 */
-}
-
-/* Location input row (city autocomplete + Set + GPS buttons) */
-.location-input-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.location-input-wrapper {
-  position: relative;
-  flex: 1;
-  min-width: 160px;
-}
-
-.location-input {
-  width: 100%;
-  padding: 0.35rem 0.6rem;
-  font: inherit;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  background: transparent;
-  color: inherit;
-  box-sizing: border-box;
-}
-
-.location-input:focus {
-  outline: 2px solid #4f46e5;
-  outline-offset: 1px;
-  border-color: #4f46e5;
-}
-
-.dark .location-input {
-  border-color: #475569;
-}
-
-.dark .location-input:focus {
-  outline-color: #818cf8;
-  border-color: #818cf8;
-}
-
-.location-suggestions {
-  position: absolute;
-  top: calc(100% + 2px);
-  left: 0;
-  right: 0;
-  z-index: 50;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  max-height: 220px;
-  overflow-y: auto;
-}
-
-.dark .location-suggestions {
-  background: #1e293b;
-  border-color: #475569;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.location-suggestions li {
-  padding: 0.45rem 0.75rem;
-  cursor: pointer;
-  font-size: 0.82rem;
-  line-height: 1.35;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.location-suggestions li:last-child {
-  border-bottom: none;
-}
-
-.location-suggestions li:hover {
-  background: #f8fafc;
-}
-
-.dark .location-suggestions li {
-  border-color: #334155;
-}
-
-.dark .location-suggestions li:hover {
-  background: #334155;
-}
-
-.location-set-button,
 .location-gps-button {
   display: inline-flex;
   align-items: center;
@@ -167,23 +40,19 @@
   transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
-.location-set-button:hover:not(:disabled),
 .location-gps-button:hover:not(:disabled) {
   background-color: #4338ca;
 }
 
-.location-set-button:disabled,
 .location-gps-button:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.dark .location-set-button,
 .dark .location-gps-button {
   background-color: #6366f1;
 }
 
-.dark .location-set-button:hover:not(:disabled),
 .dark .location-gps-button:hover:not(:disabled) {
   background-color: #818cf8;
 }
