@@ -1,4 +1,4 @@
-// Shared SVG icons for the Toys section.
+// Shared SVG icons for the Apps section.
 // viewBox="0 0 100 100", fill/stroke="currentColor" → inherit colour, scale via CSS.
 
 export function SunIcon({ className }) {

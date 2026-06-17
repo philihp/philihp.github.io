@@ -3,7 +3,7 @@ import { useMDXComponents } from '../../mdx-components'
 import { SunIcon, MoonIcon, TreeIcon } from './icons'
 
 export const metadata = {
-  title: 'Toys',
+  title: 'Apps',
   description: 'Interactive tools: live sun & moon position and nearby trees.'
 }
 
@@ -17,7 +17,7 @@ const TOYS = [
 
 export default function ToysPage() {
   return (
-    <Wrapper metadata={{ title: 'Toys' }}>
+    <Wrapper metadata={{ title: 'Apps' }}>
       <div className="toys-grid">
         {TOYS.map(({ href, label, Icon }) => (
           <Link key={href} href={href} className="toy-card-link">

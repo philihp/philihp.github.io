@@ -20,7 +20,7 @@ export default {
   },
   toys: {
     type: 'menu',
-    title: 'Toys',
+    title: 'Apps',
     items: {
       overview: { title: 'Overview', href: '/toys' },
       sun: { title: 'Sun', href: '/toys/sun' },

@@ -13,7 +13,7 @@ const TOYS = [
 export default function ToyNav() {
   const pathname = usePathname()
   return (
-    <nav className="toy-nav" aria-label="Toys">
+    <nav className="toy-nav" aria-label="Apps">
       {TOYS.map(({ href, label, Icon }) => (
         <Link
           key={href}
