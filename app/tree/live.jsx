@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNow } from '../sun/live'
 import { solarPosition, compass } from '../sun/solar'
 import { moonPosition } from '../moon/moon'
@@ -40,7 +40,7 @@ function formatSpecies(qspecies) {
 async function fetchTreesNear(lat, lon) {
   const url =
     `https://data.sfgov.org/resource/tkzw-k3nq.json` +
-    `?$where=within_circle(location,${lat},${lon},50)&$limit=100`
+    `?$where=within_circle(location,${lat},${lon},50)&$limit=200`
   const res = await fetch(url)
   if (!res.ok) return null
   return await res.json()
@@ -79,27 +79,49 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
   const [lon, setLon] = useState(initialLon)
   const [trees, setTrees] = useState(initialTrees)
 
-  // When device location is available, re-query every 15 s for a fresh position
-  // and refetch trees from that new location.
+  // Refs hold the latest averaged position for use inside interval callbacks
+  // without stale-closure issues.
+  const latRef = useRef(initialLat)
+  const lonRef = useRef(initialLon)
+  const lastTreeFetchRef = useRef(0) // epoch ms of last DB query
+
   useEffect(() => {
     if (!usingDeviceLocation || typeof navigator === 'undefined' || !navigator.geolocation) return
 
-    const poll = () => {
+    const tick = () => {
       navigator.geolocation.getCurrentPosition(
         async pos => {
-          const newLat = pos.coords.latitude
-          const newLon = pos.coords.longitude
-          setLat(newLat)
-          setLon(newLon)
-          const newTrees = await fetchTreesNear(newLat, newLon)
-          if (newTrees !== null) setTrees(newTrees)
+          const raw = pos.coords
+
+          // Average with the previous smoothed position if one exists.
+          const avgLat = latRef.current !== null
+            ? (latRef.current + raw.latitude) / 2
+            : raw.latitude
+          const avgLon = lonRef.current !== null
+            ? (lonRef.current + raw.longitude) / 2
+            : raw.longitude
+
+          latRef.current = avgLat
+          lonRef.current = avgLon
+          setLat(avgLat)
+          setLon(avgLon)
+
+          // Re-query the tree database at most once every 10 s.
+          const now = Date.now()
+          if (now - lastTreeFetchRef.current >= 10000) {
+            lastTreeFetchRef.current = now
+            const fresh = await fetchTreesNear(avgLat, avgLon)
+            if (fresh !== null) setTrees(fresh)
+          }
         },
         null,
-        { enableHighAccuracy: true, timeout: 10000 }
+        { enableHighAccuracy: true, timeout: 5000 }
       )
     }
 
-    const id = setInterval(poll, 15000)
+    // Fire immediately on mount, then every 2 s.
+    tick()
+    const id = setInterval(tick, 2000)
     return () => clearInterval(id)
   }, [usingDeviceLocation])
 
@@ -144,7 +166,7 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
       return { ...t, _bearing: b, _distance: d, _angleDiff: (b - refAzimuth + 360) % 360 }
     })
     .sort((a, b) => a._distance - b._distance)
-    .slice(0, 10)
+    .slice(0, 20)
     .sort((a, b) => a._angleDiff - b._angleDiff)
 
   return (
@@ -156,55 +178,57 @@ export function LiveTrees({ lat: initialLat, lon: initialLon, trees: initialTree
       <div className="tree-grid">
         {sorted.map(t => (
           <div key={t.treeid} className="tree-tile">
+            <div className="tree-tile-header">
+              <div className="tree-tile-direction">
+                {compass(t._bearing)} &middot; {t._bearing.toFixed(1)}°
+              </div>
+              <div className="tree-tile-distance">
+                {Math.round(t._distance)} m away
+              </div>
+              <div className="tree-tile-species">
+                {formatSpecies(t.qspecies)}
+              </div>
+            </div>
             <TreeImage qspecies={t.qspecies} />
             <div className="tree-tile-body">
-            <div className="tree-tile-direction">
-              {compass(t._bearing)} &middot; {t._bearing.toFixed(1)}°
-            </div>
-            <div className="tree-tile-distance">
-              {Math.round(t._distance)} m away
-            </div>
-            <div className="tree-tile-species">
-              {formatSpecies(t.qspecies)}
-            </div>
-            <dl className="tree-tile-details">
-              {t.qaddress && (
-                <>
-                  <dt>Address</dt>
-                  <dd>{t.qaddress}</dd>
-                </>
-              )}
-              {t.qlegalstatus && (
-                <>
-                  <dt>Status</dt>
-                  <dd>{t.qlegalstatus}</dd>
-                </>
-              )}
-              {t.qcaretaker && (
-                <>
-                  <dt>Caretaker</dt>
-                  <dd>{t.qcaretaker}</dd>
-                </>
-              )}
-              {t.qsiteinfo && (
-                <>
-                  <dt>Site</dt>
-                  <dd>{t.qsiteinfo}</dd>
-                </>
-              )}
-              {t.dbh && (
-                <>
-                  <dt>Trunk ⌀</dt>
-                  <dd>{t.dbh}" at breast height</dd>
-                </>
-              )}
-              {t.plantdate && (
-                <>
-                  <dt>Planted</dt>
-                  <dd>{t.plantdate.slice(0, 10)}</dd>
-                </>
-              )}
-            </dl>
+              <dl className="tree-tile-details">
+                {t.qaddress && (
+                  <>
+                    <dt>Address</dt>
+                    <dd>{t.qaddress}</dd>
+                  </>
+                )}
+                {t.qlegalstatus && (
+                  <>
+                    <dt>Status</dt>
+                    <dd>{t.qlegalstatus}</dd>
+                  </>
+                )}
+                {t.qcaretaker && (
+                  <>
+                    <dt>Caretaker</dt>
+                    <dd>{t.qcaretaker}</dd>
+                  </>
+                )}
+                {t.qsiteinfo && (
+                  <>
+                    <dt>Site</dt>
+                    <dd>{t.qsiteinfo}</dd>
+                  </>
+                )}
+                {t.dbh && (
+                  <>
+                    <dt>Trunk ⌀</dt>
+                    <dd>{t.dbh}" at breast height</dd>
+                  </>
+                )}
+                {t.plantdate && (
+                  <>
+                    <dt>Planted</dt>
+                    <dd>{t.plantdate.slice(0, 10)}</dd>
+                  </>
+                )}
+              </dl>
             </div>
           </div>
         ))}
