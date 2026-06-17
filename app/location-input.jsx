@@ -1,17 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-async function nominatimSearch(query) {
-  if (!query || query.length < 3) return []
-  const url =
-    `https://nominatim.openstreetmap.org/search` +
-    `?format=jsonv2&q=${encodeURIComponent(query)}&limit=5&addressdetails=0`
-  const res = await fetch(url)
-  if (!res.ok) return []
-  return await res.json()
-}
 
 function setLocationCookie(lat, lon) {
   const value = encodeURIComponent(JSON.stringify({ lat, lon }))
@@ -34,89 +24,26 @@ function GpsIcon({ spinning }) {
   )
 }
 
-export default function LocationInput({ initialPlace }) {
+export default function GpsButton() {
   const router = useRouter()
-  const [value, setValue] = useState(initialPlace ?? '')
-  const [suggestions, setSuggestions] = useState([])
-  const [pendingCoords, setPendingCoords] = useState(null)
-  const [isDirty, setIsDirty] = useState(false)
   const [locating, setLocating] = useState(false)
-  const [gpsError, setGpsError] = useState(null)
-  const debounceRef = useRef(null)
-  const wrapperRef = useRef(null)
-
-  // Close suggestions when clicking outside.
-  useEffect(() => {
-    const handler = e => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setSuggestions([])
-      }
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
-
-  const handleChange = e => {
-    const v = e.target.value
-    setValue(v)
-    setIsDirty(true)
-    setPendingCoords(null)
-
-    clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(async () => {
-      setSuggestions(await nominatimSearch(v))
-    }, 300)
-  }
-
-  const selectSuggestion = s => {
-    setValue(s.display_name)
-    setSuggestions([])
-    setPendingCoords({ lat: parseFloat(s.lat), lon: parseFloat(s.lon) })
-    setIsDirty(true)
-  }
-
-  const handleSet = async () => {
-    let coords = pendingCoords
-    if (!coords) {
-      const results = await nominatimSearch(value)
-      if (!results.length) return
-      coords = { lat: parseFloat(results[0].lat), lon: parseFloat(results[0].lon) }
-    }
-    setLocationCookie(coords.lat, coords.lon)
-    setIsDirty(false)
-    setPendingCoords(null)
-    router.refresh()
-  }
+  const [error, setError] = useState(null)
 
   const handleGps = () => {
     if (!('geolocation' in navigator)) {
-      setGpsError('Geolocation not supported.')
+      setError('Geolocation not supported.')
       return
     }
     setLocating(true)
-    setGpsError(null)
+    setError(null)
     navigator.geolocation.getCurrentPosition(
-      async pos => {
-        const { latitude, longitude } = pos.coords
-        // Reverse geocode to update the text box immediately.
-        try {
-          const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}&zoom=10`
-          )
-          if (res.ok) {
-            const data = await res.json()
-            const a = data.address ?? {}
-            const city = a.city ?? a.town ?? a.village ?? a.hamlet ?? a.county ?? a.suburb
-            const parts = [city, a.state, a.country_code?.toUpperCase() ?? a.country].filter(Boolean)
-            if (parts.length > 0) setValue(parts.join(', '))
-          }
-        } catch {}
-        setLocationCookie(latitude, longitude)
+      pos => {
+        setLocationCookie(pos.coords.latitude, pos.coords.longitude)
         setLocating(false)
         router.refresh()
       },
       err => {
-        setGpsError(err.message)
+        setError(err.message)
         setLocating(false)
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -124,40 +51,7 @@ export default function LocationInput({ initialPlace }) {
   }
 
   return (
-    <span className="location-input-row">
-      <span className="location-input-wrapper" ref={wrapperRef}>
-        <input
-          type="text"
-          className="location-input"
-          value={value}
-          onChange={handleChange}
-          placeholder="City, state, or address…"
-          aria-label="Location"
-          aria-autocomplete="list"
-        />
-        {suggestions.length > 0 && (
-          <ul className="location-suggestions" role="listbox">
-            {suggestions.map((s, i) => (
-              <li
-                key={i}
-                role="option"
-                aria-selected={false}
-                onMouseDown={() => selectSuggestion(s)}
-              >
-                {s.display_name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </span>
-      <button
-        type="button"
-        className="location-set-button"
-        onClick={handleSet}
-        disabled={!isDirty}
-      >
-        Set
-      </button>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
       <button
         type="button"
         className="location-gps-button"
@@ -167,9 +61,7 @@ export default function LocationInput({ initialPlace }) {
       >
         <GpsIcon spinning={locating} />
       </button>
-      {gpsError && (
-        <span className="location-gps-error">{gpsError}</span>
-      )}
+      {error && <span className="location-gps-error">{error}</span>}
     </span>
   )
 }

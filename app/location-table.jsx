@@ -1,7 +1,7 @@
 import { Table } from 'nextra/components'
 import { LiveClock } from './sun/live'
 import { fmt } from './sun/solar'
-import LocationInput from './location-input'
+import GpsButton from './location-input'
 
 export default function LocationTable({ loc, showClock = true }) {
   const { lat, lon, place, deviceLat, deviceLon, devicePlace } = loc
@@ -39,9 +39,13 @@ export default function LocationTable({ loc, showClock = true }) {
         <Table.Tr>
           <Table.Th>Location</Table.Th>
           <Table.Td>
-            <LocationInput
-              initialPlace={devicePlace ?? place ?? ''}
-            />
+            {devicePlace ?? place ?? <em>unknown</em>}
+          </Table.Td>
+        </Table.Tr>
+        <Table.Tr>
+          <Table.Th>Device location</Table.Th>
+          <Table.Td>
+            <GpsButton />
           </Table.Td>
         </Table.Tr>
         {showClock && (
