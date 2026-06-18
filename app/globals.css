@@ -230,8 +230,15 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.15rem 0.6rem;
+  align-items: baseline;
   font-size: 0.8rem;
   margin: 0;
+}
+
+.tree-tile-details dt,
+.tree-tile-details dd {
+  margin: 0;
+  padding: 0;
 }
 
 .tree-tile-details dt {
