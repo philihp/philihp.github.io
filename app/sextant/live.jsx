@@ -12,18 +12,19 @@ function fmt(n, digits = 3) {
   return n.toFixed(digits)
 }
 
-function tiltTransform(x, y, z) {
+function tiltTransform(x, y, z, heading) {
   if (x === null || y === null || z === null) return 'none'
   const pitch = Math.atan2(y, z) * RAD_TO_DEG
   const roll = Math.atan2(-x, Math.sqrt(y * y + z * z)) * RAD_TO_DEG
-  return `rotateX(${pitch}deg) rotateY(${roll}deg)`
+  const yaw = heading == null ? 0 : -heading
+  return `rotateZ(${yaw}deg) rotateX(${pitch}deg) rotateY(${roll}deg)`
 }
 
 export function LiveSextant() {
-  const [reading, setReading] = useState({ x: null, y: null, z: null })
+  const [reading, setReading] = useState({ x: null, y: null, z: null, heading: null })
   const [permission, setPermission] = useState('unknown')
   const [supported, setSupported] = useState(true)
-  const latestRef = useRef({ x: null, y: null, z: null })
+  const latestRef = useRef({ x: null, y: null, z: null, heading: null })
   const squareRef = useRef(null)
 
   useEffect(() => {
@@ -36,14 +37,25 @@ export function LiveSextant() {
     const onMotion = (event) => {
       const g = event.accelerationIncludingGravity
       if (!g) return
-      latestRef.current = { x: g.x, y: g.y, z: g.z }
+      latestRef.current = { ...latestRef.current, x: g.x, y: g.y, z: g.z }
+    }
+
+    const onOrientation = (event) => {
+      const heading =
+        typeof event.webkitCompassHeading === 'number'
+          ? event.webkitCompassHeading
+          : typeof event.alpha === 'number'
+            ? (360 - event.alpha) % 360
+            : null
+      if (heading == null) return
+      latestRef.current = { ...latestRef.current, heading }
     }
 
     let rafId = 0
     const animate = () => {
-      const { x, y, z } = latestRef.current
+      const { x, y, z, heading } = latestRef.current
       if (squareRef.current && x !== null) {
-        squareRef.current.style.transform = tiltTransform(x, y, z)
+        squareRef.current.style.transform = tiltTransform(x, y, z, heading)
       }
       rafId = requestAnimationFrame(animate)
     }
@@ -52,15 +64,16 @@ export function LiveSextant() {
       setReading(latestRef.current)
     }, REFRESH_MS)
 
-    const NeedsPermission =
+    const NeedsMotionPermission =
       typeof DeviceMotionEvent !== 'undefined' &&
       typeof DeviceMotionEvent.requestPermission === 'function'
 
-    if (NeedsPermission) {
+    if (NeedsMotionPermission) {
       setPermission('needed')
     } else {
       setPermission('granted')
       window.addEventListener('devicemotion', onMotion)
+      window.addEventListener('deviceorientation', onOrientation)
       rafId = requestAnimationFrame(animate)
     }
 
@@ -68,24 +81,47 @@ export function LiveSextant() {
       clearInterval(tick)
       cancelAnimationFrame(rafId)
       window.removeEventListener('devicemotion', onMotion)
+      window.removeEventListener('deviceorientation', onOrientation)
     }
   }, [])
 
   const requestPermission = async () => {
     try {
-      const result = await DeviceMotionEvent.requestPermission()
+      const motionResult = await DeviceMotionEvent.requestPermission()
+      let orientationResult = 'granted'
+      if (
+        typeof DeviceOrientationEvent !== 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission === 'function'
+      ) {
+        orientationResult = await DeviceOrientationEvent.requestPermission()
+      }
+      const result =
+        motionResult === 'granted' && orientationResult === 'granted'
+          ? 'granted'
+          : 'denied'
       setPermission(result)
       if (result === 'granted') {
         const onMotion = (event) => {
           const g = event.accelerationIncludingGravity
           if (!g) return
-          latestRef.current = { x: g.x, y: g.y, z: g.z }
+          latestRef.current = { ...latestRef.current, x: g.x, y: g.y, z: g.z }
+        }
+        const onOrientation = (event) => {
+          const heading =
+            typeof event.webkitCompassHeading === 'number'
+              ? event.webkitCompassHeading
+              : typeof event.alpha === 'number'
+                ? (360 - event.alpha) % 360
+                : null
+          if (heading == null) return
+          latestRef.current = { ...latestRef.current, heading }
         }
         window.addEventListener('devicemotion', onMotion)
+        window.addEventListener('deviceorientation', onOrientation)
         const animate = () => {
-          const { x, y, z } = latestRef.current
+          const { x, y, z, heading } = latestRef.current
           if (squareRef.current && x !== null) {
-            squareRef.current.style.transform = tiltTransform(x, y, z)
+            squareRef.current.style.transform = tiltTransform(x, y, z, heading)
           }
           requestAnimationFrame(animate)
         }
@@ -100,7 +136,7 @@ export function LiveSextant() {
     return <p>Your browser does not expose accelerometer data.</p>
   }
 
-  const { x, y, z } = reading
+  const { x, y, z, heading } = reading
   const magnitude =
     x === null || y === null || z === null
       ? null
@@ -155,6 +191,10 @@ export function LiveSextant() {
           <Table.Tr>
             <Table.Th>magnitude</Table.Th>
             <Table.Td>{fmt(magnitude)}</Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Th>compass heading (°)</Table.Th>
+            <Table.Td>{fmt(heading, 1)}</Table.Td>
           </Table.Tr>
         </tbody>
       </Table>
