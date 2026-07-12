@@ -14,6 +14,7 @@
     "convert": "node scripts/convert-posts.mjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.6.1",
     "next": "^16.2.7",
     "nextra": "^4.6.1",
     "nextra-theme-blog": "^4.6.1",
