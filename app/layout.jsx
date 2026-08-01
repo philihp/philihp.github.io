@@ -4,6 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import Script from 'next/script'
 import 'nextra-theme-blog/style.css'
 import './globals.css'
+import { PUBLICATION_URI } from './standard-site.js'
 
 const SITE_URL = 'https://philihp.com'
 
@@ -34,7 +35,9 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head />
+      <Head>
+        <link rel="site.standard.publication" href={PUBLICATION_URI} />
+      </Head>
       <Script id="theme-cookie-sync" strategy="beforeInteractive">{`(function(){
   var KEY='theme',COOKIE='x-theme',MAX=3600;
   function read(){var m=document.cookie.match(/(?:^|;\\s*)x-theme=([^;]*)/);return m?decodeURIComponent(m[1]):null;}
