@@ -6,7 +6,7 @@ import 'nextra-theme-blog/style.css'
 import './globals.css'
 import { PUBLICATION_URI } from './.well-known/site.standard.publication/route.js'
 
-const SITE_URL = 'https://philihp.com'
+const SITE_URL = 'https://www.philihp.com'
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),

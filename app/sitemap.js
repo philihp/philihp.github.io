@@ -1,6 +1,6 @@
 import { getPosts } from './get-posts'
 
-const SITE_URL = 'https://philihp.com'
+const SITE_URL = 'https://www.philihp.com'
 
 export default async function sitemap() {
   const posts = await getPosts()

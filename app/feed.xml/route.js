@@ -1,6 +1,6 @@
 import { getPosts } from '../get-posts'
 
-const SITE_URL = 'https://philihp.com'
+const SITE_URL = 'https://www.philihp.com'
 const CONFIG = {
   title: 'Philihp Busby Blog Posts',
   description: 'Via the mind and mechanism of Philihp Busby.',
