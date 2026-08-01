@@ -1,4 +1,4 @@
-https://philihp.com
+https://www.philihp.com
 
 Personal site, built with [Next.js](https://nextjs.org) and the
 [Nextra](https://nextra.site) blog theme, deployed on
