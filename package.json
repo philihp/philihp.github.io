@@ -11,7 +11,8 @@
     "build": "next build",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "start": "next start",
-    "convert": "node scripts/convert-posts.mjs"
+    "convert": "node scripts/convert-posts.mjs",
+    "sync-documents": "node scripts/sync-documents.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.6.1",
