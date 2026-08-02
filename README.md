@@ -43,6 +43,23 @@ content/2026/my-new-post.html.md   ->   /2026/my-new-post.html
   `content/2026/announcing-pointille.html.mdx`).
 - Open a PR — Vercel will create a preview deployment.
 
+## Publish to standard.site
+
+Posts are mirrored to AT Protocol as [standard.site](https://standard.site)
+`site.standard.document` records, so clients can discover them from the
+network side. After adding or editing a post:
+
+```bash
+npm run sync-documents -- --dry-run    # show what would change
+BSKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx npm run sync-documents
+```
+
+Records are keyed by post route, so the script only writes the posts whose
+metadata actually changed. Each post's `<head>` carries a matching
+`<link rel="site.standard.document">` tag, which is what ties the rendered
+page to its record. The publication record is separate and written by hand;
+`/.well-known/site.standard.publication` points at it.
+
 ## Create a redirect
 
 Redirects are generated into `redirects.json` and wired up by
