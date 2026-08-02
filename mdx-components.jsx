@@ -2,7 +2,8 @@ import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
 import {
   PointilleDemo,
   PointilleFigure,
-  PointilleRondel
+  PointilleRondel,
+  PointilleRondelRadius
 } from './components/pointille'
 
 const blogComponents = getBlogMDXComponents({
@@ -23,6 +24,7 @@ export function useMDXComponents(components) {
     // fall back to a plain blockquote (still styled by the theme's CSS).
     blockquote: props => <blockquote {...props} />,
     PointilleRondel,
+    PointilleRondelRadius,
     PointilleFigure,
     PointilleDemo,
     ...components
