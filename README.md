@@ -1,4 +1,4 @@
-https://philihp.com
+https://www.philihp.com
 
 Personal site, built with [Next.js](https://nextjs.org) and the
 [Nextra](https://nextra.site) blog theme, deployed on
@@ -42,6 +42,23 @@ content/2026/my-new-post.html.md   ->   /2026/my-new-post.html
   instead of an inline `<script>` (see `components/pointille.jsx` and
   `content/2026/announcing-pointille.html.mdx`).
 - Open a PR — Vercel will create a preview deployment.
+
+## Publish to standard.site
+
+Posts are mirrored to AT Protocol as [standard.site](https://standard.site)
+`site.standard.document` records, so clients can discover them from the
+network side. After adding or editing a post:
+
+```bash
+npm run sync-documents -- --dry-run    # show what would change
+BSKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx npm run sync-documents
+```
+
+Records are keyed by post route, so the script only writes the posts whose
+metadata actually changed. Each post's `<head>` carries a matching
+`<link rel="site.standard.document">` tag, which is what ties the rendered
+page to its record. The publication record is separate and written by hand;
+`/.well-known/site.standard.publication` points at it.
 
 ## Create a redirect
 
