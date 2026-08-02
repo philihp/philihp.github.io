@@ -4,7 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import Script from 'next/script'
 import 'nextra-theme-blog/style.css'
 import './globals.css'
-import { PUBLICATION_URI } from './.well-known/site.standard.publication/route.js'
+import { PUBLICATION_URI } from './standard-site.js'
 
 const SITE_URL = 'https://www.philihp.com'
 

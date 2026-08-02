@@ -17,13 +17,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
-import { PUBLICATION_URI } from '../app/.well-known/site.standard.publication/route.js'
-import { documentRkey } from '../app/standard-site.js'
+import { DID, PUBLICATION_URI, documentRkey } from '../app/standard-site.js'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const CONTENT_DIR = path.join(ROOT, 'content')
 const COLLECTION = 'site.standard.document'
-const DID = PUBLICATION_URI.split('/')[2]
 
 const dryRun = process.argv.includes('--dry-run')
 
