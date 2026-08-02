@@ -1,0 +1,63 @@
+---
+title: "Pointille: Packing Circles in a Polygon"
+date: 2026-08-02
+tags:
+  - pointille
+  - typescript
+  - circle-packing
+  - voronoi
+  - lloyds-algorithm
+  - geometry
+author: Philihp Busby
+---
+
+Back in [May](/2026/announcing-pointille.html) I wrote about [pointille](https://github.com/philihp/pointille), which spreads `n` points evenly inside a polygon. It solved the problem I had, which was where to put tokens in the wedges of a rondel. Then I put more tokens in a wedge, and it stopped solving the problem I had.
+
+A point has no size. A token does. Two centers can sit a perfectly comfortable distance apart while the things drawn on them lap over each other, and nothing in the library knew or cared. Drag this down to zero and you can watch it happen — the wedges holding eight and nine turn into a pile.
+
+<PointilleRondelRadius />
+
+So there's a `radius` option now.
+
+```typescript
+const centers = pointille(unitSquare, 9, { radius: 0.1 })
+```
+
+It still returns centers. The radius is a constraint on where those centers may go, not something that comes back in the result.
+
+## Two Guarantees
+
+Passing a radius promises two things about the circles you'd draw on the returned centers:
+
+1. Every circle lies completely inside the polygon.
+2. No two circles overlap.
+
+In terms of the centers, that's each one at least `radius` from the boundary, and every pair at least `2 * radius` apart. Both are checked exactly, over every point and every pair, before anything is returned. The iterative parts of the solver are only ever a way of arriving at a layout that passes that check — they aren't trusted to be right on their own.
+
+In the rondel above, the tokens are drawn exactly the size of an `r = 14` circle, which is where the slider starts. Below that you are lying to the library about how big they are, and it obliges you.
+
+## Breathing Room
+
+Satisfying those two constraints exactly turns out to look worse than you'd expect. Circles end up flat against the walls, touching each other, all the slack pooled in one corner. Technically correct, visually miserable.
+
+The fix is to solve a stricter problem than the one you asked for. Internally it picks an effective radius `R` larger than your `r`, and requires centers to be `2R` apart and `2R - r` from the wall. At `R = r` those collapse back to the plain guarantee. Every increment above it buys a surface gap of `2(R - r)` — and because the same `R` drives both constraints, that gap is identical between two circles and between a circle and the wall. Nothing hugs anything.
+
+It then bisects for the largest `R` that still fits, and draws the circle you actually asked for. The empty space is a deliberate result rather than whatever the relaxation happened to leave behind.
+
+## When It Doesn't Fit
+
+Sometimes there is no answer, and then you get a `PointilleFitError`.
+
+The cheap half of that is arithmetic: `n` circles need `n * π * r²` of area, and if that exceeds the polygon's area you can stop immediately. That check is necessary and nowhere close to sufficient. Circles don't tile, and a practical packing tends to top out somewhere around 55–65% of the available area — worse in an awkward shape, and a wedge of a rondel is an awkward shape. So the honest answer is mostly "the solver tried and could not," which is what the rest of the error message says.
+
+Push the slider past 14 and you can watch the failures arrive in order of how crowded a wedge is. The eight- and nine-token wedges give up together, then the sevens, then the sixes, each turning pink as it drops out. The threes and fours never do, at least not before the slider runs out of room.
+
+## Still Deterministic
+
+The original guarantee holds: same polygon, same `n`, same options, same points, forever.
+
+That's less obvious than it was. The bisection is a fixed number of steps against a fixed bound. Seeding is still the Halton sequence, filtered to the region where a center is legal. The push-apart step accumulates every displacement first and applies them together, so no point gets to move before its neighbour and change the outcome. There is no clock and no `Math.random()` anywhere in it.
+
+## Source
+
+The package is on npm as [pointille](https://www.npmjs.com/package/pointille), and source lives at [github.com/philihp/pointille](https://github.com/philihp/pointille). The `radius` option lands in 1.1.0.
