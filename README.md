@@ -10,6 +10,7 @@ Personal site, built with [Next.js](https://nextjs.org) and the
 npm install
 npm run dev      # http://localhost:3000
 npm run build    # production build (also generates the Pagefind search index)
+npm test         # unit tests (Node built-in test runner)
 ```
 
 ## Write a post

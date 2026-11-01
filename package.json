@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "24.x"
+    "node": "26.x"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
+    "postbuild": "node scripts/build-search-index.mjs",
     "start": "next start",
+    "test": "node --test \"scripts/**/*.test.mjs\"",
     "convert": "node scripts/convert-posts.mjs",
     "sync-documents": "node scripts/sync-documents.mjs"
   },
